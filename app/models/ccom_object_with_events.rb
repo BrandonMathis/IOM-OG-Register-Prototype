@@ -1,0 +1,2 @@
+class CcomObjectWthEvents < CcomObjectWithChildren
+end
