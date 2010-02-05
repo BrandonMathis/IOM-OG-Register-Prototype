@@ -25,7 +25,7 @@ Factory.define(:attribute_type) do |f|
   f.sequence(:user_name) { |i| "Attribute Type #{i}" }
 end
 
-Factory.define(:object_data) do |f|
+Factory.define(:object_datum) do |f|
   ccom_entity_fields(f)
   f.data "5"
   f.attribute_type { |a| a.association(:attribute_type) }
@@ -34,4 +34,12 @@ end
 Factory.define(:eng_unit_type) do |f|
   ccom_entity_fields(f)
   f.sequence(:user_name) { |i| "Engineering Unit Type #{i}" }
+end
+
+Factory.define(:meas_location) do |f|
+  ccom_entity_fields(f)
+  f.sequence(:user_tag) { |i| "meas-location-#{i}" }
+  f.sequence(:user_name) { |i| "Meas Location #{i}" }
+  f.object_type { |a| a.association(:object_type) }
+  f.association :default_eng_unit_type, :factory => :eng_unit_type
 end
