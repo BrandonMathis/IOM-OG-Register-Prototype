@@ -43,3 +43,8 @@ Factory.define(:meas_location) do |f|
   f.object_type { |a| a.association(:object_type) }
   f.association :default_eng_unit_type, :factory => :eng_unit_type
 end
+
+Factory.define(:segment) do |f|
+  ccom_entity_fields(f)
+  f.sequence(:user_name) { |i| "Segment #{i}" }
+end

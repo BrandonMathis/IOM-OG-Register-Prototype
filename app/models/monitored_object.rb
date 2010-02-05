@@ -1,0 +1,2 @@
+class MonitoredObject < CcomObjectWthEvents
+end
