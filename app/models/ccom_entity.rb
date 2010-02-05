@@ -10,7 +10,7 @@ class CcomEntity
   field :status_code, :type => Integer
   
   def build_xml(builder)
-    [:guid, :id_in_source, :source_id, :user_tag, :user_tag, :status_code].each do |attr|
+    [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code].each do |attr|
       value = self.send(attr)
       builder.tag!(attr.to_s.camelize(:lower), value) unless value.blank?
     end
