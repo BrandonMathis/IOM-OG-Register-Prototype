@@ -8,4 +8,23 @@ class NetworkConnectionTest < ActiveSupport::TestCase
   should "have a segment as a source" do
     assert_valid Factory.create(:network_connection, :source => Factory.create(:segment))
   end
+
+  context "generating xml" do
+    setup do
+      @network_connection = Factory.create(:network_connection, 
+                                           :source => Factory.create(:segment))
+      builder = Builder::XmlMarkup.new
+      @xsi = "somthine"
+      @xml = builder.tag!("NetworkConnection", "xmlns:xsi" => @xsi) do |b|
+        @network_connection.build_xml(b)
+      end
+      @doc = Nokogiri::XML.parse(@xml)
+    end
+    
+    should "have proper namespace and type for source element" do
+      assert_not_nil source = @doc.xpath("//NetworkConnection/source").first
+      assert_not_nil type_attr = source.attribute_with_ns("type", @xsi).value
+      assert_equal "Segment", type_attr, source.inspect
+    end
+  end
 end
