@@ -1,0 +1,2 @@
+class AttributeType < BaseTypeEntity
+end
