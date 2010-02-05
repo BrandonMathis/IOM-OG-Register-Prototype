@@ -1,4 +1,4 @@
-File.open(File.join(RAILS_ROOT, 'config/database.mongo.yml'), 'r') do |f|
+File.open(File.join(RAILS_ROOT, 'config/database.mongoid.yml'), 'r') do |f|
   @settings = YAML.load(f)[RAILS_ENV]
 end
 

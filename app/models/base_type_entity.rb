@@ -1,0 +1,2 @@
+class BaseTypeEntity < CcomObjectWithChildren
+end

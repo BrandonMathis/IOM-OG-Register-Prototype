@@ -3,7 +3,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  database: fanboy_dev
+  database: mimosa_dev
+
+test:
+  <<: *defaults
+  database: mimosa_test
 
 production:
   <<: *defaults

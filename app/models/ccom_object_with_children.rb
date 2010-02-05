@@ -1,0 +1,2 @@
+class CcomObjectWithChildren < CcomObject
+end
