@@ -23,10 +23,10 @@ end
 Factory.define(:attribute_type) do |f|
   ccom_entity_fields(f)
   f.sequence(:user_name) { |i| "Attribute Type #{i}" }
-  f.reference_unit_type "Foo"
 end
 
 Factory.define(:object_data) do |f|
   ccom_entity_fields(f)
+  f.data "5"
   f.attribute_type { |a| a.association(:attribute_type) }
 end
