@@ -16,4 +16,8 @@ class AssetTest < ActiveSupport::TestCase
   should "support a model" do
     assert_valid Factory.create(:asset, :model => Factory.create(:model))
   end
+
+  should "support an asset config network" do
+    assert_valid Factory.create(:asset, :asset_config_network => Factory.create(:asset_config_network))
+  end
 end
