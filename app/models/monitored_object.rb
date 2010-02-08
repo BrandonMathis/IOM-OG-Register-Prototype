@@ -1,2 +1,2 @@
-class MonitoredObject < CcomObjectWthEvents
+class MonitoredObject < CcomObjectWithEvents
 end

@@ -1,2 +1,2 @@
-class CcomObjectWthEvents < CcomObjectWithChildren
+class CcomObjectWithEvents < CcomObjectWithChildren
 end

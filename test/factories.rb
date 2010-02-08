@@ -64,3 +64,7 @@ Factory.define(:asset_config_network) do |f|
   ccom_entity_fields(f)
   f.association :associated_network, :factory => :network
 end
+
+Factory.define(:asset) do |f|
+  ccom_entity_fields(f)
+end
