@@ -65,6 +65,28 @@ Factory.define(:asset_config_network) do |f|
   f.association :associated_network, :factory => :network
 end
 
+Factory.define(:manufacturer) do |f|
+  ccom_entity_fields(f)
+  f.sequence(:user_tag) { |i| "manufacturer-#{i}" }
+  f.sequence(:user_name) { |i| "Manufacturer #{i}" }
+end
+
+Factory.define(:model) do |f|
+  ccom_entity_fields(f)
+  f.sequence(:user_tag) { |i| "model-#{i}" }
+  f.sequence(:user_name) { |i| "Model #{i}" }
+  f.sequence(:product_family) { |i| "Z40#{i}" }
+  f.sequence(:product_family_member) do |i| 
+    char = ("A".."Z").to_a[i%26]
+    prefix = (i > 26) ? ("A".."Z").to_a[i/26 -1 ] : ""
+    prefix + char
+  end
+  f.sequence(:product_family_member_revision) { |i| "#{i}" }
+  f.sequence(:part_number) { |i| "304823401-3442#{i}" }
+end
+
 Factory.define(:asset) do |f|
   ccom_entity_fields(f)
+  f.sequence(:user_tag) { |i| "asset-#{i}" }
+  f.sequence(:user_name) { |i| "Asset #{i}" }
 end
