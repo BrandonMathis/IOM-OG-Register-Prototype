@@ -8,8 +8,8 @@ get '/hello' do
 end
 
 post '/events' do
-  File.open(File.join(EVENTS_PATH, "#{Time.now.strftime('%Y%m%dT%H%M%S')}.xml"), "w") do |f|
-    f.write request.body
+  filename = "#{Time.now.strftime('%Y%m%dT%H%M%S')}.xml"
+  File.open(File.join(EVENTS_PATH, filename), "w") do |f|
+    f.write request.body.read
   end
-  request.body
 end

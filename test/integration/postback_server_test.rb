@@ -30,11 +30,12 @@ class PostbackServerTest < Test::Unit::TestCase
       assert last_response.ok?, last_response.inspect
     end
 
-    should "post back the data" do
-      assert_equal @data, last_response.body
-    end
-
     should_change "Dir.entries(EVENTS_PATH).size", :by => 1
+
+    should "write the proper data to the file" do
+      new_entry = (Dir.entries(EVENTS_PATH) - @start_entries).first
+      assert_equal @data, File.read(File.join(EVENTS_PATH,new_entry))
+    end
   end
 
   def teardown
