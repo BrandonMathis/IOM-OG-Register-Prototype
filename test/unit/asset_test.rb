@@ -20,4 +20,8 @@ class AssetTest < ActiveSupport::TestCase
   should "support an asset config network" do
     assert_valid Factory.create(:asset, :asset_config_network => Factory.create(:asset_config_network))
   end
+
+  should "support an installed on segment" do
+    assert_valid Factory.create(:asset, :installed_on_segment => Factory.create(:segment))
+  end
 end
