@@ -90,3 +90,7 @@ Factory.define(:asset) do |f|
   f.sequence(:user_tag) { |i| "asset-#{i}" }
   f.sequence(:user_name) { |i| "Asset #{i}" }
 end
+
+Factory.define(:event) do |f|
+  ccom_entity_fields(f)
+end
