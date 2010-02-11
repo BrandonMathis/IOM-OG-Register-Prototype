@@ -34,8 +34,51 @@ class EventTest < ActiveSupport::TestCase
     end
     
     should "have the proper root path" do
-      path = "/CCOMData/Event"
-      assert_not_nil @doc.xpath(path.to_mimosa, mimosa_xmlns).first, "#{path}\n#{@xml.inspect}"
+      assert_has_xpath("/CCOMData/Event", @doc)
+    end
+
+    should "specify the object type" do
+      assert_has_xpath("//Event/ofObjectType", @doc)
+    end
+
+    context "the for ccom object with events" do
+      setup do
+        @subdoc_list = @doc.mimosa_xpath("//Event/forCCOMObjectWithEvents")
+        @element = @subdoc_list.first
+      end
+
+      should "have a single element" do
+        assert_equal 1, @subdoc_list.size
+      end
+
+      should "have the guid for the installed on segment" do
+        assert_equal @segment.guid, @element.xpath("//forCCOMObjectWithEvents/guid".to_mimosa, mimosa_xmlns).first.content
+      end
+
+      should_eventually "have the proper namespace and type" do
+        assert_not_nil type_attr = @element.attribute_with_ns("type", @xsi).value
+        assert_equal "Segment", type_attr, source.inspect
+      end
+    end
+
+    context "the monitored object" do
+      setup do
+        @subdoc_list = @doc.mimosa_xpath("//Event/hasMonitoredObject")
+        @element = @subdoc_list.first
+      end
+
+      should "have a single element" do
+        assert_equal 1, @subdoc_list.size
+      end
+
+      should "have the guid for the asset" do
+        assert_equal @asset.guid, @element.xpath("//hasMonitoredObject/guid".to_mimosa, mimosa_xmlns).first.content, @element.to_s
+      end
+
+      should_eventually "have the proper namespace and type" do
+        assert_not_nil type_attr = @element.attribute_with_ns("type", @xsi).value
+        assert_equal "Asset", type_attr, source.inspect
+      end
     end
 
   end

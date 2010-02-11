@@ -9,8 +9,8 @@ class CcomEntity
   field :utc_last_updated, :type => DateTime
   field :status_code, :type => Integer
   
-  def to_xml
-    builder = Builder::XmlMarkup.new
+  def to_xml(opts)
+    builder = Builder::XmlMarkup.new(opts)
     builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
     xml = builder.tag!("CCOMData", xml_entity_attributes) do |b|
       b.tag!(xml_entity_name) do |bb|
