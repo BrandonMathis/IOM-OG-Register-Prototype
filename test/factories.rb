@@ -94,3 +94,7 @@ end
 Factory.define(:event) do |f|
   ccom_entity_fields(f)
 end
+
+Factory.define(:info_collection) do |f|
+  ccom_entity_fields(f)
+end

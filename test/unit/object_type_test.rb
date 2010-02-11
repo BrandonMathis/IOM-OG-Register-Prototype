@@ -5,6 +5,12 @@ class ObjectTypeTest < ActiveSupport::TestCase
     assert_valid Factory.create(:object_type)
   end
 
+  should "support an info collection" do
+    info_collection = Factory.create(:info_collection)
+    assert_valid object_type = Factory.create(:object_type, :info_collection => info_collection)
+    assert_equal info_collection, object_type.info_collection
+  end
+
   context "generating xml" do
     setup do
       @object_type = Factory.create(:object_type, 

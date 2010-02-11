@@ -1,0 +1,2 @@
+class InfoCollection < InfoCollAbstract
+end
