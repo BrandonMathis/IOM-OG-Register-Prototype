@@ -16,18 +16,18 @@ class CcomEntityTest < ActiveSupport::TestCase
     end
 
     should "generate the proper root node" do
-      assert_equal "CCOMEntity", @doc.root.name
+      assert_equal "CCOMData", @doc.root.name
     end
 
     should "include id in source" do
-      xpath = "/mimosa:CCOMEntity/mimosa:idInSource"
-      node_set = @doc.xpath(xpath,"mimosa" => CcomEntity.xmlns)
+      xpath = "/CCOMData/CCOMEntity/idInSource"
+      node_set = @doc.xpath(xpath.to_mimosa, mimosa_xmlns)
       assert_not_nil node_set.first, "#{xpath}\n#{@xml.inspect}\n#{@doc.inspect}"
 #      assert_equal @ccom_entity.id_in_source, 
     end
 
     should "not include status code when it's blank" do
-      node_set = @doc.xpath("//mimosa:CCOMEntity/mimosa:statusCode", "mimosa" => CcomEntity.xmlns)
+      node_set = @doc.xpath("//CCOMEntity/statusCode", mimosa_xmlns)
       assert node_set.blank?, node_set.inspect
     end
   end

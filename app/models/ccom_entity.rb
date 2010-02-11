@@ -12,8 +12,10 @@ class CcomEntity
   def to_xml
     builder = Builder::XmlMarkup.new
     builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
-    xml = builder.tag!(xml_entity_name, xml_entity_attributes) do |b|
-      build_xml(b)
+    xml = builder.tag!("CCOMData", xml_entity_attributes) do |b|
+      b.tag!(xml_entity_name) do |bb|
+        build_xml(bb)
+      end
     end
   end
 
@@ -28,7 +30,11 @@ class CcomEntity
 
   private
 
-  def xml_entity_name; "CCOMEntity"; end
+  def xml_entity_name_override; "CCOMEntity"; end
+
+  def xml_entity_name
+    xml_entity_name_override.blank? ? self.class.to_s : xml_entity_name_override
+  end
 
   def xml_entity_attributes
     { "xmlns" => self.class.xmlns }

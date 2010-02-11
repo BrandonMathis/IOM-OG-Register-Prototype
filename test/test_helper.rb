@@ -9,5 +9,15 @@ class ActiveSupport::TestCase
   # fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  def mimosa_xmlns
+    { "mimosa" => CcomEntity.xmlns }
+  end
 end
 Webrat.configure {|config| config.mode = :rails; config.open_error_files = false }
+
+class String
+  def to_mimosa
+    self.gsub('/', '/mimosa:')
+  end
+end
