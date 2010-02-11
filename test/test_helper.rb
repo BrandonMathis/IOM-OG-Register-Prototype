@@ -30,7 +30,7 @@ class String
   end
 end
 
-class Nokogiri::XML::Document
+class Nokogiri::XML::Node
   def mimosa_xpath(path)
     xpath(path.to_mimosa, { "mimosa" => CcomEntity.xmlns } )
   end

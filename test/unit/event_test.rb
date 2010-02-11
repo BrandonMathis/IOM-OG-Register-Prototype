@@ -52,12 +52,12 @@ class EventTest < ActiveSupport::TestCase
       end
 
       should "have the guid for the installed on segment" do
-        assert_equal @segment.guid, @element.xpath("//forCCOMObjectWithEvents/guid".to_mimosa, mimosa_xmlns).first.content
+        assert_equal @segment.guid, @element.mimosa_xpath("//forCCOMObjectWithEvents/guid").first.content
       end
 
-      should_eventually "have the proper namespace and type" do
-        assert_not_nil type_attr = @element.attribute_with_ns("type", @xsi).value
-        assert_equal "Segment", type_attr, source.inspect
+      should "have the proper namespace and type" do
+        assert_not_nil type_attr = @element.attribute_with_ns("type", XSI_XMLNS).value
+        assert_equal "Segment", type_attr, @element.to_s
       end
     end
 
@@ -72,12 +72,12 @@ class EventTest < ActiveSupport::TestCase
       end
 
       should "have the guid for the asset" do
-        assert_equal @asset.guid, @element.xpath("//hasMonitoredObject/guid".to_mimosa, mimosa_xmlns).first.content, @element.to_s
+        assert_equal @asset.guid, @element.mimosa_xpath("//hasMonitoredObject/guid").first.content, @element.to_s
       end
 
-      should_eventually "have the proper namespace and type" do
-        assert_not_nil type_attr = @element.attribute_with_ns("type", @xsi).value
-        assert_equal "Asset", type_attr, source.inspect
+      should "have the proper namespace and type" do
+        assert_not_nil type_attr = @element.attribute_with_ns("type", XSI_XMLNS).value
+        assert_equal "Asset", type_attr, @element.to_s
       end
     end
 
