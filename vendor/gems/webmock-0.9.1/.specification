@@ -1,0 +1,187 @@
+--- !ruby/object:Gem::Specification 
+name: webmock
+version: !ruby/object:Gem::Version 
+  version: 0.9.1
+platform: ruby
+authors: 
+- Bartosz Blimke
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2010-02-01 00:00:00 -05:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: addressable
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 2.1.1
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: rspec
+  type: :development
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 1.2.9
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: httpclient
+  type: :development
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 2.1.5.2
+    version: 
+description: WebMock allows stubbing HTTP requests and setting expectations on HTTP requests.
+email: bartosz.blimke@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- LICENSE
+- README.md
+files: 
+- .gitignore
+- CHANGELOG.md
+- LICENSE
+- README.md
+- Rakefile
+- VERSION
+- lib/webmock.rb
+- lib/webmock/adapters/rspec.rb
+- lib/webmock/adapters/rspec/matchers.rb
+- lib/webmock/adapters/rspec/request_profile_matcher.rb
+- lib/webmock/adapters/rspec/webmock_matcher.rb
+- lib/webmock/adapters/test_unit.rb
+- lib/webmock/config.rb
+- lib/webmock/errors.rb
+- lib/webmock/http_lib_adapters/httpclient.rb
+- lib/webmock/http_lib_adapters/net_http.rb
+- lib/webmock/request.rb
+- lib/webmock/request_execution_verifier.rb
+- lib/webmock/request_profile.rb
+- lib/webmock/request_registry.rb
+- lib/webmock/request_signature.rb
+- lib/webmock/request_stub.rb
+- lib/webmock/response.rb
+- lib/webmock/responses_sequence.rb
+- lib/webmock/rspec.rb
+- lib/webmock/test_unit.rb
+- lib/webmock/util/hash_counter.rb
+- lib/webmock/util/headers.rb
+- lib/webmock/util/uri.rb
+- lib/webmock/webmock.rb
+- spec/example_curl_output.txt
+- spec/httpclient_spec.rb
+- spec/httpclient_spec_helper.rb
+- spec/net_http_spec.rb
+- spec/net_http_spec_helper.rb
+- spec/other_net_http_libs_spec.rb
+- spec/request_execution_verifier_spec.rb
+- spec/request_profile_spec.rb
+- spec/request_registry_spec.rb
+- spec/request_signature_spec.rb
+- spec/request_stub_spec.rb
+- spec/response_spec.rb
+- spec/spec.opts
+- spec/spec_helper.rb
+- spec/util/hash_counter_spec.rb
+- spec/util/headers_spec.rb
+- spec/util/uri_spec.rb
+- spec/vendor/addressable/lib/addressable/uri.rb
+- spec/vendor/addressable/lib/uri.rb
+- spec/vendor/right_http_connection-1.2.4/History.txt
+- spec/vendor/right_http_connection-1.2.4/Manifest.txt
+- spec/vendor/right_http_connection-1.2.4/README.txt
+- spec/vendor/right_http_connection-1.2.4/Rakefile
+- spec/vendor/right_http_connection-1.2.4/lib/net_fix.rb
+- spec/vendor/right_http_connection-1.2.4/lib/right_http_connection.rb
+- spec/vendor/right_http_connection-1.2.4/setup.rb
+- spec/vendor/samuel-0.2.1/.document
+- spec/vendor/samuel-0.2.1/.gitignore
+- spec/vendor/samuel-0.2.1/LICENSE
+- spec/vendor/samuel-0.2.1/README.rdoc
+- spec/vendor/samuel-0.2.1/Rakefile
+- spec/vendor/samuel-0.2.1/VERSION
+- spec/vendor/samuel-0.2.1/lib/samuel.rb
+- spec/vendor/samuel-0.2.1/lib/samuel/net_http.rb
+- spec/vendor/samuel-0.2.1/lib/samuel/request.rb
+- spec/vendor/samuel-0.2.1/samuel.gemspec
+- spec/vendor/samuel-0.2.1/test/request_test.rb
+- spec/vendor/samuel-0.2.1/test/samuel_test.rb
+- spec/vendor/samuel-0.2.1/test/test_helper.rb
+- spec/vendor/samuel-0.2.1/test/thread_test.rb
+- spec/webmock_spec.rb
+- test/test_helper.rb
+- test/test_webmock.rb
+- webmock.gemspec
+has_rdoc: true
+homepage: http://github.com/bblimke/webmock
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --charset=UTF-8
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.5
+signing_key: 
+specification_version: 3
+summary: Library for stubbing HTTP requests in Ruby.
+test_files: 
+- spec/httpclient_spec.rb
+- spec/httpclient_spec_helper.rb
+- spec/net_http_spec.rb
+- spec/net_http_spec_helper.rb
+- spec/other_net_http_libs_spec.rb
+- spec/request_execution_verifier_spec.rb
+- spec/request_profile_spec.rb
+- spec/request_registry_spec.rb
+- spec/request_signature_spec.rb
+- spec/request_stub_spec.rb
+- spec/response_spec.rb
+- spec/spec_helper.rb
+- spec/util/hash_counter_spec.rb
+- spec/util/headers_spec.rb
+- spec/util/uri_spec.rb
+- spec/vendor/addressable/lib/addressable/uri.rb
+- spec/vendor/addressable/lib/uri.rb
+- spec/vendor/right_http_connection-1.2.4/lib/net_fix.rb
+- spec/vendor/right_http_connection-1.2.4/lib/right_http_connection.rb
+- spec/vendor/right_http_connection-1.2.4/setup.rb
+- spec/vendor/samuel-0.2.1/lib/samuel/net_http.rb
+- spec/vendor/samuel-0.2.1/lib/samuel/request.rb
+- spec/vendor/samuel-0.2.1/lib/samuel.rb
+- spec/vendor/samuel-0.2.1/test/request_test.rb
+- spec/vendor/samuel-0.2.1/test/samuel_test.rb
+- spec/vendor/samuel-0.2.1/test/test_helper.rb
+- spec/vendor/samuel-0.2.1/test/thread_test.rb
+- spec/webmock_spec.rb
+- test/test_helper.rb
+- test/test_webmock.rb

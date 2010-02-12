@@ -28,6 +28,6 @@ config.action_mailer.delivery_method = :test
 # config.active_record.schema_format = :sql
 config.gem 'shoulda', :lib => 'shoulda/rails'
 config.gem 'factory_girl'
-config.gem 'flexmock'
+config.gem 'flexmock', :lib => "flexmock/test_unit"
 config.gem 'webrat'
-config.gem 'fakeweb'
+config.gem 'webmock', :lib => "webmock/test_unit"

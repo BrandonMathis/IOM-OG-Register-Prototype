@@ -1,7 +1,6 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
-require 'flexmock/test_unit'
 
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = false
@@ -21,7 +20,15 @@ class ActiveSupport::TestCase
     found_doc =  doc.xpath(search_path, xmlns)
     assert_not_nil found_doc.first, "Could not find #{path} in\n#{doc.to_s}"
   end
+
+  include WebMock
+
+  def setup
+    stub_request(:post, POSTBACK_URI)
+  end
 end
+
+
 Webrat.configure {|config| config.mode = :rails; config.open_error_files = false }
 
 class String
