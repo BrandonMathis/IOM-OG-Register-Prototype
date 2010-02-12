@@ -103,13 +103,9 @@ class AssetObserverTest < ActiveSupport::TestCase
     end
   end
 
-  should_eventually "invoke net http post when publishing an event" do
+  should "invoke net http post when publishing an event" do
     @event = Factory.create(:event)
-    @http = flexmock("http")
-    @http.should_receive(:start)
-    @http.should_receive(:post).with(POSTBACK_PATH, @event.to_xml)
-    flexmock(Net::HTTP).should_receive(:new).with(POSTBACK_HOST).returns(@http)
     response = AssetObserver.publish(@event)
-    assert response
+    assert_requested(:post, POSTBACK_URI, :times => 1) { |req| req.body == @event.to_xml }
   end
 end
