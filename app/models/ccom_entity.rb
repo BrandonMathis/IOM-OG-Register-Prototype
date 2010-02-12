@@ -6,7 +6,7 @@ class CcomEntity
   field :source_id
   field :user_tag
   field :user_name
-  field :utc_last_updated, :type => DateTime
+  field :utc_last_updated, :type => Time
   field :status_code, :type => Integer
   
   def to_xml(opts = { })
