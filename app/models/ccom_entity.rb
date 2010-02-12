@@ -10,6 +10,7 @@ class CcomEntity
   field :status_code, :type => Integer
   
   def to_xml(opts = { })
+    opts = { :indent => 2 }.merge(opts)
     builder = Builder::XmlMarkup.new(opts)
     builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
     xml = builder.tag!("CCOMData", xml_entity_attributes) do |b|
