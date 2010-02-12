@@ -5,6 +5,10 @@ class CcomEntityTest < ActiveSupport::TestCase
     assert_valid Factory.create(:ccom_entity)
   end
 
+  should "allow setting utc last updated" do
+    assert_valid Factory.create(:ccom_entity, :utc_last_updated => Time.now.utc)
+  end
+
   context "to xml" do
     setup do
       @ccom_entity = Factory.create(:ccom_entity, 
