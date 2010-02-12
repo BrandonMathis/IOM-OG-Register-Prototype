@@ -56,6 +56,7 @@ class AssetObserverTest < ActiveSupport::TestCase
 
     context "calling the observer install" do
       setup do
+        flexmock(AssetObserver).should_receive(:publish).with(Event).once
         AssetObserver.install(@asset, @segment)
       end
 
@@ -76,6 +77,7 @@ class AssetObserverTest < ActiveSupport::TestCase
 
     context "calling the observer remove" do
       setup do
+        flexmock(AssetObserver).should_receive(:publish).with(Event).once
         AssetObserver.remove(@asset, @segment)
       end
 
@@ -93,5 +95,15 @@ class AssetObserverTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+  should_eventually "invoke net http post when publishing an event" do
+    @event = Factory.create(:event)
+    @http = flexmock("http")
+    @http.should_receive(:start)
+    @http.should_receive(:post).with(POSTBACK_PATH, @event.to_xml)
+    flexmock(Net::HTTP).should_receive(:new).with(POSTBACK_HOST).returns(@http)
+    response = AssetObserver.publish(@event)
+    assert response
   end
 end
