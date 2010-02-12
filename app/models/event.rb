@@ -4,8 +4,6 @@ class Event < CcomObjectWithEventsAndAuditing
 
   private
   
-  def xml_entity_name_override; ""; end
-
   def build_xml(builder)
     super(builder)
     builder.tag!("ofObjectType") { |b| object_type.build_xml(b) } if object_type

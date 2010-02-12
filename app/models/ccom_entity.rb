@@ -30,10 +30,8 @@ class CcomEntity
 
   private
 
-  def xml_entity_name_override; "CCOMEntity"; end
-
   def xml_entity_name
-    xml_entity_name_override.blank? ? self.class.to_s : xml_entity_name_override
+    self.class.to_s.gsub(/^Ccom/, 'CCOM')
   end
 
   def xml_entity_attributes

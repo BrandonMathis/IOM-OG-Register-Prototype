@@ -36,4 +36,15 @@ class AssetTest < ActiveSupport::TestCase
     assert asset.save
     assert_equal segment, asset.installed_on_segment
   end
+
+  context "generating xml" do
+    setup do
+      @asset = Factory.create(:asset)
+      @doc = Nokogiri::XML.parse(@asset.to_xml)
+    end
+
+    should "have the proper element name" do
+      assert_has_xpath("/CCOMData/Asset", @doc)
+    end
+  end
 end
