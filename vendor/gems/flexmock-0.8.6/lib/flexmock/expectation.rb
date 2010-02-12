@@ -69,7 +69,7 @@ class FlexMock
     def return_value(args)
       case @return_queue.size
       when 0
-        block = lambda { @return_value }
+        block = lambda { |*args| @return_value }
       when 1
         block = @return_queue.first
       else
@@ -85,7 +85,7 @@ class FlexMock
       unless @yield_queue.empty?
         block = args.last
         values = (@yield_queue.size == 1) ? @yield_queue.first : @yield_queue.shift
-        if block.respond_to?(:call) 
+        if block && block.respond_to?(:call) 
           @return_value = block.call(*values)
         else
           fail MockError, "No Block given to mock with 'and_yield' expectation"
@@ -190,7 +190,7 @@ class FlexMock
         @return_queue << block
       else
         args.each do |arg|
-          @return_queue << lambda { arg }
+          @return_queue << lambda { |*a| arg }
         end
       end
       self

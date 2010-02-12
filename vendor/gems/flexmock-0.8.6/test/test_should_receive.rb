@@ -23,6 +23,14 @@ module Kernel
   end
 end
 
+# Used for testing
+class Cat
+  def purr
+  end
+  def meow
+  end
+end
+
 class TestFlexMockShoulds < Test::Unit::TestCase
   include FlexMock::TestCase
   include FlexMock::FailureAssertion
@@ -354,6 +362,38 @@ class TestFlexMockShoulds < Test::Unit::TestCase
     FlexMock.use('greeter') do |m|
       m.should_receive(:hi).with(FlexMock.eq(Object)).once
       m.hi(Object)
+    end
+  end
+
+  def test_with_ducktype_arg_matching
+    FlexMock.use('greeter') do |m|
+      m.should_receive(:hi).with(FlexMock.ducktype(:purr, :meow)).once
+      m.hi(Cat.new)
+    end
+  end
+
+  def test_with_ducktype_arg_matching_no_match
+    FlexMock.use('greeter') do |m|
+      m.should_receive(:hi).with(FlexMock.ducktype(:purr, :meow, :growl))
+      assert_failure {
+        m.hi(Cat.new)
+      }
+    end
+  end
+
+  def test_with_hash_matching
+    FlexMock.use('greeter') do |m|
+      m.should_receive(:hi).with(FlexMock.hsh(:a => 1, :b => 2)).once
+      m.hi(:a => 1, :b => 2, :c => 3)
+    end
+  end
+
+  def test_with_hash_non_matching
+    FlexMock.use('greeter') do |m|
+      m.should_receive(:hi).with(FlexMock.hsh(:a => 1, :b => 2))
+      assert_failure {
+        m.hi(:a => 1, :b => 4, :c => 3)
+      }
     end
   end
 
@@ -913,6 +953,17 @@ class TestFlexMockShoulds < Test::Unit::TestCase
     m.should_receive(:foo).and_return(:bar).twice
     m.foo
     m.foo
+  end
+
+  def test_default_expectations_can_be_changed_by_later_expectations
+    m = flexmock("m")
+    m.should_receive(:foo).with(1).and_return(:bar).once.by_default
+    m.should_receive(:foo).with(2).and_return(:baz).once
+    assert_raise Test::Unit::AssertionFailedError do
+      # This expectation should be hidded by the non-result
+      m.foo(1)
+    end
+    m.foo(2)
   end
 
   def test_ordered_default_expectations_can_be_specified

@@ -1,5 +1,31 @@
 = Changes for FlexMock
 
+== Version 0.8.5
+
+* Fixed warning about a void context.
+* hsh() argument matcher now reports its matching constraints in error
+  messages.
+
+== Version 0.8.4
+
+* Added support for rails 2.2.x in should_render_view.
+
+== Version 0.8.3
+
+* Fixed a bug where the by_default option was not completely honored
+  in some edge cases.
+
+== Version 0.8.2
+
+* Added workaround for compatibility issues with RSpec on Rails.
+
+== Version 0.8.1
+
+* Additional fix for Rails 2.0.2
+* Added Joe O'Brien's patch to allow view stubbing in Rails 2.0
+* Added Evan Phoenix's patch to remove allocate from default
+  allocators in new_instances (for Rubinius compatibility).
+
 == Version 0.8.0
 
 * Added by_default

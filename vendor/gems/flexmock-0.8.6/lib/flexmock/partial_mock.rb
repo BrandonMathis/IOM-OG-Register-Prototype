@@ -43,6 +43,7 @@ class FlexMock
       @method_definitions = {}
       @methods_proxied = []
       unless safe_mode
+        add_mock_method(@obj, :should_receive)
         MOCK_METHODS.each do |sym|
           unless @obj.respond_to?(sym)
             add_mock_method(@obj, sym)
@@ -104,22 +105,27 @@ class FlexMock
     # new_instances is a short cut method for overriding the behavior of any
     # new instances created via a mocked class object.
     #
-    # By default, new_instances will mock the behaviour of the :new and
-    # :allocate methods.  If you wish to mock a different set of class
-    # methods, just pass a list of symbols to as arguments.
+    # By default, new_instances will mock the behaviour of the :new
+    # method.  If you wish to mock a different set of class methods,
+    # just pass a list of symbols to as arguments.  (previous versions
+    # also mocked :allocate by default.  If you need :allocate to be
+    # mocked, just request it explicitly).
     #
-    # For example, to stub only objects created by :make (and not :new
-    # or :allocate), use:
+    # For example, to stub only objects created by :make (and not
+    # :new), use:
     #
     #    flexmock(ClassName).new_instances(:make).should_receive(...)
     #
     def new_instances(*allocators, &block)
       fail ArgumentError, "new_instances requires a Class to stub" unless Class === @obj
-      allocators = [:new, :allocate] if allocators.empty?
+      allocators = [:new] if allocators.empty?
       result = ExpectationRecorder.new
-      allocators.each do |m|
-        self.should_receive(m).and_return { |*args|
-          new_obj = invoke_original(m, args)
+      allocators.each do |allocate_method|
+        # HACK: Without the following lambda, Ruby 1.9 will not bind
+        # the allocate_method parameter correctly.
+        lambda { } 
+        self.should_receive(allocate_method).and_return { |*args|
+          new_obj = invoke_original(allocate_method, args)
           mock = flexmock_container.flexmock(new_obj)
           block.call(mock) if block_given?
           result.apply(mock)
