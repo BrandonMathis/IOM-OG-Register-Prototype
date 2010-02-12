@@ -23,12 +23,9 @@ class CcomEntityTest < ActiveSupport::TestCase
         @ccom_entity.save
       end
 
-      should "be true" do
-        assert true
+      should "have the generated guid" do
+        assert_equal @uuid, @ccom_entity.guid
       end
-      # should "have the generated guid" do
-      #   assert_equal @uuid, @ccom_entity.guid
-      # end
     end
   end
 

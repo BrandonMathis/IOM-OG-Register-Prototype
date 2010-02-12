@@ -32,7 +32,7 @@ class CcomEntity
   private
 
   def generate_guid
-    guid = UUID.generate if guid.blank?
+    self.guid = UUID.generate if guid.blank?
   end
 
   def xml_entity_name
