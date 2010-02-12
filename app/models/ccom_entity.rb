@@ -27,8 +27,6 @@ class CcomEntity
     end
   end
 
-  def self.xmlns; MIMOSA_XMLNS; end
-
   private
 
   def xml_entity_name
@@ -36,7 +34,7 @@ class CcomEntity
   end
 
   def xml_entity_attributes
-    { "xmlns" => self.class.xmlns,
+    { "xmlns" => MIMOSA_XMLNS,
       "xmlns:xsi" => XSI_XMLNS}
   end
 end

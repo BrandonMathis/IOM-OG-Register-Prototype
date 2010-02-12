@@ -11,7 +11,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   def mimosa_xmlns
-    { "mimosa" => CcomEntity.xmlns }
+    { "mimosa" => MIMOSA_XMLNS }
   end
 
   def assert_has_xpath(path, doc, opts = {})
@@ -32,6 +32,6 @@ end
 
 class Nokogiri::XML::Node
   def mimosa_xpath(path)
-    xpath(path.to_mimosa, { "mimosa" => CcomEntity.xmlns } )
+    xpath(path.to_mimosa, { "mimosa" => MIMOSA_XMLNS } )
   end
 end
