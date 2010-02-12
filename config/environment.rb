@@ -40,4 +40,5 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 
   config.gem "mongoid", :lib => "mongoid"
+  config.gem "uuid"
 end

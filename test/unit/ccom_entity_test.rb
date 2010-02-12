@@ -9,6 +9,29 @@ class CcomEntityTest < ActiveSupport::TestCase
     assert_valid Factory.create(:ccom_entity, :utc_last_updated => Time.now.utc)
   end
 
+  context "a new ccom entity with a blank guid" do
+    setup { @ccom_entity = Factory.build(:ccom_entity, :guid => nil) }
+    
+    should "have a blank guid" do
+      assert @ccom_entity.guid.blank?, "'#{@ccom_entity.guid}' isn't blank"
+    end
+    
+    context "after saving" do
+      setup do
+        @uuid = "a;lskjdfq;lkwjer;wj;laksjdf;lkqjwe"
+        flexmock(UUID).should_receive(:generate).returns(@uuid).once
+        @ccom_entity.save
+      end
+
+      should "be true" do
+        assert true
+      end
+      # should "have the generated guid" do
+      #   assert_equal @uuid, @ccom_entity.guid
+      # end
+    end
+  end
+
   context "to xml" do
     setup do
       @ccom_entity = Factory.create(:ccom_entity, 

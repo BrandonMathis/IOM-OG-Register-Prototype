@@ -27,7 +27,13 @@ class CcomEntity
     end
   end
 
+  before_save :generate_guid
+
   private
+
+  def generate_guid
+    guid = UUID.generate if guid.blank?
+  end
 
   def xml_entity_name
     self.class.to_s.gsub(/^Ccom/, 'CCOM')
