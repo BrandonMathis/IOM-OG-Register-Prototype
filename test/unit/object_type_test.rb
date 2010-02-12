@@ -11,6 +11,15 @@ class ObjectTypeTest < ActiveSupport::TestCase
     assert_equal info_collection, object_type.info_collection
   end
 
+  context "with the one and only install event object type" do
+    setup do
+      @install_event = ObjectType.install_event
+    end
+    should "have user name" do
+      assert_equal "Install Event", @install_event.user_name
+    end
+  end
+
   context "generating xml" do
     setup do
       @object_type = Factory.create(:object_type, 
