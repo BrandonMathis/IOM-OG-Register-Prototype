@@ -66,7 +66,7 @@ class AssetObserverTest < ActiveSupport::TestCase
         AssetObserver.install(@asset, @segment)
       end
 
-      should_change "Event.count", :by => 1
+      should_change ("event count", :by => 1) { Event.count }
       
       context "generates an event" do
         setup do
@@ -87,7 +87,7 @@ class AssetObserverTest < ActiveSupport::TestCase
         AssetObserver.remove(@asset, @segment)
       end
 
-      should_change "Event.count", :by => 1
+      should_change ("event count", :by => 1) { Event.count }
       
       context "generates an event" do
         setup do

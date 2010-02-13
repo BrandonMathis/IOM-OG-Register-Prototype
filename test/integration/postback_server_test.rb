@@ -30,7 +30,7 @@ class PostbackServerTest < Test::Unit::TestCase
       assert last_response.ok?, last_response.inspect
     end
 
-    should_change "Dir.entries(EVENTS_PATH).size", :by => 1
+    should_change ("number of event files", :by => 1) { Dir.entries(EVENTS_PATH).size }
 
     should "write the proper data to the file" do
       new_entry = (Dir.entries(EVENTS_PATH) - @start_entries).first
