@@ -17,6 +17,31 @@ class EventTest < ActiveSupport::TestCase
     assert_equal segment, event.for
   end
 
+  context "with an asset and a segment" do
+    setup do
+      assert @asset = Factory.create(:asset)
+      assert @segment = Factory.create(:segment, :user_tag => "segment")
+    end
+
+    context "for an install event" do
+      setup do
+        assert @event = Event.create(:monitored_object => @asset, :for => @segment, :object_type => ObjectType.install_event)
+      end
+
+      should "have the asset's user tag in the event's user tag" do
+        assert_match @asset.user_tag, @event.user_tag
+      end
+
+      should "have the segment's user tag in the event's user tag" do
+        assert_match @segment.user_tag, @event.user_tag
+      end
+
+      should "have the object type in the event's tag" do
+        assert_match @event.object_type.user_tag, @event.user_tag
+      end
+    end
+  end
+
   should "not blow up" do
     s = Segment.new(:guid => "515b3eae-93bf-44da-a239-2436ece17deb")
     a = Asset.new(:guid => "df3cb180-e410-11de-8a39-0800200c9a66", :installed_on_segment => s)

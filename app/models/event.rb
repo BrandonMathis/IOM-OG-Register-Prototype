@@ -2,6 +2,11 @@ class Event < CcomObjectWithEventsAndAuditing
   has_one :for, :class_name => "CcomObjectWithEvents"
   has_one :monitored_object
 
+  def initialize(opts = { })
+    super(opts)
+    self.user_tag ||= "#{object_type.user_tag rescue nil} for #{monitored_object.user_tag rescue nil} on #{self.for.user_tag rescue nil}"
+  end
+
   private
   
   def build_xml(builder)
