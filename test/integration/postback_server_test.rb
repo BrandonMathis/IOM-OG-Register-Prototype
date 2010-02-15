@@ -1,4 +1,4 @@
-require 'postback_server'
+require 'lib/postback_server'
 require 'test/unit'
 require 'rack/test'
 require 'shoulda'
@@ -35,6 +35,20 @@ class PostbackServerTest < Test::Unit::TestCase
     should "write the proper data to the file" do
       new_entry = (Dir.entries(EVENTS_PATH) - @start_entries).first
       assert_equal @data, File.read(File.join(EVENTS_PATH,new_entry))
+    end
+  end
+
+  context "posting a real ccom event" do
+    setup do
+      @user_tag = "Model Z400-A1 S/N 3Z84G32AA0-4 AC Induction Motor"
+      @event_xml = "<?xml version='1.0' encoding='UTF-8'?> <CCOMData xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.mimosa.org/osa-eai/v3-3/xml/CCOM-ML'> <Event> <guid>251ff520-e40e-11de-8a39-0800200c9a36</guid> <userTag>#{@user_tag}</userTag></Event></CCOMData>"
+      post '/events', @event_xml
+      @new_filename = (Dir.entries(EVENTS_PATH) - @start_entries).first
+    end
+
+    should "create a file with the event's user tag as the name" do
+      assert_match @user_tag.tr("/\000", ""), @new_filename
+      assert_match /.xml$/, @new_filename
     end
   end
 
