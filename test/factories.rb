@@ -98,3 +98,11 @@ end
 Factory.define(:info_collection) do |f|
   ccom_entity_fields(f)
 end
+
+Factory.define(:enterprise) do |f|
+  ccom_entity_fields(f)
+end
+
+Factory.define(:site) do |f|
+  ccom_entity_fields(f)
+end

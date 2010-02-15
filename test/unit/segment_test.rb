@@ -11,6 +11,15 @@ class SegmentTest < ActiveSupport::TestCase
                                                     Factory.create(:meas_location)])
   end
 
+  should "support many installed assets" do
+    asset1 = Factory.create(:asset)
+    asset2 = Factory.create(:asset)
+    assert_valid segment = Factory.create(:segment, 
+                                          :installed_assets => [asset1, asset2])
+    assert segment.installed_assets.include?(asset1)
+    assert segment.installed_assets.include?(asset2)
+  end
+
   context "generating xml" do
     setup do
       @segment = Factory.create(:segment,
