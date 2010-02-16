@@ -5,9 +5,9 @@ class TopologyAssetTest < ActiveSupport::TestCase
     assert_valid Factory.create(:topology_asset)
   end
 
-  should "have a network" do
-    network = Factory.create(:network)
-    assert_valid topology = Factory.create(:topology_asset, :network => network)
-    assert_equal network, topology.network
+  should "have a functional location" do
+    functional_location = Factory.create(:functional_location)
+    assert_valid topology = Factory.create(:topology_asset, :functional_location => functional_location)
+    assert_equal functional_location, topology.functional_location
   end
 end
