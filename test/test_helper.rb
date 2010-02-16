@@ -23,8 +23,16 @@ class ActiveSupport::TestCase
 
   include WebMock
 
+  teardown :purge_mongoid
+
   def setup
     stub_request(:post, POSTBACK_URI)
+  end
+
+  def purge_mongoid
+    Mongoid.database.collections.each do |collection|
+      collection.drop
+    end
   end
 end
 

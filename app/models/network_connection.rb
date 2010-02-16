@@ -1,5 +1,5 @@
 class NetworkConnection < CcomObject
-  has_one :source, :class_name => "CcomObjectWithEvents"
+  belongs_to_related :source, :class_name => "CcomObjectWithEvents"
   has_many :targets, :class_name => "NetworkConnection"
   field :ordering_seq, :type => Integer
 

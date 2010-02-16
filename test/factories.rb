@@ -2,7 +2,7 @@ Factory.sequence(:guid) { |i| "#{Time.now.to_i}#{i}" }
 Factory.sequence(:id_in_source) { |i| "#{i}" }
 
 def ccom_entity_fields(factory)
-  factory.guid { Factory.next :guid }
+#  factory.guid { Factory.next :guid }
   factory.id_in_source { Factory.next :id_in_source }
   factory.source_id "exxon.com/uehm/ramp/V1.0"
 end

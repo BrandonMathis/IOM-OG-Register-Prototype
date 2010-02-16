@@ -15,6 +15,18 @@ class NetworkConnectionTest < ActiveSupport::TestCase
     assert network_connection.targets.include?(target)
   end
 
+  context "creating a network connection with a source segment" do
+    setup do
+      @segment_tag = "My happy segment"
+      @network_connection = Factory.create(:network_connection,
+                                           :source => Factory.create(:segment, :user_tag => @segment_tag))
+      @guid = @network_connection.source.guid
+    end
+    should "be able to find the embedded segment" do
+      assert_equal @segment_tag, Segment.first(:conditions => { :guid => @guid }).user_tag
+    end
+  end
+
   context "generating xml" do
     setup do
       @network_connection = Factory.create(:network_connection, 
