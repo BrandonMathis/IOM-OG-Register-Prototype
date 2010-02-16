@@ -91,6 +91,12 @@ Factory.define(:asset) do |f|
   f.sequence(:user_name) { |i| "Asset #{i}" }
 end
 
+Factory.define(:topology_asset) do |f|
+  ccom_entity_fields(f)
+  f.sequence(:user_tag) { |i| "Topology-#{i}" }
+  f.sequence(:user_name) { |i| "Topology #{i}" }
+end
+
 Factory.define(:event) do |f|
   ccom_entity_fields(f)
 end

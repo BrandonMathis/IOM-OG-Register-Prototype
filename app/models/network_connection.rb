@@ -1,5 +1,5 @@
 class NetworkConnection < CcomObject
-  has_one :source
+  has_one :source, :class_name => "CcomObjectWithEvents"
   field :ordering_seq, :type => Integer
 
   def build_xml(builder)

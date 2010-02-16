@@ -1,0 +1,4 @@
+<h1><%= @topology.user_tag %></h1>
+<%= render :partial => 'ccom_entities/ccom_entity', :object => @topology %>
+<h2>Source: <%= @entry_point.source.user_tag %></h2>
+<%= render :partial => 'ccom_entities/ccom_entity', :object => @entry_point.source %>
