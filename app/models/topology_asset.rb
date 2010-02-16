@@ -1,10 +1,11 @@
 class TopologyAsset < Asset
 
-  def functional_location=(object)
+  def entry_point=(object)
+    self.network.entry_points.clear
     self.network.entry_points << object
   end
 
-  def functional_location
+  def entry_point
     self.network.entry_points.first
   end
 

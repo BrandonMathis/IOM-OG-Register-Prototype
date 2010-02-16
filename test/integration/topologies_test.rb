@@ -7,13 +7,17 @@ class TopologiesTest < ActionController::IntegrationTest
       #
       @sub_location = Factory.create(:functional_location, 
                                      :user_tag => "01G-7A Kerosene Pump Package")
+      target = Factory.create(:network_connection, :source => @sub_location)
       @functional_location = Factory.create(:functional_location, :user_tag => "CU-1")
+      entry_point = Factory.create(:network_connection, 
+                                   :source => @functional_location,
+                                   :targets => [target])
       @topology = Factory.create(:topology_asset, 
                                  :user_tag => "Topology Asset",
                                  :user_name => "My long winded name for this topology",
                                  :id_in_source => "19837418734192874319784",
                                  :source_id => "www.example.com/cris/v1.0",
-                                 :functional_location => @functional_location)
+                                 :entry_point => entry_point)
       visit topology_url(:id => @topology.guid)
     end
 

@@ -9,6 +9,12 @@ class NetworkConnectionTest < ActiveSupport::TestCase
     assert_valid Factory.create(:network_connection, :source => Factory.create(:segment))
   end
 
+  should "have many targets as network connections" do
+    target = Factory.create(:network_connection)
+    assert_valid network_connection = Factory.create(:network_connection, :targets => [target])
+    assert network_connection.targets.include?(target)
+  end
+
   context "generating xml" do
     setup do
       @network_connection = Factory.create(:network_connection, 

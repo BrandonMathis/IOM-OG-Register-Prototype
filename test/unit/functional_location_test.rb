@@ -5,9 +5,4 @@ class FunctionalLocationTest < ActiveSupport::TestCase
     assert_valid Factory.create(:functional_location)
   end
 
-  # should "have many functional locations" do
-  #   sub_location = Factory.create(:functional_location)
-  #   assert_valid functional_location = Factory.create(:functional_location, :functional_locations => [sub_location])
-  #   assert functional_location.functional_locations.include?(sub_location)
-  # end
 end

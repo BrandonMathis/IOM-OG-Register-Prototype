@@ -1,4 +1,3 @@
 <h1><%= @topology.user_tag %></h1>
 <%= render :partial => 'ccom_entities/ccom_entity', :object => @topology %>
-<h2>Source: <%= @topology.functional_location.user_tag %></h2>
-<%= render :partial => 'ccom_entities/ccom_entity', :object => @topology.functional_location %>
+<%= render :partial => 'network_connections/network_connection', :object => @topology.entry_point %>
