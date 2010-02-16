@@ -1,2 +1,9 @@
-<h2><%= network_connection.source.user_tag %></h2>
-<%= render :partial => 'ccom_entities/ccom_entity', :object => network_connection.source %>
+<%= network_connection.source.user_tag -%>
+    <%= render :partial => 'ccom_entities/ccom_entity', :object => network_connection.source -%>
+<% if !network_connection.targets.blank? -%>
+  <ul class="functional_locations">
+    <% network_connection.targets.each do |target| -%>
+      <li><%= render :partial => 'network_connections/network_connection', :object => target %></li>
+    <% end -%>
+  </ul>
+<% end -%>

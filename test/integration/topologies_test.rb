@@ -33,5 +33,9 @@ class TopologiesTest < ActionController::IntegrationTest
         assert_match @functional_location.send(attr), response.body, "Didn't find source #{attr} in response body"
       end
     end
+
+    should "render the sub location's user tag as a nested unordered list" do
+      assert_select "li", /#{@sub_location.user_tag}/, response.body
+    end
   end
 end

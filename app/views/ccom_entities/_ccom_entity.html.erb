@@ -1,8 +1,7 @@
-<% if ccom_entity.user_name %><h2><%= ccom_entity.user_name %></h2><% end %>
+<% if ccom_entity.user_name %><em class="user_name"><%= ccom_entity.user_name %></em><% end %>
 <ul class="attributes">
   <li>GUID: <%= ccom_entity.guid %></li>
-  <% if ccom_entity.id_in_source or ccom_entity.source_id -%>
-  <li><% if ccom_entity.id_in_source %><%= ccom_entity.id_in_source %>/<% end %>
-    <%= ccom_entity.source_id %></li>
-  <% end -%>
+<% if ccom_entity.id_in_source or ccom_entity.source_id -%>
+  <li><% if ccom_entity.id_in_source %><%= ccom_entity.id_in_source %>/<% end %><%= ccom_entity.source_id %></li>
+<% end -%>
 </ul>
