@@ -2,7 +2,7 @@ set :application, "assetricity"
 set :user, "deploy"
 
 set :scm, :git
-set :repository, "git@github.com:dougalcorn/mimosa-active-registry.git"
+set :repository, "git@github.com:assetricity/mimosa-active-registry.git"
 
 set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
