@@ -1,26 +1,28 @@
 class TopologyAsset < Asset
 
   def entry_point=(object)
-    self.network.entry_points.clear
-    self.network.entry_points << object
+    ensure_associated_network
+    self.associated_network.entry_points.clear
+    self.associated_network.entry_points << object
   end
 
   def entry_point
-    self.network.entry_points.first
+    ensure_associated_network
+    self.associated_network.entry_points.first
   end
 
-  protected
-
-  def network=(object)
-    self.asset_config_network ||= AssetConfigNetwork.new
-    asset_config_network.associated_network = object
+  def ensure_asset_config_network
+    if asset_config_network.nil?
+      self.build_asset_config_network(:user_tag => "#{self.user_tag} Asset Config Network")
+    end    
   end
 
-  def network
-    self.asset_config_network ||= AssetConfigNetwork.new
-    if asset_config_network.associated_network.nil? 
-      asset_config_network.build_associated_network(:user_tag => self.user_tag, :user_name => self.user_name)
+  def ensure_associated_network
+    ensure_asset_config_network
+    if associated_network.nil?
+      asset_config_network.build_associated_network(:user_tag => "#{self.user_tag} View")
     end
-    asset_config_network.associated_network
   end
+
+  delegate :associated_network, :to => :asset_config_network
 end
