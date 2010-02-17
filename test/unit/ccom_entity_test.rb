@@ -29,6 +29,12 @@ class CcomEntityTest < ActiveSupport::TestCase
     end
   end
 
+  should "find by guid" do
+    entity = Factory.create(:ccom_entity)
+    assert_not_nil found = CcomEntity.find_by_guid(entity.guid)
+    assert_equal found, entity
+  end
+
   context "to xml" do
     setup do
       @ccom_entity = Factory.create(:ccom_entity, 

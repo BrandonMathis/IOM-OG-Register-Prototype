@@ -27,6 +27,10 @@ class CcomEntity
     end
   end
 
+  def self.find_by_guid(guid)
+    first(:conditions => { :guid => guid })
+  end
+
   before_save :generate_guid
 
   private
