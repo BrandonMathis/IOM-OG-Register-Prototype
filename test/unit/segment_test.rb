@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class SegmentTest < ActiveSupport::TestCase
+
+  def teardown
+    super
+    flexmock_teardown
+  end
+
   should "be valid from factory" do
     assert_valid Factory.create(:segment)
   end
@@ -11,13 +17,20 @@ class SegmentTest < ActiveSupport::TestCase
                                                     Factory.create(:meas_location)])
   end
 
-  should "support many installed assets" do
-    asset1 = Factory.create(:asset)
-    asset2 = Factory.create(:asset)
-    assert_valid segment = Factory.create(:segment, 
-                                          :installed_assets => [asset1, asset2])
-    assert segment.installed_assets.include?(asset1)
-    assert segment.installed_assets.include?(asset2)
+  context "installing assets" do
+    setup do
+      @asset = Factory.create(:asset)
+      @segment = Factory.create(:segment)
+      @segment.installed_assets << @asset
+    end
+
+    should "list the asset as installed on the segment" do
+      assert @segment.installed_assets.include?(@asset)
+    end
+
+    should "have the segment as the assets isntalled on location" do
+      assert_equal @segment, @asset.segment
+    end
   end
 
   context "generating xml" do
