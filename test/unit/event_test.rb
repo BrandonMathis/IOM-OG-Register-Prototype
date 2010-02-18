@@ -44,7 +44,7 @@ class EventTest < ActiveSupport::TestCase
 
   should "not blow up" do
     s = Segment.new(:guid => "515b3eae-93bf-44da-a239-2436ece17deb")
-    a = Asset.new(:guid => "df3cb180-e410-11de-8a39-0800200c9a66", :installed_on_segment => s)
+    a = Asset.new(:guid => "df3cb180-e410-11de-8a39-0800200c9a66", :segment => s)
     assert_kind_of Event, Event.create(:monitored_object => a, :for => s, :object_type => ObjectType.remove_event)
   end
 

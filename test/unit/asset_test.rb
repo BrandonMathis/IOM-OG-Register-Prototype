@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class AssetTest < ActiveSupport::TestCase
+
+  def teardown
+    super
+    flexmock_teardown
+  end
+  
   should "be valid from factory" do
     assert_valid Factory.create(:asset)
   end
@@ -32,9 +38,45 @@ class AssetTest < ActiveSupport::TestCase
   should "support an installed on segment" do
     segment = Factory.create(:segment)
     assert_valid asset = Factory.create(:asset)
-    asset.installed_on_segment = segment
+    asset.segment = segment
     assert asset.save
-    assert_equal segment, asset.installed_on_segment
+    assert_equal segment, asset.segment
+  end
+
+  context "observing segment changes" do
+    context "with an asset" do
+      setup do
+        @asset = Factory.create(:asset)
+        @segment = Factory.create(:segment)
+      end
+
+      should "fire an install event when the segment is assigned" do
+        flexmock(AssetObserver).should_receive(:install).with(@asset, @segment).once
+        @asset.segment = @segment
+        assert @asset.save
+      end
+    end
+
+    context "with an asset already installed on segment" do
+      setup do
+        assert @segment = Factory.create(:segment)
+        @asset = Factory.create(:asset, :segment => @segment)
+      end
+
+      should "fire a remove event when the segment is set to nil" do
+        flexmock(AssetObserver).should_receive(:remove).once
+        @asset.segment = nil
+        assert @asset.save
+      end
+
+      should "fire both a remove and an install event when changing the segment" do
+        @new_segment = Factory.create(:segment)
+        flexmock(AssetObserver).should_receive(:install).with(@asset, @new_segment).once
+        flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).once
+        @asset.segment = @new_segment
+        assert @asset.save
+      end
+    end
   end
 
   context "generating xml" do
