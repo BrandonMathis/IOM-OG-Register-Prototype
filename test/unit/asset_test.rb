@@ -35,6 +35,23 @@ class AssetTest < ActiveSupport::TestCase
     assert_equal asset_config_network, asset.asset_config_network
   end
 
+  context "uninstalled assets" do
+    setup do
+      @segment = Factory.create(:segment)
+      @installed_asset = Factory.create(:asset, :segment => @segment)
+      @uninstalled_asset = Factory.create(:asset)
+      @uninstalled_assets = Asset.uninstalled.all
+    end
+
+    should "not include the installed asset" do
+      assert ! @uninstalled_assets.include?(@installed_asset)
+    end
+
+    should "include the uninstalled asset" do
+      assert @uninstalled_assets.include?(@uninstalled_asset)
+    end
+  end
+
   context "creating an asset installed on a segment" do
     setup do
       @segment = Factory.create(:segment)

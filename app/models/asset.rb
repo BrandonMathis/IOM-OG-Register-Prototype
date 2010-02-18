@@ -5,6 +5,8 @@ class Asset < MonitoredObject
   has_one :asset_config_network
   field :serial_number
 
+  named_scope :uninstalled, where(:segment_id => nil)
+
   def segment_with_observer=(segment_to_assign)
     if self.segment
       AssetObserver.remove(self, self.segment)
