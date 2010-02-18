@@ -21,12 +21,12 @@ class AssetObserverTest < ActiveSupport::TestCase
 
       should_change("event count", :by => 1) { Event.count }
       
-      context "generates an event" do
+      context "generates a findable event" do
         setup do
-          @event = Event.first(:conditions => { "monitored_object.guid" => @asset.guid, "for.guid" => @segment.guid })
+          @event = Event.first(:conditions => { "monitored_object_id" => @asset._id, "for_id" => @segment._id })
         end
-        should "for this asset and segment" do
-          assert @event
+        should "not be nil" do
+          assert_not_nil @event
         end
         should "have created an install event" do
           assert_equal "Install Event", @event.object_type.user_name
@@ -44,7 +44,7 @@ class AssetObserverTest < ActiveSupport::TestCase
       
       context "generates an event" do
         setup do
-          @event = Event.first(:conditions => { "monitored_object.guid" => @asset.guid, "for.guid" => @segment.guid })
+          @event = Event.first(:conditions => { "monitored_object_id" => @asset._id, "for_id" => @segment._id })
         end
         should "for this asset and segment" do
           assert @event

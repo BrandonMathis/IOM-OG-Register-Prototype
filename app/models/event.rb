@@ -1,6 +1,6 @@
 class Event < CcomObjectWithEventsAndAuditing
-  has_one :for, :class_name => "CcomObjectWithEvents"
-  has_one :monitored_object
+  belongs_to_related :for, :class_name => "CcomObjectWithEvents"
+  belongs_to_related :monitored_object
 
   def initialize(opts = { })
     super(opts)

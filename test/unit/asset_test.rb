@@ -35,12 +35,19 @@ class AssetTest < ActiveSupport::TestCase
     assert_equal asset_config_network, asset.asset_config_network
   end
 
-  should "support an installed on segment" do
-    segment = Factory.create(:segment)
-    assert_valid asset = Factory.create(:asset)
-    asset.segment = segment
-    assert asset.save
-    assert_equal segment, asset.segment
+  context "creating an asset installed on a segment" do
+    setup do
+      @segment = Factory.create(:segment)
+      @asset = Factory.create(:asset, :segment => @segment)
+    end
+    
+    should "have the asset installed on the segment" do
+      assert_equal @segment, @asset.segment
+    end
+
+    should "have the asset in the list of installed assets on the segment" do
+      assert @segment.installed_assets.include?(@asset)
+    end
   end
 
   context "observing segment changes" do
