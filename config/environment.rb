@@ -40,5 +40,9 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 
   config.gem "mongoid", :lib => "mongoid"
+  config.gem "mongo"
   config.gem "uuid"
+  config.gem "rack", :version => "1.0.0"
+  config.gem "macaddr"
+  config.gem "will_paginate"
 end
