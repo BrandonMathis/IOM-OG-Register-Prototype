@@ -17,6 +17,35 @@ class SegmentTest < ActiveSupport::TestCase
                                                     Factory.create(:meas_location)])
   end
 
+  should "have an install_asset_id accessor that doesn't blow up" do
+    assert_nil Factory.create(:segment).install_asset_id
+  end
+
+  context "with an asset and a segment" do
+    setup do
+      @asset = Factory.create(:asset)
+      @segment = Factory.create(:segment)
+    end
+
+    context "installing the asset via the segment's setter" do
+      setup do
+        @segment.update_attributes(:install_asset_id => @asset.guid)
+      end
+
+      before_should "fire off the install event" do
+        flexmock(AssetObserver).should_receive(:install).with(@asset, @segment).once
+      end
+      
+      should "include the asset in the segment's list of installed assets" do
+        assert @segment.installed_assets.map(&:guid).include?(@asset.guid)
+      end
+
+      should "have the segment as the asset's (installed on) segment" do
+        assert_equal @segment, Asset.find_by_guid(@asset.guid).segment
+      end
+    end
+  end
+
   context "installing assets" do
     setup do
       @asset = Factory.create(:asset)

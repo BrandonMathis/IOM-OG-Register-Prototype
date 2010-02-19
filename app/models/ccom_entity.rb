@@ -27,6 +27,10 @@ class CcomEntity
     end
   end
 
+  def to_param
+    guid
+  end
+  
   def self.find_by_guid(guid)
     first(:conditions => { :guid => guid })
   end

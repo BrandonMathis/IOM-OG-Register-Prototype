@@ -1,3 +1,0 @@
-class FunctionalLocation < Segment
-
-end

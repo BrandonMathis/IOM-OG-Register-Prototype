@@ -11,5 +11,6 @@ TopologyAsset.create!(:guid => "317d6bc3-2e6d-4d80-addb-2f3fcff9e5ff",
                       :user_tag => "Doc#42432444: Refinery A P &amp; ID Topology V1.0",
                       :object_type => topology_object_type,
                       :entry_point => ep)
-
+motor_asset = Asset.create(:user_tag => "A super awesome motor")
+segment2.installed_assets << motor_asset
 puts TopologyAsset.find_by_guid("317d6bc3-2e6d-4d80-addb-2f3fcff9e5ff").entry_point.source.to_xml

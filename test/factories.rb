@@ -112,7 +112,3 @@ end
 Factory.define(:site) do |f|
   ccom_entity_fields(f)
 end
-
-Factory.define(:functional_location) do |f|
-  ccom_entity_fields(f)
-end
