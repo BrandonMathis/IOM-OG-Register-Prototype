@@ -37,12 +37,32 @@ class SegmentTest < ActiveSupport::TestCase
       end
       
       should "include the asset in the segment's list of installed assets" do
-        assert @segment.installed_assets.map(&:guid).include?(@asset.guid)
+        assert @segment.installed_assets.include?(@asset)
       end
 
       should "have the segment as the asset's (installed on) segment" do
         assert_equal @segment, Asset.find_by_guid(@asset.guid).segment
       end
+
+      context "and uninstalling assets" do
+        setup do
+          @segment.update_attributes(:delete_asset_id => @asset.guid)
+          @segment = Segment.find_by_guid(@segment.guid)
+        end
+
+        before_should "fire off the uninstall event" do
+          flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).once
+        end
+        
+        should "not include the asset in the segment's list of installed assets" do
+          assert ! @segment.installed_assets.include?(@asset)
+        end
+
+        should "have nil as the asset's (installed on) segment" do
+          assert_nil Asset.find_by_guid(@asset.guid).segment
+        end
+      end
+
     end
   end
 

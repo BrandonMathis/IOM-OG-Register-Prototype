@@ -2,6 +2,10 @@ class Segment < MonitoredObject
   has_many :meas_locations
   has_many_related :installed_assets, :class_name => "Asset"
 
+  before_save :save_assets
+  attr_accessor :assets_to_save
+  def assets_to_save; @assets_to_save ||= []; end
+
   def install_asset_id; nil; end
 
   def install_asset_id=(asset_id)
@@ -10,6 +14,12 @@ class Segment < MonitoredObject
     installed_assets << asset
   end
 
+  def delete_asset_id=(asset_id)
+    if asset = installed_assets.detect {|asset| asset.guid == asset_id }
+      asset.segment = nil 
+      assets_to_save << asset
+    end
+  end
 
   def build_xml(builder)
     super(builder)
@@ -18,5 +28,12 @@ class Segment < MonitoredObject
         m.build_xml(b)
       end
     end
+  end
+
+  protected
+
+  def save_assets
+    assets_to_save.each { |a| a.save }
+    assets_to_save = []
   end
 end

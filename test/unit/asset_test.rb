@@ -91,6 +91,7 @@ class AssetTest < ActiveSupport::TestCase
         flexmock(AssetObserver).should_receive(:remove).once
         @asset.segment = nil
         assert @asset.save
+        assert_nil @asset.segment
       end
 
       should "fire both a remove and an install event when changing the segment" do

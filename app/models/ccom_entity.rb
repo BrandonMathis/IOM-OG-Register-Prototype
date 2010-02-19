@@ -9,6 +9,8 @@ class CcomEntity
   field :utc_last_updated, :type => Time
   field :status_code, :type => Integer
   
+  before_save :generate_guid
+
   def to_xml(opts = { })
     opts = { :indent => 2 }.merge(opts)
     builder = Builder::XmlMarkup.new(opts)
@@ -35,7 +37,9 @@ class CcomEntity
     first(:conditions => { :guid => guid })
   end
 
-  before_save :generate_guid
+  def ==(object)
+    self._id == object._id rescue false
+  end
 
   private
 

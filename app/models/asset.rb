@@ -7,6 +7,14 @@ class Asset < MonitoredObject
 
   named_scope :uninstalled, where(:segment_id => nil)
 
+  def segment_with_mystuff=(segment_to_assign)
+    self.segment_with_observer=(segment_to_assign)
+    self.segment_with_blanking=(segment_to_assign)
+    self.segment_without_mystuff=(segment_to_assign)
+  end
+
+  alias_method_chain :segment=, :mystuff
+
   def segment_with_observer=(segment_to_assign)
     if self.segment
       AssetObserver.remove(self, self.segment)
@@ -14,9 +22,14 @@ class Asset < MonitoredObject
     unless segment_to_assign.nil?
       AssetObserver.install(self, segment_to_assign) unless segment_to_assign.nil?
     end
-    self.segment_without_observer=(segment_to_assign)
+    # self.segment_without_observer=(segment_to_assign)
   end
 
-  alias_method_chain :segment=, :observer
+  def segment_with_blanking=(segment_to_assign)
+    if segment_to_assign.nil?
+      self.segment_id = nil
+    end
+    # self.segment_without_blanking=(segment_to_assign)
+  end
 
 end

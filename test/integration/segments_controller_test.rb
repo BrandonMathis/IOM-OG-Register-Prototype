@@ -19,6 +19,20 @@ class SegmentsControllerTest < ActionController::IntegrationTest
     should "display the asset user tag" do
       assert_contain @asset.user_tag
     end
+
+    context "uninstalling an asset" do
+      setup do
+        click_button "uninstall-#{@asset.guid}"
+      end
+      should "flash a message about uninstalling the asset" do
+        assert_contain /Uninstalled.*#{@asset.user_tag}/
+      end
+
+      should("show the segment again") do
+        assert_match segment_url(@functional_location), current_url
+      end
+      should_change("the number of installed assets on the segment", :by => -1) { @functional_location.installed_assets.size }
+    end
   end
 
   context "installing assets" do
@@ -33,6 +47,10 @@ class SegmentsControllerTest < ActionController::IntegrationTest
       setup do
         select @uninstalled_asset.user_tag
         click_button "Install"
+      end
+
+      should "flash a message about installing the asset" do
+        assert_contain /Installed.*#{@uninstalled_asset.user_tag}/
       end
 
       should("show the segment again") do
