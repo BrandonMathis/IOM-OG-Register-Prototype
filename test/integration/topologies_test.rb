@@ -22,16 +22,13 @@ class TopologiesTest < ActionController::IntegrationTest
     end
 
     should_respond_with :success
-    should "display the basic ccom data" do
-      [:guid, :user_tag, :id_in_source, :source_id, :user_name].each do |attr|
-        assert_match @topology.send(attr), response.body, "Didn't find topology #{attr} in response body"
-      end
+
+    should "display the topology's user tag" do
+      assert_match @topology.user_tag, response.body, "Didn't find topology user tag in response body"
     end
 
-    should "display the topology's source's basic data" do
-      [:guid, :user_tag].each do |attr|
-        assert_match @functional_location.send(attr), response.body, "Didn't find source #{attr} in response body"
-      end
+    should "display the topology's source's user tag" do
+      assert_match @functional_location.user_tag, response.body, "Didn't find source user_tag in response body"
     end
 
     should "render the sub location's user tag as a nested unordered list" do
