@@ -3,6 +3,8 @@
 <html>
   <head>
     <title>MIMOSA Active Registry</title>
+    <%= javascript_include_tag :defaults %>
+    <%= yield :javascripts %>
   </head>
   <body>
     <%= render :partial => "shared/flash_display" %>

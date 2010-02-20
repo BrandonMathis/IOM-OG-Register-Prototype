@@ -1,3 +1,4 @@
+
 <% form_for @segment do |f| %>
     <%= f.select 'install_asset_id', options_for_select(@uninstalled_assets.collect{ |asset| [asset.user_tag, asset.guid] }) %>
     <%= submit_tag "Install"%>
