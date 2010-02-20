@@ -1,14 +1,1 @@
-<% @asset.entry_points.each do |ep| -%>
-  <h1><%= ep.source.user_tag %></h1>
-  <table class="meas_locations">
-  <% ep.source.meas_locations.each do |meas_loc| -%>
-    <% meas_loc.object_data.each do |object_datum| -%>
-      <tr>
-        <td class="user_tag"><%= meas_loc.user_tag %></td>
-        <td class="object_data"> <%= object_datum.data %> <%= object_datum.eng_unit_type.user_tag %> </td>
-        <td class="attribute_type"><%= object_datum.attribute_type.user_tag %></td>
-      </tr>
-    <% end -%>
-  <% end -%>
-  </table>
-<% end -%>
+<%= render :partial => "network_connections/datasheet", :collection => @asset.entry_points, :locals => {:indent_level => 1 } %>

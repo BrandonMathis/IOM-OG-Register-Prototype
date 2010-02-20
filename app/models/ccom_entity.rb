@@ -11,6 +11,12 @@ class CcomEntity
   
   before_save :generate_guid
 
+  def user_tag_with_fallback
+    tag = user_tag_without_fallback
+    tag.blank? ? user_name : tag
+  end
+  alias_method_chain :user_tag, :fallback
+
   def to_xml(opts = { })
     opts = { :indent => 2 }.merge(opts)
     builder = Builder::XmlMarkup.new(opts)

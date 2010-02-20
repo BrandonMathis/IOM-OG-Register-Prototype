@@ -1,0 +1,17 @@
+<% indent_level ||= 1 %>
+<h<%= indent_level %>><%= datasheet.source.user_tag %></h<%= indent_level %>>
+<table class="meas_locations" border="1">
+  <% datasheet.source.meas_locations.each do |meas_loc| -%>
+    <% meas_loc.object_data.each_with_index do |object_datum, index| -%>
+      <tr>
+        <% if index == 0 -%>
+          <td class="user_tag" rowspan="<%= meas_loc.object_data.size %>"><%= meas_loc.user_tag %></td>
+        <% end -%>
+        <td class="object_data"> <%= object_datum.value %> </td>
+        <td class="attribute_type"><%= object_datum.attribute_user_tag %></td>
+      </tr>
+    <% end -%>
+  <% end -%>
+</table>
+<%= render :partial => "network_connections/datasheet", :collection => datasheet.targets, 
+    :locals => {:indent_level => indent_level +1 } %>
