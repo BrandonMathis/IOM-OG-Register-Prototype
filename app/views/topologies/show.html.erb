@@ -1,11 +1,18 @@
 <% content_for :javascripts do -%>
     <%= javascript_include_tag "jquery.treeview" %>
+    <%= javascript_include_tag "jquery.form" %>
     <%= javascript_include_tag "application/topologies" %>
     <%= stylesheet_link_tag "jquery.treeview" %>
 <% end -%>
 
+<div id="topology">
 <h1><%= @topology.user_tag %></h1>
 <ul id="topology_root" class="functional_locations">
   <li><%= render :partial => 'network_connections/network_connection', :object => @topology.entry_point %>
   </li><!-- <%= @topology.entry_point.source.user_tag %> -->
 </ul>
+</div>
+
+<div id="details">
+  
+</div>

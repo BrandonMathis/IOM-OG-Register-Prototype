@@ -1,4 +1,4 @@
-<%= link_to network_connection.source.user_tag, segment_url(network_connection.source) -%>
+<%= link_to network_connection.source.user_tag, segment_url(network_connection.source), :class => "show_segment_link" -%>
 <% if !network_connection.targets.blank? -%>
   <ul class="functional_locations">
     <% network_connection.targets.each do |target| -%>

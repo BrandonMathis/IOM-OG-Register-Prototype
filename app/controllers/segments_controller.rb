@@ -4,6 +4,10 @@ class SegmentsController < ApplicationController
 
   def show
     @uninstalled_assets = Asset.uninstalled
+    respond_to do |format|
+      format.html {}
+      format.js { render :layout => false}
+    end
   end
 
   def update
@@ -17,7 +21,12 @@ class SegmentsController < ApplicationController
         flash[:notice] = "Uninstalled #{asset.user_tag} on #{@segment.user_tag}"
       end
     end
-    redirect_to segment_url(@segment)
+        @uninstalled_assets = Asset.uninstalled
+    respond_to do |format|
+      format.html { redirect_to segment_url(@segment) }
+      format.js { render :action => :show, :layout => false}
+    end
+
 
   end
 
