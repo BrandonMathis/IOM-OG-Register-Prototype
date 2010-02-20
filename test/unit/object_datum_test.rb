@@ -6,7 +6,15 @@ class ObjectDatumTest < ActiveSupport::TestCase
   end
 
   should "allow eng unit type" do
-    assert_valid Factory.create(:object_datum, :eng_unit_type => Factory.create(:eng_unit_type))
+    eng_type = Factory.create(:eng_unit_type)
+    assert_valid datum = Factory.create(:object_datum, :eng_unit_type => eng_type)
+    assert_equal eng_type, datum.eng_unit_type
+  end
+
+  should "allow attr type" do
+    attr_type = Factory.create(:attribute_type)
+    assert_valid datum = Factory.create(:object_datum, :attribute_type => attr_type)
+    assert_equal attr_type, datum.attribute_type
   end
 
   context "generating xml" do

@@ -35,6 +35,7 @@ class AssetTest < ActiveSupport::TestCase
     assert_equal asset_config_network, asset.asset_config_network
   end
 
+  
   context "uninstalled assets" do
     setup do
       @segment = Factory.create(:segment)
@@ -101,6 +102,19 @@ class AssetTest < ActiveSupport::TestCase
         @asset.segment = @new_segment
         assert @asset.save
       end
+    end
+  end
+
+  context "assigning to entry points" do
+    setup do
+      @entry_point = Factory.create(:network_connection)
+      @asset = Factory.create(:asset, :entry_points => @entry_point)
+    end
+    should "be assigned" do
+      assert_equal [@entry_point], @asset.entry_points
+    end
+    should "still be assinged when I reload it" do
+      assert_equal [@entry_point], Asset.find_by_guid(@asset.guid).entry_points
     end
   end
 

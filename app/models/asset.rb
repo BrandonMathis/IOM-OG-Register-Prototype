@@ -7,6 +7,31 @@ class Asset < MonitoredObject
 
   named_scope :uninstalled, where(:segment_id => nil)
 
+  delegate :associated_network, :to => :asset_config_network
+
+  def entry_points=(array)
+    ensure_associated_network
+    self.associated_network.entry_points = array
+  end
+
+  def entry_points
+    ensure_associated_network
+    self.associated_network.entry_points
+  end
+
+  def ensure_asset_config_network
+    if asset_config_network.nil?
+      self.build_asset_config_network(:user_tag => "#{self.user_tag} Asset Config Network")
+    end    
+  end
+
+  def ensure_associated_network
+    ensure_asset_config_network
+    if associated_network.nil?
+      asset_config_network.build_associated_network(:user_tag => "#{self.user_tag} View")
+    end
+  end
+
   def segment_with_mystuff=(segment_to_assign)
     self.segment_with_observer=(segment_to_assign)
     self.segment_with_blanking=(segment_to_assign)
