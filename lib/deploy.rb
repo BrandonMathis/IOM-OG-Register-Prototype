@@ -34,8 +34,8 @@ namespace :deploy do
   task :symlink_stuff do
     run "rm -f #{current_path}/config/database.mongoid.yml"
     run "ln -s #{shared_path}/config/database.mongoid.yml #{current_path}/config"
-    run "rm -rf #{current_path}/public/events"
-    run "ln -nfs #{shared_path}/public/events #{current_path}/public"
+    run "rm -rf #{current_path}/events"
+    run "ln -nfs #{shared_path}/events #{current_path}/public"
   end
 end
 

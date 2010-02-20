@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'nokogiri'
 
-EVENTS_PATH = File.expand_path(File.dirname(__FILE__) + "/../public/events")
+EVENTS_PATH = File.expand_path(File.dirname(__FILE__) + "/../events")
 
 get '/hello' do
     'Hello World'
