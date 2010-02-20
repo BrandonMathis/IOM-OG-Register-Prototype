@@ -5,7 +5,7 @@
 <% end %>
 <ul>
   <% @segment.installed_assets.each do |asset| %>
-      <li><%= asset.user_tag %>
+      <li><%= link_to asset.user_tag, asset_url(asset) %>
         <% form_for @segment, :id => "uninstall-#{asset.guid}-form" do |f| -%>
         <%= f.hidden_field :delete_asset_id, :value => asset.guid %>
         <%= submit_tag "Uninstall", :id => "uninstall-#{asset.guid}" %>
