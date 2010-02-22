@@ -3,6 +3,10 @@ class AssetsController < ApplicationController
   before_filter :load_asset
 
   def show
+    respond_to do |format|
+      format.html {}
+      format.js { render :layout => false}
+    end
   end
 
   
