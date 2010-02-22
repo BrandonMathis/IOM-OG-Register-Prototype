@@ -1,5 +1,6 @@
-<% if ccom_entity.user_name %><em class="user_name"><%= ccom_entity.user_name %></em><% end %>
 <ul class="attributes">
+  <li>Tag: <%= ccom_entity.user_tag %></li>
+  <li><%= ccom_entity.user_name %></li>
   <li>GUID: <%= ccom_entity.guid %></li>
 <% if ccom_entity.id_in_source or ccom_entity.source_id -%>
   <li><% if ccom_entity.id_in_source %><%= ccom_entity.id_in_source %>/<% end %><%= ccom_entity.source_id %></li>

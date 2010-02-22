@@ -4,7 +4,9 @@ class SegmentsControllerTest < ActionController::IntegrationTest
 
   def setup
     super
-    @functional_location = Factory.create(:segment, :user_tag => "CU-1", :user_name => "Something other than the user tag")
+    @functional_location = Factory.create(:segment, :user_tag => "CU-1", 
+                                          :user_name => "Something other than the user tag",
+                                          :object_type => nil)
 
     @asset = Factory(:asset)
     @functional_location.installed_assets << @asset
@@ -19,6 +21,25 @@ class SegmentsControllerTest < ActionController::IntegrationTest
     should "have the some of the ccom entity details displayed" do
       [:guid, :user_name].each do |attr|
         assert_contain @functional_location.send(attr)
+      end
+    end
+
+    context "with an object type" do
+      setup do
+        @object_type = Factory.create(:object_type, :user_tag => "some object type")
+        @functional_location.object_type = @object_type
+        @functional_location.save
+        @functional_location = Segment.find_by_guid(@functional_location.guid)
+        visit segment_url(@functional_location)
+      end
+      should "have a new object type" do
+        assert_equal @object_type, @functional_location.object_type
+      end
+      should_respond_with :success
+      should "have the object type's details" do
+        [:guid, :user_tag].each do |attr|
+          assert_contain @object_type.send(attr)
+        end
       end
     end
   end

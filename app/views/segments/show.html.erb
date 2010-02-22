@@ -1,11 +1,15 @@
 <div id="tabs">
   <ul>
     <li><a href="#details">Details</a></li>
+    <% if @segment.object_type %><li><a href="#object_type">Type</a></li><% end %>
     <li><a href="#installed_assets">Installed Assets</a></li>
   </ul>
   <div id="details">
     <%= render :partial => "ccom_entities/ccom_entity", :object => @segment %>
   </div>
+  <% if @segment.object_type %><div id="object_type">
+      <%= render :partial => "ccom_entities/ccom_entity", :object => @segment.object_type %>
+    </div><% end %>
 
   <div id="installed_assets">
     <%= render :partial => "install_asset_form", 
