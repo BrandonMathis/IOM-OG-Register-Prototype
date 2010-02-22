@@ -1,1 +1,5 @@
 body { foreground: black; }
+
+.ui-tabs .ui-tabs-hide {
+     display: none;
+}

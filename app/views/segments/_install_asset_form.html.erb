@@ -1,0 +1,5 @@
+<% form_for(segment) do |f| -%>
+  <% options = options_for_select(uninstalled_assets.collect{ |asset| [asset.user_tag, asset.guid] }) -%>
+  <%= f.select 'install_asset_id', options, { :include_blank => "Select an asset to install" } %>
+  <%= submit_tag "Install"%>
+<% end -%>

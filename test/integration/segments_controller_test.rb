@@ -4,11 +4,23 @@ class SegmentsControllerTest < ActionController::IntegrationTest
 
   def setup
     super
-    @functional_location = Factory.create(:segment, :user_tag => "CU-1")
+    @functional_location = Factory.create(:segment, :user_tag => "CU-1", :user_name => "Something other than the user tag")
 
     @asset = Factory(:asset)
     @functional_location.installed_assets << @asset
     @functional_location.save
+  end
+
+  context "displaying a functional location" do
+    setup do
+      visit segment_url(@functional_location)
+    end
+
+    should "have the some of the ccom entity details displayed" do
+      [:guid, :user_name].each do |attr|
+        assert_contain @functional_location.send(attr)
+      end
+    end
   end
 
   context "Displaying installed assets for a functional location" do

@@ -1,15 +1,18 @@
+<div id="tabs">
+  <ul>
+    <li><a href="#details">Details</a></li>
+    <li><a href="#installed_assets">Installed Assets</a></li>
+  </ul>
+  <div id="details">
+    <%= render :partial => "ccom_entities/ccom_entity", :object => @segment %>
+  </div>
 
-<% form_for(@segment) do |f| %>
-    <%= f.select 'install_asset_id', options_for_select(@uninstalled_assets.collect{ |asset| [asset.user_tag, asset.guid] }) %>
-    <%= submit_tag "Install"%>
-<% end %>
-<ul>
-  <% @segment.installed_assets.each do |asset| %>
-      <li><%= link_to asset.user_tag, asset_url(asset) %>
-        <% form_for @segment, :id => "uninstall-#{asset.guid}-form" do |f| -%>
-        <%= f.hidden_field :delete_asset_id, :value => asset.guid %>
-        <%= submit_tag "Uninstall", :id => "uninstall-#{asset.guid}" %>
-        <% end -%>
-      </li>
-  <% end %>
-</ul>
+  <div id="installed_assets">
+    <%= render :partial => "install_asset_form", 
+        :locals => {:segment => @segment, :uninstalled_assets => @uninstalled_assets } %>
+    <ul>
+      <%= render :partial => "installed_asset", 
+          :collection => @segment.installed_assets, :locals => {:segment => @segment } %>
+    </ul>
+  </div>
+</div>
