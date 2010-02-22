@@ -4,6 +4,8 @@ $(function() {
         animated: "medium"
     });
     $(".show_segment_link").click(function() {
+        $(".selected-segment").removeClass("selected-segment");
+        $(this).parent().addClass("selected-segment");
         $.get($(this).attr("href"), function(data) {
             $("#segment-details").html(data);
             setupSegmentDetails();
@@ -15,7 +17,6 @@ $(function() {
 function setupSegmentDetails() {
     $("#tabs").tabs({selected: 1});
     $(".show_installed_asset_link").click(function() {
-        var asset_title = $(this).attr("title");
         $.get($(this).attr("href"), function(data) {
             var details = $("#asset-details");
             details.html(data);
