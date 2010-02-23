@@ -8,6 +8,8 @@ class CcomEntity
   field :user_name
   field :utc_last_updated, :type => Time
   field :status_code, :type => Integer
+
+  ATTRIBUTES = [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
   
   before_save :generate_guid
 
@@ -16,6 +18,24 @@ class CcomEntity
     tag.blank? ? user_name : tag
   end
   alias_method_chain :user_tag, :fallback
+
+
+  def self.from_xml(xml)
+    doc = Nokogiri::XML.parse(xml)
+    entity_node = doc.mimosa_xpath("/CCOMData/CCOMEntity").first
+    attributes = { }
+    ATTRIBUTES.each do |attr|
+      if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first
+        attributes[attr] =  node.content
+      end
+    end
+    if entity = find_by_guid(attributes[:guid])
+      entity.update_attributes(attributes)
+    else
+      entity = create(attributes)
+    end
+    entity
+  end
 
   def to_xml(opts = { })
     opts = { :indent => 2 }.merge(opts)
@@ -29,9 +49,9 @@ class CcomEntity
   end
 
   def build_xml(builder)
-    [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code].each do |attr|
+    ATTRIBUTES.each do |attr|
       value = self.send(attr)
-      builder.tag!(attr.to_s.camelize(:lower), value) unless value.blank?
+      builder.tag!(self.class.attr_to_camel(attr), value) unless value.blank?
     end
   end
 
@@ -48,6 +68,10 @@ class CcomEntity
   end
 
   private
+
+  def self.attr_to_camel(attr)
+    attr.to_s.camelize(:lower)
+  end
 
   def generate_guid
     self.guid = UUID.generate if guid.blank?

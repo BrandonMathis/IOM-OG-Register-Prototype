@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CcomEntityTest < ActiveSupport::TestCase
+
   should "be valid from factory" do
     assert_valid Factory.create(:ccom_entity)
   end
@@ -59,6 +60,32 @@ class CcomEntityTest < ActiveSupport::TestCase
     should "not include status code when it's blank" do
       node_set = @doc.xpath("//CCOMEntity/statusCode", mimosa_xmlns)
       assert node_set.blank?, node_set.inspect
+    end
+  end
+
+  context "importing xml for an existing entity" do
+    setup do
+      @entity = Factory.create(:ccom_entity)
+      @xml = @entity.to_xml
+      @parsed_entity = CcomEntity.from_xml(@xml)
+    end
+    should "be the same document" do
+      assert_equal @entity, @parsed_entity
+    end
+  end
+
+  context "importing xml for a new entity" do
+    setup do
+      @entity = Factory.create(:ccom_entity, :user_tag => "foobar")
+      @guid = @entity.guid = UUID.generate
+      @xml = @entity.to_xml
+      @parsed_entity = CcomEntity.from_xml(@xml)
+    end
+
+    should "have the right details" do
+      [:guid, :user_tag].each do |attr|
+        assert_equal @entity.send(attr), @parsed_entity.send(attr)
+      end
     end
   end
 end
