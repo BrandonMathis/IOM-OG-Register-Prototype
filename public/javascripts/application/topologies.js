@@ -17,6 +17,7 @@ $(function() {
 function setupSegmentDetails() {
     $("#tabs").tabs({selected: 2});
     $(".show_installed_asset_link").click(function() {
+        var asset_title = $(this).attr("title");
         $.get($(this).attr("href"), function(data) {
             var details = $("#asset-details");
             details.html(data);
