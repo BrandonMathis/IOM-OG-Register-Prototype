@@ -24,6 +24,7 @@ class ActiveSupport::TestCase
   include WebMock
 
   teardown :purge_mongoid
+  teardown :flexmock_teardown
 
   def setup
     stub_request(:post, POSTBACK_URI)

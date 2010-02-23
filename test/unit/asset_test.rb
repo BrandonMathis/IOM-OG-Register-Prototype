@@ -1,11 +1,6 @@
 require 'test_helper'
 
 class AssetTest < ActiveSupport::TestCase
-
-  def teardown
-    super
-    flexmock_teardown
-  end
   
   should "be valid from factory" do
     assert_valid Factory.create(:asset)

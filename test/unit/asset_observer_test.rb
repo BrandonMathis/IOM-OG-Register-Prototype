@@ -2,11 +2,6 @@ require 'test_helper'
 
 class AssetObserverTest < ActiveSupport::TestCase
 
-  def teardown
-    super
-    flexmock_teardown
-  end
-
   context "with an asset and a segment" do
     setup do
       @asset = Factory.create(:asset)

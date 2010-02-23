@@ -2,11 +2,6 @@ require 'test_helper'
 
 class SegmentTest < ActiveSupport::TestCase
 
-  def teardown
-    super
-    flexmock_teardown
-  end
-
   should "be valid from factory" do
     assert_valid Factory.create(:segment)
   end
