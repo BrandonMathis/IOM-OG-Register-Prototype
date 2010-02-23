@@ -5,7 +5,6 @@ class MeasLocation < CcomObjectWithEvents
 
   def build_xml(builder)
     super(builder)
-    builder.ofObjectType { |b| self.object_type.build_xml(b) }
     object_data.each do |d|
       builder.hasObjectData do |b|
         d.build_xml(b)

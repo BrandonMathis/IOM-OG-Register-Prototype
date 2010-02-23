@@ -22,7 +22,11 @@ class CcomEntity
 
   def self.from_xml(xml)
     doc = Nokogiri::XML.parse(xml)
-    entity_node = doc.mimosa_xpath("/CCOMData/CCOMEntity").first
+    entity_node = doc.mimosa_xpath("/CCOMData/#{xml_entity_name}").first
+    parse_xml(entity_node)
+  end
+
+  def self.parse_xml(entity_node)
     attributes = { }
     ATTRIBUTES.each do |attr|
       if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first
@@ -42,7 +46,7 @@ class CcomEntity
     builder = Builder::XmlMarkup.new(opts)
     builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
     xml = builder.tag!("CCOMData", xml_entity_attributes) do |b|
-      b.tag!(xml_entity_name) do |bb|
+      b.tag!(self.class.xml_entity_name) do |bb|
         build_xml(bb)
       end
     end
@@ -77,8 +81,8 @@ class CcomEntity
     self.guid = UUID.generate if guid.blank?
   end
 
-  def xml_entity_name
-    self.class.to_s.gsub(/^Ccom/, 'CCOM')
+  def self.xml_entity_name
+    self.to_s.gsub(/^Ccom/, 'CCOM')
   end
 
   def xml_entity_attributes
