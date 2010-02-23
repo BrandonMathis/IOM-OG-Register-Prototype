@@ -8,6 +8,8 @@
     
 <% end -%>
 
+<div id="right-side"><div id="segment-details"> </div></div>
+<div id="left-side">
 <div id="topology">
 <h1><%= @topology.user_tag %></h1>
 <ul id="topology_root" class="functional_locations">
@@ -15,7 +17,5 @@
   </li><!-- <%= @topology.entry_point.source.user_tag %> -->
 </ul>
 </div>
-
-<div id="segment-details"> </div>
-
+</div>
 <div id="asset-details" style="display: none;"> </div>
