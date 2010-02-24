@@ -8,3 +8,6 @@ Mongoid.database = connection.db(@settings["database"])
 if @settings["username"]
   Mongoid.database.authenticate(@settings["username"], @settings["password"])
 end
+
+require 'mongoid_association_extensions'
+require 'mongoid_association_options_extensions'

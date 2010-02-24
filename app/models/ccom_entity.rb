@@ -1,6 +1,7 @@
 class CcomEntity
   include Mongoid::Document
 
+  
   field :guid
   field :id_in_source
   field :source_id

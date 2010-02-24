@@ -45,5 +45,5 @@ Rails::Initializer.run do |config|
   config.gem "rack", :version => "1.0.0"
   config.gem "macaddr"
   config.gem "will_paginate"
-  config.gem "nokogiri"
+  config.gem "nokogiri", :version => ">=1.4.1"
 end
