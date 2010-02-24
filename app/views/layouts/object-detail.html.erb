@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MIMOSA Active Registry</title>
+<%= stylesheet_link_tag "object-detail" %>
+
+</head>
+<body>
+<div id="wrapper">
+	<div id="content">
+		<div class="tab"><h3 class="tabtxt" title="first"><a href="#">first</a></h3></div>
+		<div class="tab"><h3 class="tabtxt" title="second"><a href="#">second</a></h3></div>
+		<div class="tab"><h3 class="tabtxt" title="third"><a href="#">third</a></h3></div>
+		<div class="tab"><h3 class="tabtxt" title="fourth"><a href="#">fourth</a></h3></div>
+		<div class="boxholder">
+			<div class="box">
+        		<%= yield %>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

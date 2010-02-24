@@ -1,0 +1,44 @@
+body {
+	color: #333;
+	font-size: 11px;
+	font-family: verdana;
+}
+
+a {color: #fff;text-decoration: none;}
+
+a:hover {color: #054b81;}
+
+p {
+	margin: 0;
+	padding: 5px;
+	line-height: 1.5em;
+	text-align: justify;
+
+}
+
+#wrapper {width: 500px;margin: 0 auto;}
+
+.box {background: #fff;}
+
+.boxholder {
+	clear: both;
+	padding: 5px;
+	background: #054b81;
+}
+
+.tab {
+	float: left;
+	height: 32px;
+	width: 102px;
+	margin: 0 1px 0 0;
+	text-align: center;
+	background: #156aa3;
+}
+
+.tabtxt {
+	margin: 0;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 9px 0 0 0;
+}
