@@ -9,6 +9,15 @@ class Asset < MonitoredObject
 
   delegate :associated_network, :to => :asset_config_network
 
+  def entry_point=(object)
+    self.entry_points.clear
+    self.entry_points << object
+  end
+
+  def entry_point
+    self.entry_points.first
+  end
+
   def entry_points=(array)
     ensure_associated_network
     self.associated_network.entry_points = array

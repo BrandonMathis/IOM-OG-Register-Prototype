@@ -10,7 +10,7 @@ class TopologiesControllerTest < ActionController::IntegrationTest
     entry_point = Factory.create(:network_connection,
                                  :source => @functional_location,
                                  :targets => [target])
-    @topology = Factory.create(:topology_asset,
+    @topology = Factory.create(:asset,
                                :user_tag => "Topology Asset",
                                :user_name => "My long winded name for this topology",
                                :id_in_source => "19837418734192874319784",
