@@ -26,4 +26,12 @@ class ObjectDatum < CcomEntity
            :eng_unit_type => EngUnitType.create(:user_tag => eng_type))
   end
 
+  def self.parse_xml(entity_node)
+    entity = super(entity_node)
+    if data_node = entity_node.mimosa_xpath("./hasData/TextType").first
+      entity.data = data_node.content
+    end
+    entity.save
+    entity
+  end
 end

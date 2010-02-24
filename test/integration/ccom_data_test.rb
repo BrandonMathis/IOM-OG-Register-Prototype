@@ -8,7 +8,7 @@ class CcomDataTest < ActiveSupport::TestCase
       @enterprise = CcomData.from_xml(xml)
     end
 
-    should "be an entierprise" do
+    should "be an enterprise" do
       assert_kind_of Enterprise, @enterprise
     end
 
@@ -91,6 +91,7 @@ class CcomDataTest < ActiveSupport::TestCase
       should "be a meas location" do
         assert_kind_of MeasLocation, @meas_location
       end
+
       context "with object data" do
         setup do
           @object_data = @meas_location.object_data.first
@@ -98,6 +99,23 @@ class CcomDataTest < ActiveSupport::TestCase
         
         should "be object data" do
           assert_kind_of ObjectDatum, @object_data
+        end
+
+        should "have data" do
+          assert_equal "2300", @object_data.data
+        end
+
+        should "have an eng unit type" do
+          assert_kind_of EngUnitType, @object_data.eng_unit_type
+        end
+
+        context "with an attribute type" do
+          setup do
+            @attr_type = @object_data.attribute_type
+          end
+          should "be an attribute type" do
+            assert_kind_of AttributeType, @attr_type
+          end
         end
       end
     end
