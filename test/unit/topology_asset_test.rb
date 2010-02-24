@@ -28,7 +28,7 @@ class TopologyAssetTest < ActiveSupport::TestCase
       assert_equal @entry_point, @topology.entry_point
     end
     should "still be assinged when I reload it" do
-      assert_equal @entry_point, TopologyAsset.find_by_guid(@topology.guid).entry_point
+      assert_equal @entry_point, Asset.find_by_guid(@topology.guid).entry_point
     end
   end
 end

@@ -123,4 +123,23 @@ class AssetTest < ActiveSupport::TestCase
       assert_has_xpath("/CCOMData/Asset", @doc)
     end
   end
+
+  context "with both topology asset and serialized asset" do
+    setup do
+      @topology = Factory.create(:topology_asset)
+      @asset = Factory.create(:serialized_asset)
+    end
+
+    context "finding topologies" do
+      setup do
+        @topologies = Asset.topologies.all
+      end
+      should "not contain the serialized asset" do
+        assert ! @topologies.include?(@asset)
+      end
+      should "contain the topology" do
+        assert @topologies.include?(@topology)
+      end
+    end
+  end
 end

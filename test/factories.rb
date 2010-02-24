@@ -91,10 +91,15 @@ Factory.define(:asset) do |f|
   f.sequence(:user_name) { |i| "Asset #{i}" }
 end
 
-Factory.define(:topology_asset) do |f|
-  ccom_entity_fields(f)
-  f.sequence(:user_tag) { |i| "Topology-#{i}" }
-  f.sequence(:user_name) { |i| "Topology #{i}" }
+Factory.define(:topology_object_type, :parent => :object_type) do |f|
+  f.guid "a62a6cdb-ca56-4b2b-90aa-fafac73caa33"
+end
+
+Factory.define(:serialized_asset, :parent => :asset) do |f|
+end
+
+Factory.define(:topology_asset, :parent => :asset) do |f|
+  f.association :object_type, :factory => :topology_object_type
 end
 
 Factory.define(:event) do |f|

@@ -10,7 +10,7 @@ class TopologiesControllerTest < ActionController::IntegrationTest
     entry_point = Factory.create(:network_connection,
                                  :source => @functional_location,
                                  :targets => [target])
-    @topology = Factory.create(:asset,
+    @topology = Factory.create(:topology_asset,
                                :user_tag => "Topology Asset",
                                :user_name => "My long winded name for this topology",
                                :id_in_source => "19837418734192874319784",
@@ -47,5 +47,20 @@ class TopologiesControllerTest < ActionController::IntegrationTest
   end
 
 
+  context "getting the index" do
+    setup do
+      @asset = Factory.create(:serialized_asset, :user_tag => "This should not appear")
+      visit topologies_url
+    end
+    should_respond_with :success
+
+    should "link to our topology asset's user tag" do
+      assert_select "a[href=?]", topology_url(@topology), @topology.user_tag
+    end
+
+    should "not link to serialized asset" do
+      assert_not_contain @asset.user_tag
+    end
+  end
   
 end

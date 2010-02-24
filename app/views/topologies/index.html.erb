@@ -1,0 +1,5 @@
+<ul>
+<% @topologies.each do |topology| -%>
+  <li><%= link_to topology.user_tag, topology_url(topology) %></li>
+<% end -%>
+</ul>
