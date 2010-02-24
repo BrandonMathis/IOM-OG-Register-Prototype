@@ -12,6 +12,12 @@ class SegmentTest < ActiveSupport::TestCase
                                                     Factory.create(:meas_location)])
   end
 
+  should "support a segment config network" do
+    scn = SegmentConfigNetwork.create
+    assert_valid segment = Factory.create(:segment, :segment_config_network => scn)
+    assert_equal scn, segment.segment_config_network
+  end
+
   should "have an install_asset_id accessor that doesn't blow up" do
     assert_nil Factory.create(:segment).install_asset_id
   end

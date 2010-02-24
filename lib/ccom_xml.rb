@@ -27,6 +27,7 @@ module CcomXml
         entity = create(attributes)
       end
       parse_associations(entity, entity_node)
+      entity.save
       entity
     end
 

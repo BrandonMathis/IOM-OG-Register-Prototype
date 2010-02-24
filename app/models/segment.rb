@@ -1,4 +1,5 @@
 class Segment < MonitoredObject
+  has_one :segment_config_network, :xml_element => "hasSegmentConfigNetwork"
   has_many :meas_locations, :xml_element => "hasMeasLocation"
   has_many_related :installed_assets, :class_name => "Asset", :xml_element => "hasInstalledAsset"
 
@@ -23,6 +24,7 @@ class Segment < MonitoredObject
 
   def build_xml(builder)
     super(builder)
+    builder.hasSegmentConfigNetwork {|b| segment_config_network.build_xml(b) } if segment_config_network
     meas_locations.each do |m|
       builder.hasMeasLocation do |b|
         m.build_xml(b)

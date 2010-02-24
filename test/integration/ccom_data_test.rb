@@ -70,7 +70,9 @@ class CcomDataTest < ActiveSupport::TestCase
       setup do
         @segment = Segment.find_by_guid("abcf6703-4d26-4f0b-8f0e-c4d704da514a")
       end
-      should_eventually "have a segment config network"
+      should "have a segment config network" do
+        assert_kind_of SegmentConfigNetwork, @segment.segment_config_network
+      end
     end
 
   end
