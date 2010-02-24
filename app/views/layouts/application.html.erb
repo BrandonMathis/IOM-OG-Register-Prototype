@@ -11,19 +11,21 @@
   <body>
     <div id="container">
       <div id="header-container">
-   	<div id="header">
-   	  <div id="logo">
-	    <a href="<%= root_url %>"><h1>Assetricity</h1></a>
-	    <p>Your Strategic Partner In Open Operations and Maintenance</p>
-	  </div>
-   	</div>
+   		<div id="header">
+   	  		<div id="logo">
+	    		<a href="<%= root_url %>"><h1>Assetricity</h1></a>
+	    		<p>Your Strategic Partner In Open Operations and Maintenance</p>
+	  		</div>
+   		</div>
       </div>
-      
-      <ul>
-        <li><%= link_to "Topologies", topologies_path %></li>
-        <li><%= link_to "Upload XML", ccom_data_path %></li>
-      </ul>
-      
+  	<div id="navigation-container">
+		<div id="navigation">    
+      		<ul>
+        		<li><a><%= link_to "Topologies", topologies_path %></a></li>
+        		<li><a><%= link_to "Upload XML", ccom_data_path %></a></li>
+      		</ul>
+      	</div>
+	</div>
       <%#= render :partial => "shared/flash_display" %>
 
       <div id="content">

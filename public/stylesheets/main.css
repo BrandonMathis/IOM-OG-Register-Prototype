@@ -70,43 +70,38 @@ a:hover {
 	color: #FFFFFF;
 }
 
-#navigation-container
-{
+#navigation-container {
 	float: left;
 	width: 100%;
 	color: #000;
-	background: #333;
+	background: #184980;
 }
 
-#navigation
-{
+#navigation {
 	margin: 0 auto;
 	width: 900px;
 }
 
-#navigation ul
-{
+#navigation ul {
 	margin: 0;
 	padding: 0;
 }
 
-#navigation ul li
-{
+#navigation ul li {
 	list-style-type: none;
 	display: inline;
 }
 
-#navigation li a
-{
+#navigation li a {
 	display: block;
 	float: left;
 	padding: 5px 10px;
 	color: #fff;
 	text-decoration: none;
-	border-right: 1px solid #fff;
+
 }
 
-#navigation li a:hover { background: #383; }
+#navigation li a:hover { background: #091a57; }
 
 #container {
    min-height:100%;
