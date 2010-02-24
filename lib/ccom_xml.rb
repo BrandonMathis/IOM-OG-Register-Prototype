@@ -33,13 +33,17 @@ module CcomXml
     def parse_associations(entity, entity_node)
       associations.each do |k, assoc|
         xpath = "./#{assoc[:options].xml_element}"
-        if assoc_entity = entity_node.mimosa_xpath(xpath).first
-          entity.send("#{assoc[:options].name}=", assoc[:options].klass.parse_xml(assoc_entity))
+        entity_node.mimosa_xpath(xpath).each do |assoc_entity|
+          assoc_object = assoc[:options].klass.parse_xml(assoc_entity)
+          if assoc[:type].to_s =~ /Many/
+            entity.send("#{assoc[:options].name}") << assoc_object
+          else
+            entity.send("#{assoc[:options].name}=", assoc_object)
+          end
         end
       end
-      entity
     end
-    
+
     def xml_entity_name
       self.to_s.gsub(/^Ccom/, 'CCOM')
     end

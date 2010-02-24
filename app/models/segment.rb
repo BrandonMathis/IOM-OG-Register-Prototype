@@ -1,6 +1,6 @@
 class Segment < MonitoredObject
-  has_many :meas_locations
-  has_many_related :installed_assets, :class_name => "Asset"
+  has_many :meas_locations, :xml_element => "hasMeasLocation"
+  has_many_related :installed_assets, :class_name => "Asset", :xml_element => "hasInstalledAsset"
 
   before_save :save_assets
   attr_accessor :assets_to_save

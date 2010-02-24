@@ -88,4 +88,17 @@ class CcomEntityTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context "importing xml for has_many relationship" do
+    setup do
+      @meas_location = Factory.create(:meas_location)
+      @entity = Factory.create(:segment, :meas_locations => [@meas_location])
+      @entity.guid = UUID.generate
+      @parsed_entity = Segment.from_xml(@entity.to_xml)
+    end
+    should "have an installed asset" do
+      assert @parsed_entity.meas_locations.include?(@meas_location)
+    end
+
+  end
 end
