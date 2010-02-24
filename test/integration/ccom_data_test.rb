@@ -5,7 +5,7 @@ class CcomDataTest < ActiveSupport::TestCase
   context "with a topology xml file" do
     setup do
       xml = File.read(File.join(Rails.root, "db", "xml", "topology.xml"))
-      @enterprise = CcomData.from_xml(xml)
+      @enterprise = CcomData.from_xml(xml).first
     end
 
     should "be an enterprise" do
