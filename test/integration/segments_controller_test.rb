@@ -57,7 +57,7 @@ class SegmentsControllerTest < ActionController::IntegrationTest
       setup do
         click_button "uninstall-#{@asset.guid}"
       end
-      should "flash a message about uninstalling the asset" do
+      should_eventually "flash a message about uninstalling the asset" do
         assert_contain /Uninstalled.*#{@asset.user_tag}/
       end
 
@@ -82,7 +82,7 @@ class SegmentsControllerTest < ActionController::IntegrationTest
         click_button "Install"
       end
 
-      should "flash a message about installing the asset" do
+      should_eventually "flash a message about installing the asset" do
         assert_contain /Installed.*#{@uninstalled_asset.user_tag}/
       end
 

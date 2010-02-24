@@ -19,7 +19,13 @@
    	</div>
       </div>
       
-      <%= render :partial => "shared/flash_display" %>
+      <ul id="navigation">
+        <li><%= link_to "Topologies", topologies_path %></li>
+        <li><%= link_to "Upload XML", ccom_data_path %></li>
+      </ul>
+      
+      <%#= render :partial => "shared/flash_display" %>
+
       <div id="content">
         <%= yield %>
       </div>
