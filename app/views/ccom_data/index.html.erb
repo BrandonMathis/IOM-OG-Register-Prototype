@@ -1,0 +1,5 @@
+
+  <% form_tag ccom_data_path, :multipart => true do %>
+    <label for="file">XML File</label> <%= file_field_tag "file" %>
+    <%= submit_tag "Upload" %>
+  <% end %>
