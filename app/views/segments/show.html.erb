@@ -2,6 +2,7 @@
   <ul>
     <li><a href="#details">Details</a></li>
     <% if @segment.object_type %><li><a href="#object_type">Type</a></li><% end %>
+    <% if @segment.segment_config_network %><li><a href="#datasheet">Data Sheet</a></li><% end %>
     <li><a href="#installed_assets">Installed Assets</a></li>
   </ul>
   <div id="details">
@@ -11,6 +12,9 @@
       <%= render :partial => "ccom_entities/ccom_entity", :object => @segment.object_type %>
     </div><% end %>
 
+  <div id="datasheet">
+    <%= render :partial => "network_connections/datasheet", :collection => @segment.entry_points, :locals => {:indent_level => 1 } %>
+  </div>
   <div id="installed_assets">
     <%= render :partial => "install_asset_form", 
         :locals => {:segment => @segment, :uninstalled_assets => @uninstalled_assets } %>

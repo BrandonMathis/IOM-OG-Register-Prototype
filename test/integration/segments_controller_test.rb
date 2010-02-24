@@ -93,4 +93,30 @@ class SegmentsControllerTest < ActionController::IntegrationTest
       should_change("the number of installed assets on the segment", :by =>1){@functional_location.installed_assets.size}
     end
   end
+
+  context "a functional location with a datasheet" do
+    setup do
+      @obj_data1 = ObjectDatum.create_from_fields("2300", "Armature Voltage, Rated", "Volts")
+      @obj_data2 = ObjectDatum.create_from_fields("42", "Armature Voltage, unrated", "Volts")
+      @meas_loc1 = Factory.create(:meas_location, 
+                                  :user_tag => "VLT-RAT",
+                                  :object_data => [@obj_data1, @obj_data2])
+      @segment = Factory.create(:segment, :user_tag => "ELEC SPEC", :meas_locations => [@meas_loc1])
+      
+      ep = Factory.create(:network_connection, :source => @segment)
+      network = Factory.create(:network, :entry_points => [ep])
+      scn = SegmentConfigNetwork.create(:associated_network => network)
+      @functional_location = Factory.create(:segment, :segment_config_network => scn)
+      visit segment_url(@functional_location)
+    end
+
+    should "have the meas loc's user tag" do
+      assert_select "tr > td.user_tag", @meas_loc1.user_tag
+    end
+
+    should "have the meas loc's attribute type" do
+      assert_select "tr > td.attribute_type", @obj_data1.attribute_user_tag
+    end
+
+  end
 end

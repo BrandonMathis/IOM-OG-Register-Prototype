@@ -3,6 +3,11 @@ class Segment < MonitoredObject
   has_many :meas_locations
   has_many_related :installed_assets, :class_name => "Asset"
 
+
+  def entry_points
+    segment_config_network.associated_network.entry_points rescue []
+  end
+
   before_save :save_assets
   attr_accessor :assets_to_save
   def assets_to_save; @assets_to_save ||= []; end
