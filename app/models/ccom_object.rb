@@ -1,6 +1,6 @@
 class CcomObject < CcomEntity
 
-  has_one :object_type, :xml_element => "ofObjectType"
+  has_one :object_type, :xml_prefix => "of"
 
   def build_xml(builder)
     super(builder)

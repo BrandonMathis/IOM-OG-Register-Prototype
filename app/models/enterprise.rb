@@ -1,5 +1,5 @@
 class Enterprise < CcomObject
-  has_one :controlled_site, :class_name => "Site"
+  has_one :controlled_site, :class_name => "Site", :xml_prefix => :blank
 
 #  def self.parse_xml(entity_node)
 #    entity = super(entity_node)

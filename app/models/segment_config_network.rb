@@ -1,3 +1,3 @@
 class SegmentConfigNetwork < CcomObject
-  has_one :associated_network, :class_name => "Network"
+  has_one :associated_network, :class_name => "Network", :xml_prefix => :blank
 end

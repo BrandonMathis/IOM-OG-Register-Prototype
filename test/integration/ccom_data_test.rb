@@ -73,7 +73,33 @@ class CcomDataTest < ActiveSupport::TestCase
       should "have a segment config network" do
         assert_kind_of SegmentConfigNetwork, @segment.segment_config_network
       end
+
+      context "associated network" do
+        setup do
+          @network = @segment.segment_config_network.associated_network
+        end
+        should "be a network" do
+          assert_kind_of Network, @network
+        end
+      end
     end
 
+    context "measurement location" do
+      setup do
+        @meas_location = MeasLocation.find_by_guid("7dcc3260-912f-456e-b370-749489ec43dd")
+      end
+      should "be a meas location" do
+        assert_kind_of MeasLocation, @meas_location
+      end
+      context "with object data" do
+        setup do
+          @object_data = @meas_location.object_data.first
+        end
+        
+        should "be object data" do
+          assert_kind_of ObjectDatum, @object_data
+        end
+      end
+    end
   end
 end

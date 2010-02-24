@@ -1,7 +1,7 @@
 class MeasLocation < CcomObjectWithEvents
-  has_one :default_eng_unit_type, :name => :eng_unit_type
+  has_one :default_eng_unit_type, :class_name => "EngUnitType"
   has_one :object_type
-  has_many :object_data
+  has_many :object_data, :xml_element => "hasObjectData"
 
   def build_xml(builder)
     super(builder)

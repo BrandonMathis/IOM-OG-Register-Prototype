@@ -1,7 +1,7 @@
 class Segment < MonitoredObject
-  has_one :segment_config_network, :xml_element => "hasSegmentConfigNetwork"
-  has_many :meas_locations, :xml_element => "hasMeasLocation"
-  has_many_related :installed_assets, :class_name => "Asset", :xml_element => "hasInstalledAsset"
+  has_one :segment_config_network
+  has_many :meas_locations
+  has_many_related :installed_assets, :class_name => "Asset"
 
   before_save :save_assets
   attr_accessor :assets_to_save

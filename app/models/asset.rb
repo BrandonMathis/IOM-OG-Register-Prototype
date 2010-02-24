@@ -2,7 +2,7 @@ class Asset < MonitoredObject
   has_one :manufacturer
   has_one :model
   belongs_to_related :segment
-  has_one :asset_config_network, :xml_element => "hasAssetConfigNetwork"
+  has_one :asset_config_network
   field :serial_number
 
   named_scope :uninstalled, where(:segment_id => nil)

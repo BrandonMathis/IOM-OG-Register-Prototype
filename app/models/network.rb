@@ -1,5 +1,5 @@
 class Network < CcomObjectWithChildren
-  has_many :entry_points, :class_name => "NetworkConnection", :xml_element => "hasEntryPoint"
+  has_many :entry_points, :class_name => "NetworkConnection"
 
   def build_xml(builder)
     super(builder)
