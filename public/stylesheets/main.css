@@ -1,4 +1,4 @@
-html, body, #container {height: 100%;font-family: "Times New Roman", Times, serif;}
+html, body, #container {height: 100%;font-family: Helvetica, "Gill Sans", Arial, sans-serif; }
 
 body > #container {height: auto; min-height: 100%;}
 
@@ -64,7 +64,7 @@ th { border: 1px solid #666666;padding: 5px; }
 #logo p {
 	margin: 0;
 	padding: 0px 0 0 2px;
-	font: normal 14px Georgia, "Times New Roman", Times, serif;
+	font: normal 14px;
 	font-style: italic;
 	color: #FFFFFF;
 } 
@@ -144,3 +144,4 @@ th { border: 1px solid #666666;padding: 5px; }
    	padding:15px;
    	color: #fff;
 }
+
