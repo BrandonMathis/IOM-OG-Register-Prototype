@@ -15,7 +15,7 @@ class CcomEntity
   end
 
   def self.field_names
-    @field_names ||= fields.keys.reject {|f| f =~ /_id$/ }
+    @field_names ||= fields.keys.collect(&:to_sym)
   end
 
   def field_names

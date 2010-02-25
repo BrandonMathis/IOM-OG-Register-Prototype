@@ -113,6 +113,19 @@ class AssetTest < ActiveSupport::TestCase
     end
   end
 
+  context "importing xml" do
+    setup do
+      @serial_number = "12341234123412341"
+      @asset = Factory.create(:asset, :serial_number => @serial_number)
+      @asset.guid = UUID.generate
+      @xml = @asset.to_xml
+      @parsed_asset = Asset.from_xml(@xml)
+    end
+    should "parse the serial number too" do
+      assert_equal @serial_number, @parsed_asset.serial_number
+    end
+  end
+
   context "generating xml" do
     setup do
       @asset = Factory.create(:asset)

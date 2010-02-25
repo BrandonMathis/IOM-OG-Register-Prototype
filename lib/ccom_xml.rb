@@ -16,7 +16,7 @@ module CcomXml
 
     def parse_xml(entity_node)
       attributes = { }
-      self.attributes.each do |attr|
+      self.field_names.each do |attr|
         if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first
           attributes[attr] =  node.content
         end
@@ -73,7 +73,7 @@ module CcomXml
     end
 
     def build_xml(builder)
-      self.class.attributes.each do |attr|
+      self.field_names.each do |attr|
         value = self.send(attr)
         builder.tag!(self.class.attr_to_camel(attr), value) unless value.blank?
       end
