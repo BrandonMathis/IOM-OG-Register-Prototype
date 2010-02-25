@@ -15,7 +15,7 @@ class AssetsControllerTest < ActionController::IntegrationTest
       @seg2 = Factory.create(:segment, :meas_locations => [@meas_loc2])
       target = Factory.create(:network_connection, :source => @seg2)
       ep = Factory.create(:network_connection, :source => @segment, :targets => [target])
-      @asset = Factory.create(:asset, :entry_points => [ep])
+      @asset = Factory.create(:asset, :entry_points => [ep], :serial_number => "1234123412341324")
 
     end
 
@@ -38,6 +38,10 @@ class AssetsControllerTest < ActionController::IntegrationTest
 
 
       should_respond_with :success
+
+      should "show my serial number" do
+        assert_contain @asset.serial_number
+      end
 
       should "have the segment's user tag" do
         assert_select "h1", @segment.user_tag

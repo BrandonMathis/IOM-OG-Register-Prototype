@@ -11,7 +11,15 @@ class CcomEntity
   field :status_code, :type => Integer
 
   def self.attributes
-    [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
+    @field_attributes ||= [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
+  end
+
+  def self.field_names
+    @field_names ||= fields.keys.reject {|f| f =~ /_id$/ }
+  end
+
+  def field_names
+    self.class.field_names
   end
   
   before_save :generate_guid
