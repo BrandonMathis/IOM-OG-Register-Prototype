@@ -105,6 +105,8 @@ a:hover {
 	margin: 0px auto;
 	width: 900px;
    	background:#fff;
+	padding-top: 70px;
+	padding-bottom: 150px;
 }
 
 #right-side {
@@ -123,6 +125,7 @@ a:hover {
    	height:60px;
    	background:#184980;
    	border-top: 5px solid #091a57;
+	margin-top: -150px;
 }
 
 #footer p {
@@ -131,14 +134,3 @@ a:hover {
    	padding:15px;
    	color: #fff;
 }
-
-.clearfix:after {content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;}
-.clearfix {display: inline-block;}
-/* Hides from IE-mac \*/
-* html .clearfix { height: 1%;}
-.clearfix {display: block;}
-/* End hide from IE-mac */
