@@ -15,14 +15,16 @@ $(function() {
 })
 
 function setupSegmentDetails() {
-    $("#tabs").tabs({selected: 2});
+    var last_tab = $("ul.tab_links li").size() - 1;
+    $("#tabs").tabs({selected: last_tab});
     $(".show_installed_asset_link").click(function() {
         var asset_title = $(this).attr("title");
         $.get($(this).attr("href"), function(data) {
             var details = $("#asset-details");
             details.html(data);
             $("#asset-dialog").attr("title", asset_title);
-            $("#asset-dialog").dialog();
+            $("#asset-dialog").dialog({ width: ($(window).width() * .6),
+            modal: true });
         });
         return false;
     });
@@ -31,3 +33,4 @@ function setupSegmentDetails() {
         success: setupSegmentDetails
     });
 }
+
