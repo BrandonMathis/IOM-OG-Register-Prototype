@@ -130,6 +130,16 @@ class AssetTest < ActiveSupport::TestCase
       @asset = Factory.create(:serialized_asset)
     end
 
+    context "finding serialized assets" do
+      setup { @assets = Asset.serialized.all }
+      should "not contain the topology" do
+        assert ! @assets.include?(@topology)
+      end
+      should "contain the serialized asset" do
+        assert @assets.include?(@asset)
+      end
+    end
+
     context "finding topologies" do
       setup do
         @topologies = Asset.topologies.all

@@ -7,6 +7,7 @@ class Asset < MonitoredObject
 
   named_scope :uninstalled, where(:segment_id => nil)
   named_scope :topologies, where("object_type.guid" => "a62a6cdb-ca56-4b2b-90aa-fafac73caa33")
+  named_scope :serialized, where.not_in("object_type.guid" => ["a62a6cdb-ca56-4b2b-90aa-fafac73caa33"])
 
   delegate :associated_network, :to => :asset_config_network
 

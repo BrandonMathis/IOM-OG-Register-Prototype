@@ -1,0 +1,5 @@
+<ul>
+<% @assets.each do |asset| -%>
+  <li><%= link_to asset.user_tag, asset_url(asset) %></li>
+<% end -%>
+</ul>

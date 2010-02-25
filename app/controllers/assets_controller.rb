@@ -2,6 +2,10 @@ class AssetsController < ApplicationController
 
   before_filter :load_asset
 
+  def index
+    @assets = Asset.serialized
+  end
+
   def show
     respond_to do |format|
       format.html {}
