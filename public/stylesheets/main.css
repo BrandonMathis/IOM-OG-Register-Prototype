@@ -145,3 +145,4 @@ th { border: 1px solid #666666;padding: 5px; }
    	color: #fff;
 }
 
+.selected-segment { background: #184980; color: white; padding: 2px; }

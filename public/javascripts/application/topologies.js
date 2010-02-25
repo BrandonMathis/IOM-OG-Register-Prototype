@@ -5,7 +5,7 @@ $(function() {
     });
     $(".show_segment_link").click(function() {
         $(".selected-segment").removeClass("selected-segment");
-        $(this).parent().addClass("selected-segment");
+        $(this).addClass("selected-segment");
         $.get($(this).attr("href"), function(data) {
             $("#segment-details").html(data);
             setupSegmentDetails();
