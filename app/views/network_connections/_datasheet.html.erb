@@ -7,8 +7,8 @@
         <% if index == 0 -%>
           <td class="user_tag" rowspan="<%= meas_loc.object_data.size %>"><%= meas_loc.user_tag %></td>
         <% end -%>
-        <td class="object_data"> <%= object_datum.value %> </td>
         <td class="attribute_type"><%= object_datum.attribute_user_tag %></td>
+        <td class="object_data"> <%= object_datum.value %> </td>
       </tr>
     <% end -%>
   <% end -%>
