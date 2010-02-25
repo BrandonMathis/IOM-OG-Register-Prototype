@@ -15,10 +15,10 @@ class SegmentsController < ApplicationController
       case params[:commit]
       when "Install"
         asset = Asset.find_by_guid(params[:segment][:install_asset_id])
-        flash[:notice] = "Installed #{asset.user_tag} on #{@segment.user_tag}"
+        #flash[:notice] = "Installed #{asset.user_tag} on #{@segment.user_tag}"
       when "Uninstall"
         asset = Asset.find_by_guid(params[:segment][:delete_asset_id])
-        flash[:notice] = "Uninstalled #{asset.user_tag} on #{@segment.user_tag}"
+        #flash[:notice] = "Uninstalled #{asset.user_tag} on #{@segment.user_tag}"
       end
     end
         @uninstalled_assets = Asset.uninstalled

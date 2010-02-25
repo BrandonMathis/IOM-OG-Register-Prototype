@@ -18,6 +18,9 @@ class CcomDataControllerTest < ActionController::IntegrationTest
         assert_template "index"
       end
       should_change("the number of entities") { CcomEntity.count }
+      should "have some flash message" do
+        assert flash[:notice]
+      end
     end
   end
 end
