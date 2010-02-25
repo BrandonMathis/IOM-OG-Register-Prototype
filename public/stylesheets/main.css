@@ -101,12 +101,11 @@ a:hover {
 
 #navigation li a:hover { background: #091a57; }
 
-#main {padding-bottom: 150px;}
-
 #content {
 	margin: 0px auto;
 	width: 900px;
    	background:#fff;
+	padding-bottom: 150px;
 }
 
 #right-side {
@@ -120,12 +119,12 @@ a:hover {
 }
 
 #footer {
-   position:relative;
-   clear: both;
-   margin-top: -150px;
-   height:60px;
-   background:#184980;
-   border-top: 5px solid #091a57;
+   	position:relative;
+   	clear: both;
+   	margin-top: -150px;
+   	height:60px;
+   	background:#184980;
+   	border-top: 5px solid #091a57;
 }
 
 #footer p {
