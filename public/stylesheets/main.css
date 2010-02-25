@@ -19,6 +19,12 @@ a {text-decoration: none; color: #3E3530;}
 a:hover {
 }
 
+table { border: 1px solid #666666; }
+
+td { border: 1px solid #666666; }
+
+th { border: 1px solid #666666; }
+
 
 /* Header */
 
