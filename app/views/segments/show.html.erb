@@ -1,21 +1,21 @@
-<div id="tabs">
+<div id="segment_tabs">
   <ul class="tab_links">
-    <li><a href="#details">Details</a></li>
-    <% if @segment.object_type %><li><a href="#object_type">Type</a></li><% end %>
-    <% if @segment.segment_config_network %><li><a href="#datasheet">Data Sheet</a></li><% end %>
-    <li><a href="#installed_assets">Installed Assets</a></li>
+    <li><a href="#segment_details">Details</a></li>
+    <% if @segment.object_type %><li><a href="#segment_object_type">Type</a></li><% end %>
+    <% if @segment.segment_config_network %><li><a href="#segment_datasheet">Data Sheet</a></li><% end %>
+    <li><a href="#segment_installed_assets">Installed Assets</a></li>
   </ul>
-  <div id="details">
+  <div id="segment_details">
     <%= render :partial => "ccom_entities/ccom_entity", :object => @segment %>
   </div>
-  <% if @segment.object_type %><div id="object_type">
+  <% if @segment.object_type %><div id="segment_object_type">
       <%= render :partial => "ccom_entities/ccom_entity", :object => @segment.object_type %>
     </div><% end %>
 
-  <div id="datasheet">
+  <div id="segment_datasheet">
     <%= render :partial => "network_connections/datasheet", :collection => @segment.entry_points, :locals => {:indent_level => 1 } %>
   </div>
-  <div id="installed_assets">
+  <div id="segment_installed_assets">
     <%= render :partial => "install_asset_form", 
         :locals => {:segment => @segment, :uninstalled_assets => @uninstalled_assets } %>
     <ul>
@@ -24,3 +24,5 @@
     </ul>
   </div>
 </div>
+
+<div id="asset-details" style="display: none;"> </div>
