@@ -32,7 +32,7 @@ function setupSegmentDetails() {
         return false;
     });
     $(".edit_segment").ajaxForm({
-        target: "#segment_details",
+        target: "#segment-details",
         success: setupSegmentDetails
     });
 }
