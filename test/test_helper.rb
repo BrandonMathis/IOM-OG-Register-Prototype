@@ -31,9 +31,7 @@ class ActiveSupport::TestCase
   end
 
   def purge_mongoid
-    Mongoid.database.collections.each do |collection|
-      collection.drop
-    end
+    Mongoid.drop_all_collections
   end
 end
 
