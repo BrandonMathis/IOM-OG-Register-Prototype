@@ -10,12 +10,13 @@ class CcomEntity
   field :utc_last_updated, :type => Time
   field :status_code, :type => Integer
 
-  def self.attributes
+  def self.attribute_names
     @field_attributes ||= [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
   end
 
   def self.field_names
-    @field_names ||= fields.keys.reject { |key| association_foreign_keys.include?(key) }.collect(&:to_sym)
+    # @field_names ||= fields.keys.reject { |key| association_foreign_keys.include?(key) }.collect(&:to_sym)
+    [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
   end
 
   def self.association_foreign_keys
@@ -26,6 +27,9 @@ class CcomEntity
     self.class.field_names
   end
   
+  def attribute_names
+    self.class.attribute_names
+  end
   
   before_save :generate_guid
 

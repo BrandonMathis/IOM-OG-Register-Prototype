@@ -1,5 +1,5 @@
 <ul class="attributes">
-  <% ccom_entity.field_names.each do |field| -%>
+  <% ccom_entity.attribute_names.each do |field| -%>
     <% unless (value = ccom_entity.send(field)).blank? %>
       <li><%= field %>: <%= value %></li>
     <% end -%>

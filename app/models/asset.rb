@@ -11,6 +11,11 @@ class Asset < MonitoredObject
 
   delegate :associated_network, :to => :asset_config_network
 
+
+  def self.attribute_names
+    @field_attributes ||= [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code, :serial_number]
+  end
+
   def entry_point=(object)
     self.entry_points.clear
     self.entry_points << object
@@ -66,6 +71,21 @@ class Asset < MonitoredObject
       self.segment_id = nil
     end
     # self.segment_without_blanking=(segment_to_assign)
+  end
+
+  def build_xml(builder)
+    super(builder)
+    builder.tag!(:serialNumber, self.serial_number) unless self.serial_number.blank?
+  end
+
+  
+  def self.parse_xml(entity_node)
+    entity = super(entity_node)
+    if node = entity_node.mimosa_xpath("./serialNumber").first
+      entity.serial_number = node.content
+    end
+    entity.save
+    entity
   end
 
 end
