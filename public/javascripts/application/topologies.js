@@ -18,7 +18,7 @@ $(function() {
 
 function setupSegmentDetails() {
     var last_tab = $("div#segment_tabs > ul.tab_links li").size() - 1;
-    $("#segment_tabs").tabs({selected: last_tab});
+    $("#segment_tabs").tabs({selected: 0});
     $(".show_installed_asset_link").click(function() {
         var asset_title = $(this).attr("title");
         $.get($(this).attr("href"), function(data) {
@@ -39,5 +39,5 @@ function setupSegmentDetails() {
 
 function setupAssetDetails() {
     var last_tab = $("div#asset_tabs > ul.tab_links li").size() - 1;
-    $("#asset_tabs").tabs({selected: last_tab});
+    $("#asset_tabs").tabs({selected: 0});
 }
