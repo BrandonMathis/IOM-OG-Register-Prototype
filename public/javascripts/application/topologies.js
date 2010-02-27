@@ -17,7 +17,6 @@ $(function() {
 })
 
 function setupSegmentDetails() {
-    var last_tab = $("div#segment_tabs > ul.tab_links li").size() - 1;
     $("#segment_tabs").tabs({selected: 0});
     $(".show_installed_asset_link").click(function() {
         var asset_title = $(this).attr("title");
@@ -33,8 +32,15 @@ function setupSegmentDetails() {
     });
     $(".edit_segment").ajaxForm({
         target: "#segment-details",
-        success: setupSegmentDetails
+        success: postEditSegment
     });
+}
+
+function getLastSegmentTab() { return $("div#segment_tabs > ul.tab_links li").size() - 1; }
+
+function postEditSegment() {
+  setupSegmentDetails();
+  $("#segment_tabs").tabs('select', getLastSegmentTab());
 }
 
 function setupAssetDetails() {
