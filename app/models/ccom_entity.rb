@@ -15,12 +15,17 @@ class CcomEntity
   end
 
   def self.field_names
-    @field_names ||= fields.keys.collect(&:to_sym)
+    @field_names ||= fields.keys.reject { |key| association_foreign_keys.include?(key) }.collect(&:to_sym)
+  end
+
+  def self.association_foreign_keys
+    associations.map { |k, assoc| assoc[:options].foreign_key}
   end
 
   def field_names
     self.class.field_names
   end
+  
   
   before_save :generate_guid
 
