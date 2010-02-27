@@ -1,7 +1,7 @@
-<ul class="attributes">
+<table>
   <% ccom_entity.attribute_names.each do |field| -%>
     <% unless (value = ccom_entity.send(field)).blank? %>
-      <li><%= field %>: <%= value %></li>
+      <tr><td><%= field %></td><td> <%= value %></td></tr>
     <% end -%>
   <% end -%>
-</ul>
+</table>
