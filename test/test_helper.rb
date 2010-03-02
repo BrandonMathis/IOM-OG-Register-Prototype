@@ -33,8 +33,20 @@ class ActiveSupport::TestCase
   def purge_mongoid
     Mongoid.drop_all_collections
   end
+
 end
 
 
 Webrat.configure {|config| config.mode = :rails; config.open_error_files = false }
 
+module ActiveSupport
+  class BacktraceCleaner
+    def remove_filters!
+      @filters = []
+    end
+  end
+end
+
+
+Rails.backtrace_cleaner.remove_silencers!
+Rails.backtrace_cleaner.remove_filters!
