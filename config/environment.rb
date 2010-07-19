@@ -42,7 +42,6 @@ Rails::Initializer.run do |config|
   config.gem "mongoid", :lib => "mongoid"
   config.gem "mongo"
   config.gem "uuid"
-  config.gem "rack", :version => "1.0.0"
   config.gem "macaddr"
   config.gem "will_paginate"
   config.gem "nokogiri", :version => ">=1.4.1"
