@@ -4,17 +4,18 @@ class AssetOnSegmentHistory < CcomEntity
   # It would be nice to fix this
   has_many_related :assets, :class_name => "Asset", :xml_element => "Asset"
   field :start          #when the asset was placed onto the segment
-  field :end            #when the asset was removed from the segment
+  field :end       #when the asset was removed from the segment
   
   def install(asset)
-    self.update_attributes(:start => Time.now)
+    self.update_attributes(:start => Time.now.to_s)
+    self.save
     assets << asset
   end
   
   def uninstall(asset)
-    asset.update_attributes(:asset_on_segment_history => nil)
-    RAILS_DEFAULT_LOGGER.debug("***asset history#{asset.asset_on_segment_history}")
-    self.update_attributes(:end => Time.now)
+    self.update_attributes(:end => Time.now.to_s)
+    self.save
+    RAILS_DEFAULT_LOGGER.debug("time #{self.end}")
   end
   
 end

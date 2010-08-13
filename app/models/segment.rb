@@ -3,7 +3,7 @@ class Segment < MonitoredObject
   has_many :meas_locations, :xml_element => "MeasurementLocation"
   has_many :asset_on_segment_historys, :class_name => "AssetOnSegmentHistory", :xml_element => "AssetOnSegmentHistory"
   has_many :installed_assets, :class_name => "Asset"
-  # [28 July 2010] Removed occurance of hast_many :installed_assets to be replaced with method bellow
+  # [28 July 2010] Removed occurance of hast_many :installed_assets to be replaced with method installed_assets
   
   def entry_edges
     segment_config_network.network.entry_edges rescue []
@@ -18,9 +18,16 @@ class Segment < MonitoredObject
   # Added to decrease appwide change. installed_assets will performe just as though the 
   # information for installed assets is being held here on the segment when it is actually
   # housed inside the AssetOnSegmentHistory
+  # NOTE:
+  #   The history's end value must not be set in order for related asset to be considered installed
   def installed_assets()
     installed = Array.new()
-    asset_on_segment_historys.each { |hist| installed << hist.assets.first if hist.end.nil? }
+    asset_on_segment_historys.each do |hist|
+      RAILS_DEFAULT_LOGGER.debug("History: #{hist.assets.first}")
+      asset = Asset.find_by_guid(hist.assets.first.g_u_i_d)
+      installed << asset if asset.asset_on_segment_history.end.nil?
+      RAILS_DEFAULT_LOGGER.debug("End Value #{asset.asset_on_segment_history.end}")
+    end
     return installed
   end
   
@@ -46,8 +53,8 @@ class Segment < MonitoredObject
     if asset = installed_assets.detect {|asset| asset.g_u_i_d == asset_id }
       hist = asset.asset_on_segment_history
       hist.uninstall(asset)
-      asset.update_attributes(:segment => nil)
-      RAILS_DEFAULT_LOGGER.debug("***segment #{asset.segment}")
+      RAILS_DEFAULT_LOGGER.debug("End after uninstall #{hist.end}")
+      asset.remove_from_segment
       assets_to_save << asset
       AssetObserver.remove(asset, self)
     end

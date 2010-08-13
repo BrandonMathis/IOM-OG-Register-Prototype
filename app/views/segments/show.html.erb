@@ -19,8 +19,6 @@
     <%= render :partial => "install_asset_form", 
         :locals => {:segment => @segment, :uninstalled_assets => @uninstalled_assets } %>
     <ul>
-	  <%RAILS_DEFAULT_LOGGER.debug("~~~The array#{@segment.installed_assets}")%>
-	  <%@segment.installed_assets.each {|asset| RAILS_DEFAULT_LOGGER.debug("~~~single asset #{asset}")}%>
       <%= render :partial => "installed_asset", :collection => @segment.installed_assets, :locals => {:segment => @segment } %>
     </ul>
   </div>

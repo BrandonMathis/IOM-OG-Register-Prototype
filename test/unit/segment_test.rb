@@ -48,7 +48,12 @@ class SegmentTest < ActiveSupport::TestCase
     context "installing the asset via the segment's setter" do
       setup do
         @segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
-        
+      end
+      
+      should "generate an asset install history start timestamp" do
+        asset = Asset.find_by_guid(@asset.g_u_i_d)
+        hist = asset.asset_on_segment_history
+        assert Time.parse(hist.start) < Time.now
       end
 
       before_should "fire off the install event" do
@@ -67,11 +72,16 @@ class SegmentTest < ActiveSupport::TestCase
         setup do
           @segment.update_attributes(:delete_asset_id => @asset.g_u_i_d)
           @segment = Segment.find_by_guid(@segment.g_u_i_d)
-          RAILS_DEFAULT_LOGGER.debug("~~~segment #{Asset.find_by_guid(@asset.g_u_i_d).segment}")
         end
 
         before_should "fire off the uninstall event" do
           flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).once
+        end
+        
+        should "set an end time for the asset on segment history" do
+          asset = Asset.find_by_guid(@asset.g_u_i_d)
+          hist = asset.asset_on_segment_history
+          assert_not_nil hist.end
         end
         
         should "not include the asset in the segment's list of installed assets" do
@@ -79,7 +89,7 @@ class SegmentTest < ActiveSupport::TestCase
         end
 
         should "have nil as the asset's (installed on) segment" do
-          #@asset.update_attributes(:segment => @segment)
+          asset = Asset.find_by_guid(@asset.g_u_i_d)
           assert_nil Asset.find_by_guid(@asset.g_u_i_d).segment
         end
       end
@@ -98,11 +108,6 @@ class SegmentTest < ActiveSupport::TestCase
     
     should "list the asset as installed on the segment" do
       assert @segment.installed_assets.include?(@asset)
-    end
-    
-    should "generate an asset install history start timestamp" do
-      hist = @asset.asset_on_segment_history
-      assert Time.parse(hist.start) < Time.now
     end
 
     should "have the history as the asset's on segment history" do
