@@ -92,6 +92,14 @@ class SegmentTest < ActiveSupport::TestCase
           asset = Asset.find_by_guid(@asset.g_u_i_d)
           assert_nil Asset.find_by_guid(@asset.g_u_i_d).segment
         end
+        context "Then reinstalling the asset" do
+          setup do
+            @segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
+          end
+          should "include the reinstalled asset in the list of installed assets" do
+            assert @segment.installed_assets.include?(@asset)
+          end
+        end          
       end
 
     end
@@ -133,4 +141,14 @@ class SegmentTest < ActiveSupport::TestCase
       assert_equal @segment.meas_locations.size, @doc.xpath("//Segment/MeasurementLocation").size
     end
   end
+  
+  context "duplicating an asset" do
+    setup do
+      @asset = Factory.create(:asset)
+      @asset2 = Asset.duplicate(@asset)
+    end
+    should "have the same guid" do
+      asset_equal @asset.g_u_i_d, @asset2.g_u_i_d
+    end
+  end  
 end

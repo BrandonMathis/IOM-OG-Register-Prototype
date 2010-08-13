@@ -89,7 +89,7 @@ class Asset < MonitoredObject
 
   def asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
     if asset_on_segment_history_to_assign.nil?
-      self.asset_on_segment_history_id = nil
+      #self.asset_on_segment_history_id = nil
     end
     # self.asset_on_segment_history_without_blanking=(asset_on_segment_history_to_assign)
   end

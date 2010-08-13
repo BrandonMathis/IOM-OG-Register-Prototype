@@ -15,7 +15,6 @@ class AssetOnSegmentHistory < CcomEntity
   def uninstall(asset)
     self.update_attributes(:end => Time.now.to_s)
     self.save
-    RAILS_DEFAULT_LOGGER.debug("time #{self.end}")
   end
   
 end

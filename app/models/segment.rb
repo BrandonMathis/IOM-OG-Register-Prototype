@@ -23,11 +23,13 @@ class Segment < MonitoredObject
   def installed_assets()
     installed = Array.new()
     asset_on_segment_historys.each do |hist|
-      RAILS_DEFAULT_LOGGER.debug("History: #{hist.assets.first}")
-      asset = Asset.find_by_guid(hist.assets.first.g_u_i_d)
-      installed << asset if asset.asset_on_segment_history.end.nil?
-      RAILS_DEFAULT_LOGGER.debug("End Value #{asset.asset_on_segment_history.end}")
+      RAILS_DEFAULT_LOGGER.debug("Hist Asset #{hist.assets.first}")
+      if !hist.assets.first.nil?
+        asset = Asset.find_by_guid(hist.assets.first.g_u_i_d)
+        installed << asset if asset.asset_on_segment_history.end.nil?
+      end
     end
+    RAILS_DEFAULT_LOGGER.debug("Done")
     return installed
   end
   
@@ -53,7 +55,6 @@ class Segment < MonitoredObject
     if asset = installed_assets.detect {|asset| asset.g_u_i_d == asset_id }
       hist = asset.asset_on_segment_history
       hist.uninstall(asset)
-      RAILS_DEFAULT_LOGGER.debug("End after uninstall #{hist.end}")
       asset.remove_from_segment
       assets_to_save << asset
       AssetObserver.remove(asset, self)
