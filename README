@@ -1,1 +1,23 @@
+Brandon Mathis
+Keyset Technical Solutions (for Assetricity)
+13 July 2010
+
 This is an open source reference implementation of the MIMOSA Active Registry
+
+Code Details
+==================================================================================
+The following contains a rewrite of the mimosa active registry in order
+    to support the inporting of 3.3 format CCOM XML. Most of these changes
+    consist of adding an "xml_element => "New Name" to declared mongo 'documents.'
+    Many of these changes may not be best practice but this is my first
+    attempt at tackling ruby.
+    
+    The following things are important to note
+        -This active registry supports installing assets onto a segment but will
+         not uninstall those assets properly.
+        -A HTTP postback command has been commented out because it causes an error
+         in my environment (Tested fix inc)
+        -Test do not pass in this commit. This is beta at best.
+    
+     Please enter the commit message for your changes. Lines starting
+
