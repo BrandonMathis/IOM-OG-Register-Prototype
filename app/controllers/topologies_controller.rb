@@ -5,6 +5,6 @@ class TopologiesController < ApplicationController
   end
 
   def show
-    @topology = Asset.first(:conditions => { :guid => params[:id]})
+    @topology = Asset.first(:conditions => { :g_u_i_d => params[:id]})
   end
 end

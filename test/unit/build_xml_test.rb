@@ -10,11 +10,11 @@ class BuildXmlTest < ActiveSupport::TestCase
     end
     
     should "not have an empty segment config network element" do
-      assert @doc.mimosa_xpath("//hasSegmentConfigNetwork").empty?
+      assert @doc.mimosa_xpath("//ValidNetwork").empty?
     end
 
     should "have proper number of meas location elements" do
-      assert_equal @segment.meas_locations.size, @doc.mimosa_xpath("//Segment/hasMeasLocation").size
+      assert_equal @segment.meas_locations.size, @doc.mimosa_xpath("//Segment/MeasurementLocation").size
     end
   end
 
@@ -26,7 +26,7 @@ class BuildXmlTest < ActiveSupport::TestCase
     end
 
     should "have an element for the scn association" do
-      assert ! @doc.mimosa_xpath("//hasSegmentConfigNetwork").empty?
+      assert ! @doc.mimosa_xpath("//ValidNetwork").empty?
     end
     
  end
@@ -42,7 +42,7 @@ class BuildXmlTest < ActiveSupport::TestCase
       @segment = Factory.create(:segment)
       @asset.segment = @segment
       @asset.save
-      @segment = Segment.find_by_guid(@segment.guid)
+      @segment = Segment.find_by_guid(@segment.g_u_i_d)
       @doc = Nokogiri::XML.parse(@asset.to_xml)
     end
 

@@ -1,76 +1,76 @@
 class Asset < MonitoredObject
-  has_one :manufacturer
-  has_one :model
-  belongs_to_related :segment
-  has_one :asset_config_network
+  has_one :manufacturer, :xml_element => "Manufacturer"
+  has_one :model, :xml_element => "Model"
+  belongs_to_related :segment, :through => :asset_on_segment_history
+  belongs_to_related :asset_on_segment_history
+  has_one :valid_network, :xml_element => "ValidNetwork"
   field :serial_number
 
-  named_scope :uninstalled, where(:segment_id => nil)
-  named_scope :topologies, where("object_type.guid" => "a62a6cdb-ca56-4b2b-90aa-fafac73caa33")
-  named_scope :serialized, where.not_in("object_type.guid" => ["a62a6cdb-ca56-4b2b-90aa-fafac73caa33"])
+  named_scope :uninstalled, where(:asset_on_segment_history_id => nil)
+  named_scope :topologies, where("type.g_u_i_d" => "a62a6cdb-ca56-4b2b-90aa-fafac73caa33")
+  named_scope :serialized, where.not_in("type.g_u_i_d" => ["a62a6cdb-ca56-4b2b-90aa-fafac73caa33"])
 
-  delegate :associated_network, :to => :asset_config_network
-
+  delegate :network, :to => :valid_network
 
   def self.attribute_names
-    @field_attributes ||= [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code, :serial_number]
+    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :status, :serial_number]
   end
 
-  def entry_point=(object)
-    self.entry_points.clear
-    self.entry_points << object
+  def entry_edge=(object)
+    self.entry_edges.clear
+    self.entry_edges << object
   end
 
-  def entry_point
-    self.entry_points.first
+  def entry_edge
+    self.entry_edges.first
   end
 
-  def entry_points=(array)
-    ensure_associated_network
-    self.associated_network.entry_points = array
+  def entry_edges=(array)
+    ensure_network
+    self.network.entry_edges = array
   end
 
-  def entry_points
-    ensure_associated_network
-    self.associated_network.entry_points
+  def entry_edges
+    ensure_network
+    self.network.entry_edges
   end
 
-  def ensure_asset_config_network
-    if asset_config_network.nil?
-      self.build_asset_config_network(:user_tag => "#{self.user_tag} Asset Config Network")
+  def ensure_valid_network
+    if valid_network.nil?
+      self.build_valid_network(:tag => "#{self.tag} Asset Config Network")
     end    
   end
 
-  def ensure_associated_network
-    ensure_asset_config_network
-    if associated_network.nil?
-      asset_config_network.build_associated_network(:user_tag => "#{self.user_tag} View")
+  def ensure_network
+    ensure_valid_network
+    if network.nil?
+      valid_network.build_network(:tag => "#{self.tag} View")
     end
   end
-
-  def segment_with_mystuff=(segment_to_assign)
-    self.segment_with_observer=(segment_to_assign)
-    self.segment_with_blanking=(segment_to_assign)
-    self.segment_without_mystuff=(segment_to_assign)
+  
+  def asset_on_segment_history_with_mystuff=(asset_on_segment_history_to_assign)
+    self.asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
+    self.asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
+    self.asset_on_segment_history_without_mystuff=(asset_on_segment_history_to_assign)
   end
 
-  alias_method_chain :segment=, :mystuff
+  alias_method_chain :asset_on_segment_history=, :mystuff
 
-  def segment_with_observer=(segment_to_assign)
-    if self.segment
-      AssetObserver.remove(self, self.segment)
+  def asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
+    if self.asset_on_segment_history
+      AssetObserver.remove(self, self.asset_on_segment_history)
     end
-    unless segment_to_assign.nil?
-      AssetObserver.install(self, segment_to_assign) unless segment_to_assign.nil?
+    unless asset_on_segment_history_to_assign.nil?
+      AssetObserver.install(self, asset_on_segment_history_to_assign) unless asset_on_segment_history_to_assign.nil?
     end
-    # self.segment_without_observer=(segment_to_assign)
+    # self.asset_on_segment_history_without_observer=(asset_on_segment_history_to_assign)
   end
 
-  def segment_with_blanking=(segment_to_assign)
-    if segment_to_assign.nil?
-      self.segment_id = nil
+  def asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
+    if asset_on_segment_history_to_assign.nil?
+      self.asset_on_segment_history_id = nil
     end
-    # self.segment_without_blanking=(segment_to_assign)
+    # self.asset_on_segment_history_without_blanking=(asset_on_segment_history_to_assign)
   end
 
   def build_xml(builder)

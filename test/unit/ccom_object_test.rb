@@ -7,21 +7,21 @@ class CcomObjectTest < ActiveSupport::TestCase
 
   context "importing xml for a new entity" do
     setup do
-      @object_type = Factory.create(:object_type)
-      @ccom_object = Factory.create(:ccom_object, :user_tag => "foobar", 
-                                    :object_type => @object_type)
-      @ccom_object.guid = UUID.generate
+      @object_type = Factory.create(:type)
+      @ccom_object = Factory.create(:ccom_object, :tag => "foobar", 
+                                    :type => @object_type)
+      @ccom_object.g_u_i_d = UUID.generate
       @parsed_object = CcomObject.from_xml(@ccom_object.to_xml)
     end
 
     should "have the right details" do
-      [:guid, :user_tag].each do |attr|
+      [:g_u_i_d, :tag].each do |attr|
         assert_equal @ccom_object.send(attr), @parsed_object.send(attr)
       end
     end
 
     should "have the right object type" do
-      assert_equal @object_type, @parsed_object.object_type, @ccom_object.to_xml
+      assert_equal @object_type, @parsed_object.type, @ccom_object.to_xml
     end
   end
 

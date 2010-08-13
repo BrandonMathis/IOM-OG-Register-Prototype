@@ -1,0 +1,12 @@
+<h1>Editing asset_on_segment_history</h1>
+
+<% form_for(@asset_on_segment_history) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @asset_on_segment_history %> |
+<%= link_to 'Back', asset_on_segment_histories_path %>

@@ -1,6 +1,23 @@
 require 'test_helper'
 
 class SegmentTest < ActiveSupport::TestCase
+  context "method installed_assets" do
+    setup do
+      @asset = Factory.create(:asset)
+      @seg = Factory.create(:segment)
+    end
+    should "contain occurance of asset that has been installed on the segment" do
+      @seg.install_asset_id=(@asset.g_u_i_d)
+      assert @seg.installed_assets.include?(@asset)
+    end
+    should "give an array of installed assets" do
+      asset2 = Factory.create(:asset)
+      @seg.install_asset_id=(asset2.g_u_i_d)
+      @seg.install_asset_id=(@asset.g_u_i_d)
+      assert @seg.installed_assets.include?(@asset)
+      assert @seg.installed_assets.include?(asset2)
+    end
+  end
 
   should "be valid from factory" do
     assert_valid Factory.create(:segment)
@@ -30,7 +47,8 @@ class SegmentTest < ActiveSupport::TestCase
 
     context "installing the asset via the segment's setter" do
       setup do
-        @segment.update_attributes(:install_asset_id => @asset.guid)
+        @segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
+        
       end
 
       before_should "fire off the install event" do
@@ -42,13 +60,14 @@ class SegmentTest < ActiveSupport::TestCase
       end
 
       should "have the segment as the asset's (installed on) segment" do
-        assert_equal @segment, Asset.find_by_guid(@asset.guid).segment
+        assert_equal @segment, Asset.find_by_guid(@asset.g_u_i_d).segment
       end
 
       context "and uninstalling assets" do
         setup do
-          @segment.update_attributes(:delete_asset_id => @asset.guid)
-          @segment = Segment.find_by_guid(@segment.guid)
+          @segment.update_attributes(:delete_asset_id => @asset.g_u_i_d)
+          @segment = Segment.find_by_guid(@segment.g_u_i_d)
+          RAILS_DEFAULT_LOGGER.debug("~~~segment #{Asset.find_by_guid(@asset.g_u_i_d).segment}")
         end
 
         before_should "fire off the uninstall event" do
@@ -60,7 +79,8 @@ class SegmentTest < ActiveSupport::TestCase
         end
 
         should "have nil as the asset's (installed on) segment" do
-          assert_nil Asset.find_by_guid(@asset.guid).segment
+          #@asset.update_attributes(:segment => @segment)
+          assert_nil Asset.find_by_guid(@asset.g_u_i_d).segment
         end
       end
 
@@ -71,15 +91,22 @@ class SegmentTest < ActiveSupport::TestCase
     setup do
       @asset = Factory.create(:asset)
       @segment = Factory.create(:segment)
-      @segment.installed_assets << @asset
-    end
-
+      @hist = AssetOnSegmentHistory.create()
+      @hist.install(@asset)
+      @segment.asset_on_segment_historys << @hist
+    end 
+    
     should "list the asset as installed on the segment" do
       assert @segment.installed_assets.include?(@asset)
     end
+    
+    should "generate an asset install history start timestamp" do
+      hist = @asset.asset_on_segment_history
+      assert Time.parse(hist.start) < Time.now
+    end
 
-    should "have the segment as the assets isntalled on location" do
-      assert_equal @segment, @asset.segment
+    should "have the history as the asset's on segment history" do
+      assert_equal @hist, @asset.asset_on_segment_history
     end
   end
 
@@ -98,7 +125,7 @@ class SegmentTest < ActiveSupport::TestCase
     end
     
     should "have proper number of meas location elements" do
-      assert_equal @segment.meas_locations.size, @doc.xpath("//Segment/hasMeasLocation").size
+      assert_equal @segment.meas_locations.size, @doc.xpath("//Segment/MeasurementLocation").size
     end
   end
 end

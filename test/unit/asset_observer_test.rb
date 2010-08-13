@@ -24,7 +24,7 @@ class AssetObserverTest < ActiveSupport::TestCase
           assert_not_nil @event
         end
         should "have created an install event" do
-          assert_equal "Install Event", @event.object_type.user_name
+          assert_equal "Install Event", @event.type.name
         end
       end
     end
@@ -45,7 +45,7 @@ class AssetObserverTest < ActiveSupport::TestCase
           assert @event
         end
         should "have created an remove event" do
-          assert_equal "Remove Event", @event.object_type.user_name
+          assert_equal "Remove Event", @event.type.name
         end
       end
     end

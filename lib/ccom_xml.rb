@@ -21,7 +21,7 @@ module CcomXml
           attributes[attr] =  node.content
         end
       end
-      if entity = find_by_guid(attributes[:guid])
+      if entity = find_by_guid(attributes[:g_u_i_d])
         entity.update_attributes(attributes)
       else
         entity = create(attributes)
@@ -32,6 +32,7 @@ module CcomXml
     end
 
     def parse_associations(entity, entity_node)
+      #RAILS_DEFAULT_LOGGER.debug("***entity_node\n#{entity_node}")
       associations.each do |k, assoc|
         xpath = "./#{assoc[:options].xml_element}"
         entity_node.mimosa_xpath(xpath).each do |assoc_entity|
@@ -55,7 +56,7 @@ module CcomXml
     end
 
     def attr_to_camel(attr)
-      attr.to_s.camelize(:lower)
+      attr.to_s.camelize()
     end
     
   end

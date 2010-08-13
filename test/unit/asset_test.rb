@@ -25,9 +25,9 @@ class AssetTest < ActiveSupport::TestCase
   end
 
   should "support an asset config network" do
-    asset_config_network = Factory.create(:asset_config_network)
-    assert_valid asset = Factory.create(:asset, :asset_config_network => asset_config_network)
-    assert_equal asset_config_network, asset.asset_config_network
+    valid_network = Factory.create(:valid_network)
+    assert_valid asset = Factory.create(:asset, :valid_network => valid_network)
+    assert_equal valid_network, asset.valid_network
   end
 
   
@@ -102,14 +102,14 @@ class AssetTest < ActiveSupport::TestCase
 
   context "assigning to entry points" do
     setup do
-      @entry_point = Factory.create(:network_connection)
-      @asset = Factory.create(:asset, :entry_points => @entry_point)
+      @entry_edge = Factory.create(:network_connection)
+      @asset = Factory.create(:asset, :entry_edges => @entry_edge)
     end
     should "be assigned" do
-      assert_equal [@entry_point], @asset.entry_points
+      assert_equal [@entry_edge], @asset.entry_edges
     end
     should "still be assinged when I reload it" do
-      assert_equal [@entry_point], Asset.find_by_guid(@asset.guid).entry_points
+      assert_equal [@entry_edge], Asset.find_by_guid(@asset.g_u_i_d).entry_edges
     end
   end
 
@@ -117,7 +117,7 @@ class AssetTest < ActiveSupport::TestCase
     setup do
       @serial_number = "12341234123412341"
       @asset = Factory.create(:asset, :serial_number => @serial_number)
-      @asset.guid = UUID.generate
+      @asset.g_u_i_d = UUID.generate
       @xml = @asset.to_xml
       @parsed_asset = Asset.from_xml(@xml)
     end

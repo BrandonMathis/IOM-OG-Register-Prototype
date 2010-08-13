@@ -1,6 +1,11 @@
 --- !ruby/object:Gem::Specification 
 name: uuid
 version: !ruby/object:Gem::Version 
+  hash: 9
+  segments: 
+  - 2
+  - 1
+  - 1
   version: 2.1.1
 platform: ruby
 authors: 
@@ -15,14 +20,19 @@ default_executable:
 dependencies: 
 - !ruby/object:Gem::Dependency 
   name: macaddr
-  type: :runtime
-  version_requirement: 
-  version_requirements: !ruby/object:Gem::Requirement 
+  requirement: &id001 !ruby/object:Gem::Requirement 
     requirements: 
     - - ~>
       - !ruby/object:Gem::Version 
+        hash: 15
+        segments: 
+        - 1
+        - 0
         version: "1.0"
     version: 
+  type: :runtime
+  version_requirement: 
+  version_requirements: *id001
 description: |
   UUID generator for producing universally unique identifiers based on RFC 4122
   (http://www.ietf.org/rfc/rfc4122.txt).
@@ -60,18 +70,24 @@ required_ruby_version: !ruby/object:Gem::Requirement
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
       version: "0"
   version: 
 required_rubygems_version: !ruby/object:Gem::Requirement 
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
       version: "0"
   version: 
 requirements: []
 
 rubyforge_project: 
-rubygems_version: 1.3.5
+rubygems_version: 1.3.7
 signing_key: 
 specification_version: 3
 summary: UUID generator

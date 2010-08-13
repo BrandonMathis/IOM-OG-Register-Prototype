@@ -1,26 +1,27 @@
 <div id="segment_tabs">
   <ul class="tab_links">
     <li><a href="#segment_details">Details</a></li>
-    <% if @segment.object_type %><li><a href="#segment_object_type">Type</a></li><% end %>
+    <% if @segment.type %><li><a href="#segment_object_type">Type</a></li><% end %>
     <% if @segment.segment_config_network %><li><a href="#segment_datasheet">Data Sheet</a></li><% end %>
     <li><a href="#segment_installed_assets">Installed Assets</a></li>
   </ul>
   <div id="segment_details">
     <%= render :partial => "ccom_entities/ccom_entity", :object => @segment %>
   </div>
-  <% if @segment.object_type %><div id="segment_object_type">
-      <%= render :partial => "ccom_entities/ccom_entity", :object => @segment.object_type %>
+  <% if @segment.type %><div id="segment_object_type">
+      <%= render :partial => "ccom_entities/ccom_entity", :object => @segment.type %>
     </div><% end %>
 
   <div id="segment_datasheet">
-    <%= render :partial => "network_connections/datasheet", :collection => @segment.entry_points, :locals => {:indent_level => 1 } %>
+    <%= render :partial => "network_connections/datasheet", :collection => @segment.entry_edges, :locals => {:indent_level => 1 } %>
   </div>
   <div id="segment_installed_assets">
     <%= render :partial => "install_asset_form", 
         :locals => {:segment => @segment, :uninstalled_assets => @uninstalled_assets } %>
     <ul>
-      <%= render :partial => "installed_asset", 
-          :collection => @segment.installed_assets, :locals => {:segment => @segment } %>
+	  <%RAILS_DEFAULT_LOGGER.debug("~~~The array#{@segment.installed_assets}")%>
+	  <%@segment.installed_assets.each {|asset| RAILS_DEFAULT_LOGGER.debug("~~~single asset #{asset}")}%>
+      <%= render :partial => "installed_asset", :collection => @segment.installed_assets, :locals => {:segment => @segment } %>
     </ul>
   </div>
 </div>

@@ -26,7 +26,7 @@ class CcomDataTest < ActiveSupport::TestCase
         assert_kind_of Segment, @site.equivalent_segment
       end
       should "have an object type" do
-        assert_kind_of ObjectType, @site.object_type
+        assert_kind_of Type, @site.type
       end
       context "equivalent segment" do
         setup do
@@ -41,24 +41,24 @@ class CcomDataTest < ActiveSupport::TestCase
             @asset = @segment.installed_assets.first
           end
           should "have an acn" do
-            assert_kind_of AssetConfigNetwork, @asset.asset_config_network
+            assert_kind_of AssetConfigNetwork, @asset.valid_network
           end
           should "have an associated network" do
-            assert_kind_of Network, @asset.associated_network
-            assert_equal "7f38782d-e026-4259-b8f9-5425920e457b", @asset.associated_network.guid
+            assert_kind_of Network, @asset.network
+            assert_equal "7f38782d-e026-4259-b8f9-5425920e457b", @asset.network.g_u_i_d
           end
           should "have an entry point" do
-            assert_kind_of NetworkConnection, @asset.entry_points.first
+            assert_kind_of NetworkConnection, @asset.entry_edges.first
           end
           context "entry point" do
             setup do
-              @entry_point = @asset.entry_points.first
+              @entry_edge = @asset.entry_edges.first
             end
             should "have a source segment" do
-              assert_kind_of Segment, @entry_point.source
+              assert_kind_of Segment, @entry_edge.source
             end
             should "have a target" do
-              assert_kind_of NetworkConnection, @entry_point.targets.first
+              assert_kind_of NetworkConnection, @entry_edge.targets.first
             end
           end
         end
@@ -76,7 +76,7 @@ class CcomDataTest < ActiveSupport::TestCase
 
       context "associated network" do
         setup do
-          @network = @segment.segment_config_network.associated_network
+          @network = @segment.segment_config_network.network
         end
         should "be a network" do
           assert_kind_of Network, @network

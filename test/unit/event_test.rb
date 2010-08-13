@@ -6,9 +6,9 @@ class EventTest < ActiveSupport::TestCase
   end
 
   should "support assigning an object type" do
-    object_type = Factory.create(:object_type, :user_name => "Install Event")
-    assert_valid event = Factory.create(:event, :object_type => object_type)
-    assert_equal object_type, event.object_type
+    type = Factory.create(:type, :name => "Install Event")
+    assert_valid event = Factory.create(:event, :type => type)
+    assert_equal type, event.type
   end
 
   should "support the ccom object with events it is for" do
@@ -20,32 +20,32 @@ class EventTest < ActiveSupport::TestCase
   context "with an asset and a segment" do
     setup do
       assert @asset = Factory.create(:asset)
-      assert @segment = Factory.create(:segment, :user_tag => "segment")
+      assert @segment = Factory.create(:segment, :tag => "segment")
     end
 
     context "for an install event" do
       setup do
-        assert @event = Event.create(:monitored_object => @asset, :for => @segment, :object_type => ObjectType.install_event)
+        assert @event = Event.create(:monitored_object => @asset, :for => @segment, :type => Type.install_event)
       end
 
       should "have the asset's user tag in the event's user tag" do
-        assert_match @asset.user_tag, @event.user_tag
+        assert_match @asset.tag, @event.tag
       end
 
       should "have the segment's user tag in the event's user tag" do
-        assert_match @segment.user_tag, @event.user_tag
+        assert_match @segment.tag, @event.tag
       end
 
       should "have the object type in the event's tag" do
-        assert_match @event.object_type.user_tag, @event.user_tag
+        assert_match @event.type.tag, @event.tag
       end
     end
   end
 
   should "not blow up" do
-    s = Segment.new(:guid => "515b3eae-93bf-44da-a239-2436ece17deb")
-    a = Asset.new(:guid => "df3cb180-e410-11de-8a39-0800200c9a66", :segment => s)
-    assert_kind_of Event, Event.create(:monitored_object => a, :for => s, :object_type => ObjectType.remove_event)
+    s = Segment.new(:g_u_i_d => "515b3eae-93bf-44da-a239-2436ece17deb")
+    a = Asset.new(:g_u_i_d => "df3cb180-e410-11de-8a39-0800200c9a66", :segment => s)
+    assert_kind_of Event, Event.create(:monitored_object => a, :for => s, :type => Type.remove_event)
   end
 
   should "support a monitored object" do
@@ -58,8 +58,8 @@ class EventTest < ActiveSupport::TestCase
     setup do
       @asset = Factory.create(:asset)
       @segment = Factory.create(:segment)
-      @object_type = Factory.create(:object_type, :user_name => "Install Event")
-      @event = Factory.create(:event, :object_type => @object_type, :for => @segment, :monitored_object => @asset)
+      @type = Factory.create(:type, :name => "Install Event")
+      @event = Factory.create(:event, :type => @type, :for => @segment, :monitored_object => @asset)
       @xml = @event.to_xml
       @doc = Nokogiri::XML.parse(@xml)
     end
@@ -69,7 +69,7 @@ class EventTest < ActiveSupport::TestCase
     end
 
     should "specify the object type" do
-      assert_has_xpath("//Event/ofObjectType", @doc)
+      assert_has_xpath("//Event/Type", @doc)
     end
 
     context "the for ccom object with events" do
@@ -83,7 +83,7 @@ class EventTest < ActiveSupport::TestCase
       end
 
       should "have the guid for the installed on segment" do
-        assert_equal @segment.guid, @element.mimosa_xpath("//forCCOMObjectWithEvents/guid").first.content
+        assert_equal @segment.g_u_i_d, @element.mimosa_xpath("//forCCOMObjectWithEvents/GUID").first.content
       end
 
       should "have the proper namespace and type" do
@@ -103,7 +103,7 @@ class EventTest < ActiveSupport::TestCase
       end
 
       should "have the guid for the asset" do
-        assert_equal @asset.guid, @element.mimosa_xpath("//hasMonitoredObject/guid").first.content, @element.to_s
+        assert_equal @asset.g_u_i_d, @element.mimosa_xpath("//hasMonitoredObject/GUID").first.content, @element.to_s
       end
 
       should "have the proper namespace and type" do

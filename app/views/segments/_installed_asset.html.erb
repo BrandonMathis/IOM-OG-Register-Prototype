@@ -1,7 +1,9 @@
 <li>
-  <%= link_to installed_asset.user_tag, asset_url(installed_asset), :class => "show_installed_asset_link", :title => installed_asset.user_tag %>
-  <% form_for @segment, :html => { :id => "uninstall-#{installed_asset.guid}-form" } do |f| -%>
-  <%= f.hidden_field :delete_asset_id, :value => installed_asset.guid, :id => "segment_delete_asset_id_#{installed_asset._id}" %>
-  <%= submit_tag "Uninstall", :id => "uninstall-#{installed_asset.guid}" %>
-<% end -%>
+	<%# installed_asset%>
+	<%RAILS_DEFAULT_LOGGER.debug("~~~#{installed_asset}")%>
+  	<%= link_to installed_asset.tag, asset_url(installed_asset), :class => "show_installed_asset_link", :title => installed_asset.tag %>
+  	<% form_for @segment, :html => { :id => "uninstall-#{installed_asset.g_u_i_d}-form" } do |f| -%>
+  		<%= f.hidden_field :delete_asset_id, :value => installed_asset.g_u_i_d, :id => "segment_delete_asset_id_#{installed_asset._id}" %>
+  		<%= submit_tag "Uninstall", :id => "uninstall-#{installed_asset.g_u_i_d}" %>
+	<% end -%>
 </li>

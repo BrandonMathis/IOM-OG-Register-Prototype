@@ -3,210 +3,181 @@
 <CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-3/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <Enterprise>
-    <guid>251ff520-e40e-11de-8a39-0800200c9a34</guid>
-    <idInSource>1029</idInSource>
-    <sourceId>www.mimosa.org/CRIS/V3-3/enterprise</sourceId>
-    <userTag>Forever Infrastructure Inc.</userTag>
-    <userName languageID="en-us">Forever Infrastructure Inc.</userName>
-    <utcLastUpdated>2009-07-03T13:30:00</utcLastUpdated>
-    <statusCode>1</statusCode>
-    <ofObjectType>
-      <guid>cb13534e-5f23-4c5d-aa75-61e45ba63b80</guid>
-      <idInSource>0000000000000000.2.3</idInSource>
-      <sourceId>www.mimosa.org/CRIS/V3-3/enterprise_type</sourceId>
-      <crisEntityTypeId>1</crisEntityTypeId>
-      <userTag>For-profit Corporation</userTag>
-      <userName>For-profit Corporation</userName>
-    </ofObjectType>
+  	<GUID>251ff520-e40e-11de-8a39-0800200c9a34</GUID>
+    <IDInInfoSource>1029</IDInInfoSource>
+    <Tag>Forever Infrastructure Inc.</Tag>
+    <Name>Forever Infrastructure Inc.</Name>
+    <LastEdited>2009-07-03T13:30:00</LastEdited>
+    <Status>1</Status>
+    <Type>
+      <GUID>>0ff8ff94-677d-4734-83ad-57bc8fd475a3</GUID>
+      <IDInInfoSource>0000000000000000.2.3</IDInInfoSource>
+      <Tag>For-profit Corporation</Tag>
+      <Name>For-profit Corporation</Name>
+    </Type>
+    <ControlledSite>
+      <GUID>80da3500-e40f-11de-8a39-0800200c9a84</GUID>
+      <IDInInfoSource>0000040500000001</IDInInfoSource>
+      <Tag>Forever Infrastructure Engineering Office</Tag>
+      <Name>Forever Infrastructure</Name>
+      <LastEdited>2009-07-06T18:00:00</LastEdited>
+      <Status>1</Status>
+      <Type>
+        <GUID>d99b1a17-ed17-4375-9e82-ccb99481dd8a</GUID>
+        <IDInInfoSource>0000000000000000.2.2</IDInInfoSource>
+        <Tag>Office Building</Tag>
+      </Type>
 
-    <controlledSite>
-      <guid>80da3500-e40f-11de-8a39-0800200c9a84</guid>
-      <idInSource>0000040500000001</idInSource>
-      <sourceId>foreverinfrastructure.com/engineering</sourceId>
-      <userTag>Forever Infrastructure Engineering Office</userTag>
-      <userName languageID="en-us">Forever Infrastructure</userName>
-      <utcLastUpdated>2009-07-06T18:00:00</utcLastUpdated>
-      <statusCode>1</statusCode>
-      <ofObjectType>
-        <guid>2a35f5a0-8f1a-449c-a59f-738bc9a50ee9</guid>
-        <idInSource>0000000000000000.2.2</idInSource>
-        <sourceId>www.mimosa.org/CRIS/V3-3/site_type</sourceId>
-        <crisEntityTypeId>3</crisEntityTypeId>
-        <userTag>Office Building</userTag>
-      </ofObjectType>
-
-      <hasEquivalentSegment>
-        <guid>df3cb180-e410-11de-8a39-0800200c9a74</guid>
-        <idInSource>0000040500000001.1</idInSource>
-        <sourceId>foreverinfrastructure.com/engineering</sourceId>
-        <userTag>Forever Infrastructure Engineering Office</userTag>
-        <userName languageID="en-us">Forever Infrastructure Enginering Office</userName>
-        <utcLastUpdated>2010-02-06T18:00:00</utcLastUpdated>
-        <statusCode>1</statusCode>
-        <ofObjectType>
-          <guid>2a35f5a0-8f1a-449c-a59f-738bc9a50efa</guid>
-          <userTag>Office, Engineering</userTag>
-        </ofObjectType>
-        <hasInstalledAsset>
-          <guid>317d6bc3-2e6d-4d80-addb-2f3fcff9e5ff</guid>
-          <idInSource>0000040500000001.1</idInSource>
-          <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-          <userTag>Doc#42432444: Refinery A P &amp; ID Topology V1.0</userTag>
-          <userName languageID="en-us">Document No. 42432444: Refinery A Piping and Instrumentation Diagram Topology V1.0</userName>
-          <ofObjectType xsi:type="ObjectType">
-             <guid>a62a6cdb-ca56-4b2b-90aa-fafac73caa33</guid>
-             <userTag>Diagram, Topology, P &amp; ID</userTag>
-             <userName>Diagram, Topology, P &amp; ID</userName>
-          </ofObjectType>
-            <hasAssetConfigNetwork>
-              <guid>d96a52ed-29f9-419e-8dd2-6d917b47b685</guid>
-              <associatedNetwork>
-                <guid>7f38782d-e026-4259-b8f9-5425920e457b</guid>
-                <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                <userTag>Doc#42432444:View A</userTag>
-                <userName>Document No. 42432444: Refinery A Piping and Instrumentation Diagram Topology V1.0, View A</userName>
-                <ofObjectType xsi:type="ObjectType">
-                  <guid>a62a6cdb-ca56-4b2b-90aa-fafac73caa77</guid>
-                  <userTag>Diagram, Topology, P and ID, View</userTag>
-                  <userName>Diagram, Topology, P and ID, View</userName>
-                </ofObjectType>
-                <hasEntryPoint>
-                  <guid>27090f1f-1054-49ae-ab07-08c7e7e04ad8</guid>
-                  <sourceId>foreverinfrastructure.com/topology/V1.0</sourceId>
-                  <source xsi:type="Segment"> 
-                    <guid>515b3eae-93bf-44da-a239-2436ece17deb</guid>
-                    <sourceId>foreverinfrastructure.com/topology/V1.0</sourceId>
-                    <userTag>CU-1</userTag>
-                    <userName>Crude Unit #1</userName>
-                    <ofObjectType xsi:type="ObjectType">
-                      <guid>530e49d5-392e-455d-83ec-ca47983cc990</guid>
-                      <idInSource>0000000000000000.1.202</idInSource>
-                      <crisEntityTypeId>17</crisEntityTypeId>
-                      <userTag>ISA-95 Site</userTag>
-                      <userName>ISA-95 Site</userName>
-                      <utcLastUpdated>2006-05-15T18:00:00.000000000</utcLastUpdated>
-                      <statusCode>1</statusCode>
-                    </ofObjectType>
-                  </source>
-                  <target>
-                    <guid>14e6f9d7-9db0-4208-8fa0-1c247681cfa7</guid>
-                    <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                    <source xsi:type="Segment">
-                      <guid>abcf6703-4d26-4f0b-8f0e-c4d704da514b</guid>
-                      <userTag>01G-7A Kerosene Pump Package</userTag>
-                      <userName>01G-7A Kerosene Pump Package</userName>
-                      <ofObjectType xsi:type="ObjectType">
-                        <guid>a62a6cdb-ca56-4b2b-90aa-fafac73caa54</guid>
-                        <idInSource>0000000000000000.0.343</idInSource>
-                        <sourceId>www.mimosa.org/CRIS/V3-3/segment_type</sourceId>
-                        <crisEntityTypeId>17</crisEntityTypeId>
-                        <userTag>Pump System</userTag>
-                        <userName>Pump System</userName>
-                        <utcLastUpdated>1996-05-28T18:00:00.000000000</utcLastUpdated>
-                        <statusCode>1</statusCode>
-                      </ofObjectType>
-                    </source>
-                    <target>
-                      <guid>14e6f9d7-9db0-4208-8fa0-1c247681cfba</guid>
-                      <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                      <source xsi:type="Segment">
-                        <guid>abcf6703-4d26-4f0b-8f0e-c4d704da514a</guid>
-                        <userTag>01G-7A Motor</userTag>
-                        <userName>01G-7A Motor</userName>
-                        <ofObjectType xsi:type="ObjectType">
-                          <guid>8c8d274a-b2b6-414f-843f-f0f215eeb57e</guid>
-                          <idInSource>0000000000000000.0.508</idInSource>
-                          <sourceId>www.mimosa.org/CRIS/V3-3/segment_type</sourceId>
-                          <crisEntityTypeId>31</crisEntityTypeId>
-                          <userTag>Motor, AC</userTag>
-                          <userName>Motor, AC</userName>
-                          <utcLastUpdated>1999-11-14T18:00:00.000000000</utcLastUpdated>
-                          <statusCode>1</statusCode>
-                        </ofObjectType>
-                        <hasSegmentConfigNetwork>
-                            <guid>0ad76534-2325-4a58-bce6-1558a5f6a39f</guid>
-                            <associatedNetwork>
-                              <guid>e3c200b5-99a0-4387-878a-be551894596a</guid>
-                              <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                              <userTag>01G-7A Requirements Data Sheet</userTag>
-                              <userName>01G-7a Requirements Data Sheet</userName>
-                              <ofObjectType xsi:type="ObjectType">
-                                <guid>a62a6cdb-ca56-4b2b-90aa-fafac73caa7b</guid>
-                                <userTag>Data Sheet, Topology</userTag>
-                                <userName>Data Sheet, Topology</userName>
-                              </ofObjectType>
-                              <hasEntryPoint>
-                                <guid>feafdbe8-a727-4334-9fb0-3dd48a0c48b8</guid>
-                                <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                                <source xsi:type="Segment">
-                                  <guid>0c893aff-b524-41e7-b919-2ec279532f7a</guid>
-                                  <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                                  <userTag>REQ ELEC SPEC</userTag>
-                                  <userName>Requirements, Electrical Specifications</userName>
-                                  <ofObjectType xsi:type="ObjectType">
-                                    <guid>a62a6cdb-ca56-4b2b-90aa-fafac73bbb7d</guid>
-                                    <userTag>Data Sheet Group</userTag>
-                                    <userName>Data Sheet Group</userName>
-                                  </ofObjectType>
-                                  <hasMeasLocation>
-                                    <guid>7dcc3260-912f-456e-b370-749489ec43dd</guid>
-                                    <sourceId>foreverinfrastructure.com/engineering/refineryA/topology/V1</sourceId>
-                                    <userTag>VLT-RAT</userTag>
-                                    <userName>Voltage, Rated</userName>
-                                    <ofObjectType>
-                                      <guid>08e90d6e-59c9-4560-95ad-838162b8ce77</guid>
-                                      <idInSource>0000000000000000.0.11</idInSource>
-                                      <sourceId>www.mimosa.org/CRIS/V3-3/meas_loc_type</sourceId>
-                                      <crisEntityTypeId>55</crisEntityTypeId>
-                                      <userTag>Voltage</userTag>
-                                      <userName>Voltage</userName>
-                                      <utcLastUpdated>2000-03-27T12:00:00.000000000</utcLastUpdated>
-                                      <statusCode>1</statusCode>
-                                    </ofObjectType>
-                                    <hasObjectData>
-                                      <guid>c542ee51-2697-4564-b8fb-e68b891622ab</guid>
-                                      <hasData>
-                                        <TextType>2300</TextType>
-                                      </hasData>
-                                      <hasAttributeType>
-                                        <guid>c542ee51-2697-4564-b8fb-e68b89162970</guid>
-                                        <idInSource>0000000000000000.1.523</idInSource>
-                                        <sourceId>www.mimosa.org/CRIS/V3-3/as_num_dat_type</sourceId>
-                                        <crisEntityTypeId>33</crisEntityTypeId>
-                                        <userTag>Armature Voltage, Rated</userTag>
-                                        <userName>Armature Voltage, Rated</userName>
-                                      </hasAttributeType>
-                                      <hasEngUnitType>
-                                        <guid>67284a42-b3a6-40e5-b06b-5d662d4a909e</guid>
-                                        <idInSource>0000000000000000.0.243</idInSource>
-                                        <sourceId>www.mimosa.org/CRIS/V3-3/eng_unit_type</sourceId>
-                                        <crisEntityTypeId>23</crisEntityTypeId>
-                                        <userTag>Volts</userTag>
-                                        <userName>Volts</userName>
-                                      </hasEngUnitType>
-                                    </hasObjectData>
-                                 </hasMeasLocation>
-                                </source>
-                                <orderingSeq>1</orderingSeq>
-                              </hasEntryPoint>
-                            </associatedNetwork>
-                            <utcStart>2010-02-05T13:00:00</utcStart>
-                        </hasSegmentConfigNetwork>
-                      </source>
-                      <orderingSeq>1</orderingSeq>
-                    </target>
-                   <orderingSeq>1</orderingSeq>
-                  </target>
-                  <orderingSeq>1</orderingSeq>
-                </hasEntryPoint>
-              </associatedNetwork>
-              <utcStart>2010-01-27T18:00:00</utcStart>
-            </hasAssetConfigNetwork>
-          </hasInstalledAsset>
-        </hasEquivalentSegment>
-
-    </controlledSite>
-
+      <EquivalentSegment>
+        	<GUID>df3cb180-e410-11de-8a39-0800200c9a74</GUID>
+        	<IDInInfoSource>0000040500000001.1</IDInInfoSource>
+        	<Tag>Forever Infrastructure Engineering Office</Tag>
+        	<Name>Forever Infrastructure Enginering Office</Name>
+        	<LastEdited>2010-02-06T18:00:00</LastEdited>
+        	<Status>1</Status>
+        	<Type>
+          		<GUID>2a35f5a0-8f1a-449c-a59f-738bc9a50efa</GUID>
+          		<Tag>Office, Engineering</Tag>
+        	</Type>
+		   	<AssetOnSegmentHistory>
+				<GUID>317d6bc3-2e6d-4d80-addb-2f3fcff9e5de</GUID>
+        		<Asset>
+          			<GUID>317d6bc3-2e6d-4d80-addb-2f3fcff9e5ff</GUID>
+          			<IDInInfoSource>0000040500000001.1</IDInInfoSource>
+          			<Tag>Doc#42432444: Refinery A P&amp;ID V1.0</Tag>
+          			<Name>Document No. 42432444: Refinery A Piping and Instrumentation Diagram Topology V1.0</Name>
+          			<Type>
+             			<GUID>a62a6cdb-ca56-4b2b-90aa-fafac73caa33</GUID>
+             			<Tag>Diagram, Topology, P &amp; ID</Tag>
+             			<Name>Diagram, Topology, P &amp; ID</Name>
+          			</Type>
+            		<ValidNetwork>
+              			<GUID>d96a52ed-29f9-419e-8dd2-6d917b47b685</GUID>
+	              		<Network>
+	                		<GUID>7f38782d-e026-4259-b8f9-5425920e457b</GUID>
+	                		<Tag>Doc#42432444:View A</Tag>
+	                		<Name>Document No. 42432444: Refinery A Piping and Instrumentation Diagram Topology V1.0, View A</Name>
+	                		<Type>
+	                  			<GUID>a62a6cdb-ca56-4b2b-90aa-fafac73caa77</GUID>
+	                  			<Tag>Diagram, Topology, P and ID, View</Tag>
+	                  			<Name>Diagram, Topology, P and ID, View</Name>
+	                		</Type>
+	                		<EntryEdge>
+	                  			<GUID>27090f1f-1054-49ae-ab07-08c7e7e04ad8</GUID>
+	                  			<FromEntity xsi:type="Segment"> 
+	                    			<GUID>515b3eae-93bf-44da-a239-2436ece17deb</GUID>
+	                    			<Tag>CU-1</Tag>
+	                    			<Name>Crude Unit #1</Name>
+	                    			<Type xsi:type="ObjectType">
+	                      				<GUID>39d353ab-f166-4431-8f85-6d9330d92b80</GUID>
+	                      				<IDInInfoSource>0000000000000000.1.202</IDInInfoSource>
+	                      				<Tag>ISA-95 Site</Tag>
+	                      				<Name>ISA-95 Site</Name>
+	                      				<LastEdited>2006-05-15T18:00:00.000000000</LastEdited>
+	                      				<Status>1</Status>
+	                    			</Type>
+	                  			</FromEntity>
+	                  			<ToEntity xsi:type="Segment">
+	                      			<GUID>abcf6703-4d26-4f0b-8f0e-c4d704da514b</GUID>
+	                      			<Tag>J-9005B</Tag>
+	                      			<Name>C3/C4 Splitter Reflux Pump</Name>
+	                      			<Type xsi:type="ObjectType">
+	                        			<GUID>0b80afc0-0966-4ed0-9881-3dc5e2d3dbe7</GUID>
+	                        			<IDInInfoSource>0000000000000000.0.343</IDInInfoSource>
+	                        			<Tag>Pump System</Tag>
+	                        			<Name>Pump System</Name>
+	                        			<LastEdited>1996-05-28T18:00:00.000000000</LastEdited>
+	                        			<Status>1</Status>
+	                      			</Type>
+								</ToEntity>
+								<Order>1</Order>
+	                    		<Successor>
+                      				<GUID>14e6f9d7-9db0-4208-8fa0-1c247681cfba</GUID>
+                      				<ToEntity xsi:type="Segment">
+                        				<GUID>abcf6703-4d26-4f0b-8f0e-c4d704da514a</GUID>
+                        				<Tag>J-9005B Motor</Tag>
+                        				<Name>C3/C4 Splitter Reflux Pump Motor</Name>
+                        				<Type xsi:type="EntityType">
+                          					<GUID>fe5b5f4e-9571-46fa-9154-70551f3973b2</GUID>
+                          					<IDInInfoSource>0000000000000000.0.508</IDInInfoSource>
+                          					<Tag>Motor, AC</Tag>
+                          					<Name>Motor, AC</Name>
+                          					<LastEdited>1999-11-14T18:00:00.000000000</LastEdited>
+                          					<Status>1</Status>
+                        				</Type>
+                        				<ValidNetwork>
+                            				<GUID>0ad76534-2325-4a58-bce6-1558a5f6a41e</GUID>
+                            				<Network>
+                              					<GUID>e3c200b5-99a0-4387-878a-be551894596a</GUID>
+                              					<Tag>01G-7A Requirements Data Sheet</Tag>
+                              					<Name>01G-7a Requirements Data Sheet</Name>
+                              					<Type xsi:type="ObjectType">
+                                					<GUID>a62a6cdb-ca56-4b2b-90aa-fafac73caa7b</GUID>
+                                					<Tag>Data Sheet, Topology</Tag>
+                                					<Name>Data Sheet, Topology</Name>
+                              					</Type>
+                              					<EntryEdge>
+                                					<GUID>feafdbe8-a727-4334-9fb0-3dd48a0c49c9</GUID>
+                                					<FromEntity xsi:type="Segment">
+                                    					<GUID>5c893aff-b524-41e7-b919-2ec279532f5f</GUID>
+                                    					<Tag>Static Parameters, Electrical</Tag>
+                                    					<Name>Static Parameters, Electrical</Name>
+                                    					<Type xsi:type="ObjectType">
+                                      						<GUID>a62a6cdb-ca56-4b2b-90aa-fafac73bbb7d</GUID>
+                                      						<Tag>Static Parameters, Electrical</Tag>
+                                      						<Name>Static Parameters, Electrical</Name>
+                                    					</Type>
+                                    					<MeasurementLocation>
+                                      						<GUID>5dcc3260-912f-456e-b370-749489ec43cc</GUID>
+                                      						<Tag>Rated Voltage</Tag>
+                                      						<Type>
+                                        						<GUID>f832cacf-8864-4edc-ad4d-9ec3765f4286</GUID>
+                                        						<IDInInfoSource>0000000000000000.1.6</IDInInfoSource>
+                                        						<Tag>Voltage, Rated </Tag>
+                                        						<LastEdited>2000-03-27T12:00:00.000000000</LastEdited>
+                                        						<Status>1</Status>
+                                      						</Type>
+                                      						<Attribute>
+                                        						<GUID>5542ee51-2697-4564-b8fb-e68b89162294</GUID>
+                                        						<Type>
+                                          							<GUID>c542ee51-2697-4564-b8fb-e68b89162970</GUID>
+                                          							<IDInInfoSource>0000000000000000.1.2</IDInInfoSource>
+                                          							<Tag>Static Value 1</Tag>
+                                        						</Type>
+																<Value>
+                                          							<Number>115</Number>
+                                        						</Value>
+                                        						<UnitTyoe>
+                                          							<GUID>d37d809b-2ee6-4cea-9dda-77977d543562</GUID>
+                                          							<IDInInfoSource>0000000000000000.0.243</IDInInfoSource>
+                                          							<Tag>Volts</Tag>
+                                          							<Name>Volts</Name>
+                                        						</UnitType>
+                                      						</Attribute>
+                                      						<DefaultUnitType>
+                                        						<GUID>d37d809b-2ee6-4cea-9dda-77977d543562</GUID>
+                                        						<IDInInfoSource>0000000000000000.0.243</IDInInfoSource>
+                                        						<Tag>Volts</Tag>
+                                        						<Name>Volts</Name>
+                                      						</DefaultUnitType>
+                                    					</MeasurementLocation>
+													</FromEntity>
+                               						<Order>1</Order>
+                             					</EntryEdge>
+                           					</Network>
+                           					<Start>2010-02-05T13:00:00</Start>
+                       					</ValidNetwork>
+                      				</ToEntity>
+                      				<Order>1</Order>
+                    			</Successor>
+	                		</EntryEdge>
+	              		</Network>
+	              		<Start>2010-01-27T18:00:00</Start>
+            		</ValidNetwork>
+          		</Asset>
+	   			<Start>2010-01-27T18:00:00</Start>
+	   		</AssetOnSegmentHistory>
+        </EquivalentSegment>
+    </ControlledSite>
   </Enterprise>
-
 </CCOMData>

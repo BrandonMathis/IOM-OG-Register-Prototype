@@ -4,7 +4,7 @@ class Event < CcomObjectWithEventsAndAuditing
 
   def initialize(opts = { })
     super(opts)
-    self.user_tag ||= "#{object_type.user_tag rescue nil} for #{monitored_object.user_tag rescue nil} on #{self.for.user_tag rescue nil}"
+    self.tag ||= "#{type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.for.tag rescue nil}"
   end
 
   private

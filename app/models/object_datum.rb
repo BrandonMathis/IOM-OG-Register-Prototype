@@ -1,13 +1,13 @@
 class ObjectDatum < CcomEntity
-  has_one :attribute_type
-  has_one :eng_unit_type
-  field :data
+  has_one :attribute_type, :xml_element => "Type"
+  has_one :eng_unit_type, :xml_element => "UnitType"
+  field :data, :xml_element => "Value"
 
-  def attribute_user_tag; attribute_type.user_tag rescue ""; end
-  def eng_unit_user_tag; eng_unit_type.user_tag rescue ""; end
+  def attribute_user_tag; attribute_type.tag rescue ""; end
+  def eng_unit_user_tag; eng_unit_type.tag rescue ""; end
   def value
     if eng_unit_type
-      "#{data} #{eng_unit_type.user_tag}"
+      "#{data} #{eng_unit_type.tag}"
     else
       data.to_s
     end
@@ -15,20 +15,20 @@ class ObjectDatum < CcomEntity
 
   def build_xml(builder)
     super(builder)
-    builder.hasData { |b| b.TextType self.data }
-    builder.hasAttributeType { |b| attribute_type.build_xml(b) }
-    builder.hasEngUnitType { |b| eng_unit_type.build_xml(b) } unless eng_unit_type.blank?
+    builder.Value { |b| b.Text self.data }
+    builder.Type { |b| attribute_type.build_xml(b) }
+    builder.UnitType { |b| eng_unit_type.build_xml(b) } unless eng_unit_type.blank?
   end
 
   def self.create_from_fields(data, attr_type, eng_type)
     create(:data => data,
-           :attribute_type => AttributeType.create(:user_tag => attr_type),
-           :eng_unit_type => EngUnitType.create(:user_tag => eng_type))
+           :attribute_type => AttributeType.create(:tag => attr_type),
+           :eng_unit_type => EngUnitType.create(:tag => eng_type))
   end
 
   def self.parse_xml(entity_node)
     entity = super(entity_node)
-    if data_node = entity_node.mimosa_xpath("./hasData/TextType").first
+    if data_node = entity_node.mimosa_xpath("./Value/*").first
       entity.data = data_node.content
     end
     entity.save
