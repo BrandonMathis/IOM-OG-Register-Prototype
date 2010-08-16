@@ -2,6 +2,7 @@
 class AssetOnSegmentHistory < CcomEntity
   # A has_many_related relationship is used here because has_one_related throws a strange error. 
   # It would be nice to fix this
+  belongs_to_related :segment
   has_many_related :assets, :class_name => "Asset", :xml_element => "Asset"
   field :start          #when the asset was placed onto the segment
   field :end       #when the asset was removed from the segment

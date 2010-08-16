@@ -88,9 +88,10 @@ class SegmentTest < ActiveSupport::TestCase
           assert ! @segment.installed_assets.include?(@asset)
         end
 
-        should "have nil as the asset's (installed on) segment" do
+        should "have nil as the asset's on segment history" do
           asset = Asset.find_by_guid(@asset.g_u_i_d)
-          assert_nil Asset.find_by_guid(@asset.g_u_i_d).segment
+          RAILS_DEFAULT_LOGGER.debug("history #{asset.asset_on_segment_history}")
+          assert asset.asset_on_segment_history == nil
         end
         context "Then reinstalling the asset" do
           setup do

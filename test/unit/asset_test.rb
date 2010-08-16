@@ -34,9 +34,10 @@ class AssetTest < ActiveSupport::TestCase
   context "uninstalled assets" do
     setup do
       @segment = Factory.create(:segment)
-      @installed_asset = Factory.create(:asset, :segment => @segment)
+      @hist = Factory.create(:asset_on_segment_history)
+      @installed_asset = Factory.create(:asset, :asset_on_segment_history => @hist)
       @uninstalled_asset = Factory.create(:asset)
-      @uninstalled_assets = Asset.uninstalled.all
+      @uninstalled_assets = Asset.uninstalled
     end
 
     should "not include the installed asset" do
@@ -48,18 +49,18 @@ class AssetTest < ActiveSupport::TestCase
     end
   end
 
-  context "creating an asset installed on a segment" do
+  context "creating an asset install history" do
     setup do
-      @segment = Factory.create(:segment)
-      @asset = Factory.create(:asset, :segment => @segment)
+      @hist = Factory.create(:asset_on_segment_history)
+      @asset = Factory.create(:asset, :asset_on_segment_history => @hist)
     end
     
     should "have the asset installed on the segment" do
-      assert_equal @segment, @asset.segment
+      assert_equal @hist, @asset.asset_on_segment_history
     end
 
     should "have the asset in the list of installed assets on the segment" do
-      assert @segment.installed_assets.include?(@asset)
+      assert @hist.assets.include?(@asset)
     end
   end
 
@@ -67,12 +68,12 @@ class AssetTest < ActiveSupport::TestCase
     context "with an asset" do
       setup do
         @asset = Factory.create(:asset)
-        @segment = Factory.create(:segment)
+        @hist = Factory.create(:asset_on_segment_history)
       end
 
       should "fire an install event when the segment is assigned" do
-        flexmock(AssetObserver).should_receive(:install).with(@asset, @segment).once
-        @asset.segment = @segment
+        flexmock(AssetObserver).should_receive(:install).with(@asset, @hist).once
+        @asset.asset_on_segment_history = @hist
         assert @asset.save
       end
     end

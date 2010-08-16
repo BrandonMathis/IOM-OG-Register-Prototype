@@ -9,13 +9,13 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
     setup do
       @hist = Factory.create(:asset_on_segment_history)
       @asset = Factory.create(:asset)
-      @hist.installed_assets << @asset
+      @hist.install(@asset)
     end
     should "make history as asset's asset_on_segment_history" do
       assert_equal @hist, @asset.asset_on_segment_history
     end
     should "properly store the correct asset" do
-      assert @hist.installed_assets.include? @asset
+      assert @hist.assets.include? @asset
     end
   end
 end

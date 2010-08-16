@@ -1,7 +1,7 @@
 class Segment < MonitoredObject
   has_one :segment_config_network, :xml_element => "ValidNetwork"
   has_many :meas_locations, :xml_element => "MeasurementLocation"
-  has_many :asset_on_segment_historys, :class_name => "AssetOnSegmentHistory", :xml_element => "AssetOnSegmentHistory"
+  has_many_related :asset_on_segment_historys, :class_name => "AssetOnSegmentHistory", :xml_element => "AssetOnSegmentHistory"
   has_many :installed_assets, :class_name => "Asset"
   # [28 July 2010] Removed occurance of hast_many :installed_assets to be replaced with method installed_assets
   
@@ -23,13 +23,11 @@ class Segment < MonitoredObject
   def installed_assets()
     installed = Array.new()
     asset_on_segment_historys.each do |hist|
-      RAILS_DEFAULT_LOGGER.debug("Hist Asset #{hist.assets.first}")
       if !hist.assets.first.nil?
         asset = Asset.find_by_guid(hist.assets.first.g_u_i_d)
         installed << asset if asset.asset_on_segment_history.end.nil?
       end
     end
-    RAILS_DEFAULT_LOGGER.debug("Done")
     return installed
   end
   
@@ -41,21 +39,18 @@ class Segment < MonitoredObject
   # Creates a new install history which loggs the asset placed on this segment
   def install_asset_id=(asset_id)
     asset = Asset.find_by_guid(asset_id)
-    #installed_assets << asset        Treplaced in favor of the new method for storring information regarding assets on a segment
     hist = AssetOnSegmentHistory.create()
+    asset.asset_on_segment_history = nil
     hist.install(asset)
-    asset.update_attributes(:segment => self)
     asset.save
     asset_on_segment_historys <<  hist
     AssetObserver.install(asset, self)
-    #RAILS_DEFAULT_LOGGER.debug("@hist #{asset.asset_on_segment_history}")
   end
 
   def delete_asset_id=(asset_id)
     if asset = installed_assets.detect {|asset| asset.g_u_i_d == asset_id }
       hist = asset.asset_on_segment_history
       hist.uninstall(asset)
-      asset.remove_from_segment
       assets_to_save << asset
       AssetObserver.remove(asset, self)
     end
