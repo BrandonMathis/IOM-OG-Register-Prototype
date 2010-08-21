@@ -7,7 +7,7 @@ set :repository, "git@github.com:assetricity/mimosa-active-registry.git"
 set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
 
-set :domain, "#{application}.gaslightsoftware.com"
+set :domain, "activeregistry.assetricity.com"
 role :app, domain
 role :web, domain
 
