@@ -1,4 +1,4 @@
-set :application, "activeregistry_2"
+set :application, "ARplatform"
 set :user, "deploy"
 
 set :scm, :git
@@ -8,7 +8,7 @@ set :branch, "ccom3-3"
 set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
 
-set :domain, "activeregistryv2.assetricity.com"
+set :domain, "activeregistry.assetricity.com"
 role :app, domain
 role :web, domain
 
