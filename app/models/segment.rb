@@ -44,7 +44,7 @@ class Segment < MonitoredObject
     hist.install(asset)
     asset.save
     asset_on_segment_historys <<  hist
-    AssetObserver.install(asset, self)
+    #AssetObserver.install(asset, self)
   end
 
   def delete_asset_id=(asset_id)
@@ -52,7 +52,7 @@ class Segment < MonitoredObject
       hist = asset.asset_on_segment_history
       hist.uninstall(asset)
       assets_to_save << asset
-      AssetObserver.remove(asset, self)
+      #AssetObserver.remove(asset, self)
     end
   end
 
