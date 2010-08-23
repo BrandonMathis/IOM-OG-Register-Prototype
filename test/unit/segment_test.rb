@@ -14,8 +14,7 @@ class SegmentTest < ActiveSupport::TestCase
       asset2 = Factory.create(:asset)
       @seg.install_asset_id=(asset2.g_u_i_d)
       @seg.install_asset_id=(@asset.g_u_i_d)
-      assert @seg.installed_assets.include?(@asset)
-      assert @seg.installed_assets.include?(asset2)
+      assert @seg.installed_assets.include?(@asset) && @seg.installed_assets.include?(asset2)
     end
   end
 
@@ -72,6 +71,7 @@ class SegmentTest < ActiveSupport::TestCase
         setup do
           @segment.update_attributes(:delete_asset_id => @asset.g_u_i_d)
           @segment = Segment.find_by_guid(@segment.g_u_i_d)
+          @asset = Asset.find_by_guid(@asset.g_u_i_d)
         end
 
         before_should "fire off the uninstall event" do
@@ -89,9 +89,7 @@ class SegmentTest < ActiveSupport::TestCase
         end
 
         should "have nil as the asset's on segment history" do
-          asset = Asset.find_by_guid(@asset.g_u_i_d)
-          RAILS_DEFAULT_LOGGER.debug("history #{asset.asset_on_segment_history}")
-          assert asset.asset_on_segment_history == nil
+          assert_nil @hist
         end
         context "Then reinstalling the asset" do
           setup do
@@ -99,6 +97,9 @@ class SegmentTest < ActiveSupport::TestCase
           end
           should "include the reinstalled asset in the list of installed assets" do
             assert @segment.installed_assets.include?(@asset)
+          end
+          should_eventually "keep asset linked to previous install history" do
+            assert_equals @hist.assets.first.g_u_i_d, @asset.g_u_i_d
           end
         end          
       end
@@ -148,8 +149,9 @@ class SegmentTest < ActiveSupport::TestCase
       @asset = Factory.create(:asset)
       @asset2 = Asset.duplicate(@asset)
     end
-    should "have the same guid" do
+    should_eventually "have the same guid" do
       asset_equal @asset.g_u_i_d, @asset2.g_u_i_d
     end
+    should_eventually "have identical content but not be the same asset"
   end  
 end

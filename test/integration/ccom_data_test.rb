@@ -41,7 +41,7 @@ class CcomDataTest < ActiveSupport::TestCase
             @asset = @segment.installed_assets.first
           end
           should "have an acn" do
-            assert_kind_of AssetConfigNetwork, @asset.valid_network
+            assert_kind_of ValidNetwork, @asset.valid_network
           end
           should "have an associated network" do
             assert_kind_of Network, @asset.network
@@ -52,13 +52,14 @@ class CcomDataTest < ActiveSupport::TestCase
           end
           context "entry point" do
             setup do
-              @entry_edge = @asset.entry_edges.first
+              @target = @asset.entry_edges.first.source
+              @source = @asset.entry_edges.first.target
             end
             should "have a source segment" do
-              assert_kind_of Segment, @entry_edge.source
+              assert_kind_of Segment, @source
             end
             should "have a target" do
-              assert_kind_of NetworkConnection, @entry_edge.targets.first
+              assert_kind_of Segment, @target
             end
           end
         end
@@ -86,7 +87,7 @@ class CcomDataTest < ActiveSupport::TestCase
 
     context "measurement location" do
       setup do
-        @meas_location = MeasLocation.find_by_guid("7dcc3260-912f-456e-b370-749489ec43dd")
+        @meas_location = MeasLocation.find_by_guid("5dcc3260-912f-456e-b370-749489ec43cc")
       end
       should "be a meas location" do
         assert_kind_of MeasLocation, @meas_location
@@ -95,6 +96,7 @@ class CcomDataTest < ActiveSupport::TestCase
       context "with object data" do
         setup do
           @object_data = @meas_location.object_data.first
+          
         end
         
         should "be object data" do
@@ -102,7 +104,7 @@ class CcomDataTest < ActiveSupport::TestCase
         end
 
         should "have data" do
-          assert_equal "2300", @object_data.data
+          assert_equal "115", @object_data.data
         end
 
         should "have an eng unit type" do

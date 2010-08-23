@@ -67,7 +67,6 @@ class AssetsControllerTest < ActionController::IntegrationTest
       end
 
       should "have the nested segment's user tag" do
-        RAILS_DEFAULT_LOGGER.debug("SEGMENT #{@seg2.tag}")
         assert_select "h2", @seg2.tag
       end
     end

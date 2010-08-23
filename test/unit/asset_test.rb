@@ -80,22 +80,22 @@ class AssetTest < ActiveSupport::TestCase
 
     context "with an asset already installed on segment" do
       setup do
-        assert @segment = Factory.create(:segment)
-        @asset = Factory.create(:asset, :segment => @segment)
+        assert @asset_on_segment_history = Factory.create(:asset_on_segment_history)
+        @asset = Factory.create(:asset, :asset_on_segment_history => @asset_on_segment_history)
       end
 
       should "fire a remove event when the segment is set to nil" do
         flexmock(AssetObserver).should_receive(:remove).once
-        @asset.segment = nil
+        @asset.asset_on_segment_history = nil
         assert @asset.save
-        assert_nil @asset.segment
+        assert_nil @asset.asset_on_segment_history
       end
 
-      should "fire both a remove and an install event when changing the segment" do
-        @new_segment = Factory.create(:segment)
-        flexmock(AssetObserver).should_receive(:install).with(@asset, @new_segment).once
-        flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).once
-        @asset.segment = @new_segment
+      should "fire both a remove and an install event when changing the asset on segment history" do
+        @new_hist = Factory.create(:asset_on_segment_history)
+        flexmock(AssetObserver).should_receive(:install).with(@asset, @new_hist).once
+        flexmock(AssetObserver).should_receive(:remove).with(@asset, @asset_on_segment_history).once
+        @asset.asset_on_segment_history = @new_hist
         assert @asset.save
       end
     end

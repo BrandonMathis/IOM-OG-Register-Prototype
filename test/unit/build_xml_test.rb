@@ -39,10 +39,10 @@ class BuildXmlTest < ActiveSupport::TestCase
   context "generating xml for a segment with an installed asset" do
     setup do
       @asset = Factory.create(:asset)
-      @segment = Factory.create(:segment)
-      @asset.segment = @segment
+      @asset_on_segment_history = Factory.create(:asset_on_segment_history)
+      @asset.asset_on_segment_history = @asset_on_segment_history
       @asset.save
-      @segment = Segment.find_by_guid(@segment.g_u_i_d)
+      @asset_on_segment_history = AssetOnSegmentHistory.find_by_guid(@asset_on_segment_history.g_u_i_d)
       @doc = Nokogiri::XML.parse(@asset.to_xml)
     end
 
@@ -51,7 +51,7 @@ class BuildXmlTest < ActiveSupport::TestCase
     end
 
     should "not have an xml element for the segment foreign key" do
-      assert @doc.mimosa_xpath("//segmentId").empty?, @asset.to_xml
+      assert @doc.mimosa_xpath("//assetOnSegmentHistoryId").empty?, @asset.to_xml
     end
 
   end

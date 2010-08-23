@@ -5,7 +5,7 @@ class AssetOnSegmentHistory < CcomEntity
   belongs_to_related :segment
   has_many_related :assets, :class_name => "Asset", :xml_element => "Asset"
   field :start          #when the asset was placed onto the segment
-  field :end       #when the asset was removed from the segment
+  field :end            #when the asset was removed from the segment
   
   def install(asset)
     self.update_attributes(:start => Time.now.to_s)

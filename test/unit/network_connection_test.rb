@@ -39,7 +39,6 @@ class NetworkConnectionTest < ActiveSupport::TestCase
     end
     
     should "have proper namespace and type for source element" do
-      RAILS_DEFAULT_LOGGER.debug("#{@doc}")
       assert_not_nil source = @doc.xpath("//NetworkConnection/FromEntity").first
       assert_not_nil target = @doc.xpath("//NetworkConnection/ToEntity").first
       assert_not_nil type_attr = source.attribute_with_ns("type", @xsi).value

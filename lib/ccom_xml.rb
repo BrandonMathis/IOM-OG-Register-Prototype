@@ -32,7 +32,6 @@ module CcomXml
     end
 
     def parse_associations(entity, entity_node)
-      #RAILS_DEFAULT_LOGGER.debug("***entity_node\n#{entity_node}")
       associations.each do |k, assoc|
         xpath = "./#{assoc[:options].xml_element}"
         entity_node.mimosa_xpath(xpath).each do |assoc_entity|

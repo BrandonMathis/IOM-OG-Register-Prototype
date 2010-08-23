@@ -9,7 +9,7 @@ class SegmentsControllerTest < ActionController::IntegrationTest
                                           :type => nil)
 
     @asset = Factory(:asset)
-    @functional_location.installed_assets << @asset
+    @functional_location.update_attributes(:install_asset_id => @asset.g_u_i_d)
     @functional_location.save
   end
 
@@ -47,6 +47,9 @@ class SegmentsControllerTest < ActionController::IntegrationTest
   context "Displaying installed assets for a functional location" do
     setup do
       visit segment_url(@functional_location)
+    end
+    should "Have our asset as an installed asset" do
+      assert @functional_location.installed_assets.include?(@asset)
     end
     should_respond_with :success
     should "display the asset user tag" do
