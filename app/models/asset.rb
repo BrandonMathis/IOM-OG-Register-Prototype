@@ -74,10 +74,10 @@ class Asset < MonitoredObject
 
   def asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
     if self.asset_on_segment_history
-      #AssetObserver.remove(self, self.asset_on_segment_history)
+      AssetObserver.remove(self, self.asset_on_segment_history)
     end
     unless asset_on_segment_history_to_assign.nil?
-      #AssetObserver.install(self, asset_on_segment_history_to_assign) unless asset_on_segment_history_to_assign.nil?
+      AssetObserver.install(self, asset_on_segment_history_to_assign) unless asset_on_segment_history_to_assign.nil?
     end
     # self.asset_on_segment_history_without_observer=(asset_on_segment_history_to_assign)
   end

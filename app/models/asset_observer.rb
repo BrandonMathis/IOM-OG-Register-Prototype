@@ -16,7 +16,7 @@ class AssetObserver
 
   def self.publish(event)
     Net::HTTP.start(POSTBACK_HOST, POSTBACK_PORT) do |http|
-      #http.post(POSTBACK_PATH, event.to_xml)
+      http.post(POSTBACK_PATH, event.to_xml)
     end
   end
 end
