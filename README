@@ -6,6 +6,7 @@ This is an open source reference implementation of the MIMOSA Active Registry
 
 How to start this app
 ==================================================================================
+Install mongodb for your system and start it with mongod
 cd into directory containing app
 boot sinatra postback server
 	sinatra lib/postback_server.rb

@@ -45,5 +45,4 @@ Rails::Initializer.run do |config|
   config.gem "macaddr"
   config.gem "will_paginate"
   config.gem "nokogiri", :version => ">=1.4.1"
-  config.gem "sinatra"
 end
