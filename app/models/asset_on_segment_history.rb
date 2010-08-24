@@ -7,15 +7,16 @@ class AssetOnSegmentHistory < CcomEntity
   field :start          #when the asset was placed onto the segment
   field :end            #when the asset was removed from the segment
   
+  before_create :generate_guid
+  
   def install(asset)
     self.update_attributes(:start => Time.now.to_s)
     self.save
     assets << asset
   end
   
-  def uninstall(asset)
+  def uninstall()
     self.update_attributes(:end => Time.now.to_s)
     self.save
   end
-  
 end

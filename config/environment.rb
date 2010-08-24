@@ -41,9 +41,9 @@ Rails::Initializer.run do |config|
 
   config.gem "mongoid", :lib => "mongoid"
   config.gem "mongo"
-  #config.gem "mongo_ext"
   config.gem "uuid"
   config.gem "macaddr"
   config.gem "will_paginate"
   config.gem "nokogiri", :version => ">=1.4.1"
+  config.gem "sinatra"
 end

@@ -50,7 +50,8 @@ class Segment < MonitoredObject
   def delete_asset_id=(asset_id)
     if asset = installed_assets.detect {|asset| asset.g_u_i_d == asset_id }
       hist = asset.asset_on_segment_history
-      hist.uninstall(asset)
+      hist.uninstall()
+      asset.asset_on_segment_history_id = nil
       assets_to_save << asset
       AssetObserver.remove(asset, self)
     end

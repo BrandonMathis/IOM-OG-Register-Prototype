@@ -47,12 +47,21 @@ class SegmentTest < ActiveSupport::TestCase
     context "installing the asset via the segment's setter" do
       setup do
         @segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
+        asset = Asset.find_by_guid(@asset.g_u_i_d)
+        @hist_guid = asset.asset_on_segment_history.g_u_i_d
+        @hist = asset.asset_on_segment_history
+      end
+      
+      should "not generate a remove event" do
+        assert flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).never
+      end
+      
+      should "generate an asset install history with GUID" do
+        assert_not_nil @hist.g_u_i_d
       end
       
       should "generate an asset install history start timestamp" do
-        asset = Asset.find_by_guid(@asset.g_u_i_d)
-        hist = asset.asset_on_segment_history
-        assert Time.parse(hist.start) < Time.now
+        assert Time.parse(@hist.start) < Time.now
       end
 
       before_should "fire off the install event" do
@@ -72,6 +81,7 @@ class SegmentTest < ActiveSupport::TestCase
           @segment.update_attributes(:delete_asset_id => @asset.g_u_i_d)
           @segment = Segment.find_by_guid(@segment.g_u_i_d)
           @asset = Asset.find_by_guid(@asset.g_u_i_d)
+          @hist = AssetOnSegmentHistory.find_by_guid(@hist_guid)
         end
 
         before_should "fire off the uninstall event" do
@@ -79,9 +89,7 @@ class SegmentTest < ActiveSupport::TestCase
         end
         
         should "set an end time for the asset on segment history" do
-          asset = Asset.find_by_guid(@asset.g_u_i_d)
-          hist = asset.asset_on_segment_history
-          assert_not_nil hist.end
+          assert_not_nil @hist.end
         end
         
         should "not include the asset in the segment's list of installed assets" do
@@ -89,11 +97,20 @@ class SegmentTest < ActiveSupport::TestCase
         end
 
         should "have nil as the asset's on segment history" do
-          assert_nil @hist
+          hist = Asset.find_by_guid(@asset.g_u_i_d).asset_on_segment_history_id
+          assert_nil hist
         end
+        
+        should_eventually "keep a history of that asset being installed then uninstalled" do
+          assert_equal @hist.assets.first.g_u_i_d, @asset.g_u_i_d
+        end
+          
         context "Then reinstalling the asset" do
           setup do
             @segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
+          end
+          should "not generate a remove event" do
+            assert flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).never
           end
           should "include the reinstalled asset in the list of installed assets" do
             assert @segment.installed_assets.include?(@asset)
@@ -142,16 +159,5 @@ class SegmentTest < ActiveSupport::TestCase
     should "have proper number of meas location elements" do
       assert_equal @segment.meas_locations.size, @doc.xpath("//Segment/MeasurementLocation").size
     end
-  end
-  
-  context "duplicating an asset" do
-    setup do
-      @asset = Factory.create(:asset)
-      @asset2 = Asset.duplicate(@asset)
-    end
-    should_eventually "have the same guid" do
-      asset_equal @asset.g_u_i_d, @asset2.g_u_i_d
-    end
-    should_eventually "have identical content but not be the same asset"
   end  
 end
