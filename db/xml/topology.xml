@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-3/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <Enterprise>
+  <Entity xsi:type="Enterprise">
   	<GUID>251ff520-e40e-11de-8a39-0800200c9a34</GUID>
     <IDInInfoSource>1029</IDInInfoSource>
     <Tag>Forever Infrastructure Inc.</Tag>
@@ -179,5 +179,5 @@
 	   		</AssetOnSegmentHistory>
         </EquivalentSegment>
     </ControlledSite>
-  </Enterprise>
+  </Entity>
 </CCOMData>
