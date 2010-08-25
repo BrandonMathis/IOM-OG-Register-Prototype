@@ -12,7 +12,10 @@ boot sinatra postback server
 	sinatra lib/postback_server.rb
 start server
 	script/server
+start sinatra postback_server
+	ruby lib/postback_server.rb
 app will be at http://localhost:3000
+events are published to events/
 
 
 Code Details
@@ -26,8 +29,8 @@ The following contains a rewrite of the mimosa active registry in order
     The following things are important to note
         -This active registry supports installing assets onto a segment but will
          not uninstall those assets properly.
-        -A HTTP postback command causes some trouble on personal machines and needs
-		 to be commented out if you want to run via mongrel 
+        -Sinatra is required to run the postback_server.rb which catches generated
+		 events
         -Test do not pass in this commit. This is beta at best.
     
      Please enter the commit message for your changes. Lines starting

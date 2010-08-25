@@ -63,6 +63,10 @@ class Asset < MonitoredObject
     end
   end
   
+  # Custom actions to be executes when value for asset_on_segment_history (AOSH) is changed
+  # However, this method of modifying the AOSH is undersired. If an uninstall or install is
+  # to be performed it should be done so using mongoid to update the segment's installed asset
+  #   - Segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
   def asset_on_segment_history_with_mystuff=(asset_on_segment_history_to_assign)
     self.asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
     self.asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
@@ -70,17 +74,24 @@ class Asset < MonitoredObject
   end
 
   alias_method_chain :asset_on_segment_history=, :mystuff
-
+  
+  # Generate a remove event if the AOSH has a not nil value that is changed
+  #
+  # Generate an install event if the AOSH is nil and is assigned a value unless that
+  # value is null
   def asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
     if self.asset_on_segment_history
+      RAILS_DEFAULT_LOGGER.debug("AUTOMATED REMOVE GENERATED")
       AssetObserver.remove(self, self.asset_on_segment_history)
     end
     unless asset_on_segment_history_to_assign.nil?
+      RAILS_DEFAULT_LOGGER.debug("AUTOMATED INSTALL GENERATED")
       AssetObserver.install(self, asset_on_segment_history_to_assign) unless asset_on_segment_history_to_assign.nil?
     end
     # self.asset_on_segment_history_without_observer=(asset_on_segment_history_to_assign)
   end
-
+  
+  # Set the AOSH_id to nil if we are trying to set the AOSH to nil
   def asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
     if asset_on_segment_history_to_assign.nil?
       self.asset_on_segment_history_id = nil

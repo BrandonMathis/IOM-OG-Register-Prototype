@@ -32,11 +32,11 @@ class Segment < MonitoredObject
   end
   
   # KeysetTS
-  # Modified to fit the addition of an AssetOnSegmentHistory element to CCOM
+  # Modified to fit the addition of an AssetOnSegmentHistory (AOSH) element to CCOM
   # This elemet holds the Asset's start and end time for being installed on the segment
   # installing a new asset involves creating a new history and setting <Start> to Time.now
   #
-  # Creates a new install history which loggs the asset placed on this segment
+  # AssetObserver then generates an install event to be caught by sinatra postback_server
   def install_asset_id=(asset_id)
     asset = Asset.find_by_guid(asset_id)
     hist = AssetOnSegmentHistory.create()
@@ -46,7 +46,12 @@ class Segment < MonitoredObject
     asset_on_segment_historys <<  hist
     AssetObserver.install(asset, self)
   end
-
+  
+  # KeysetTS
+  # Modified to fith with the addition of AOSH element to CCOM
+  # This will set an end time to the associated history followed by unlinking the
+  # history from the asset
+  # AssetObserver then generates a remove event to be caught by sinatra postback_server
   def delete_asset_id=(asset_id)
     if asset = installed_assets.detect {|asset| asset.g_u_i_d == asset_id }
       hist = asset.asset_on_segment_history
