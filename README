@@ -6,16 +6,14 @@ This is an open source reference implementation of the MIMOSA Active Registry
 
 How to start this app
 ==================================================================================
-Install mongodb for your system and start it with mongod
-cd into directory containing app
-boot sinatra postback server
-	sinatra lib/postback_server.rb
-start server
-	script/server
-start sinatra postback_server
-	ruby lib/postback_server.rb
-app will be at http://localhost:3000
-events are published to events/
+	1. Install mongodb for your system and start it with mongod
+	2. Unpack gems
+	3. cd into directory containing app
+	4. boot sinatra postback server 		[$ ruby lib/postback_server.rb]
+	5. start server 						[$script/server]
+	
+	> app will be at http://localhost:3000
+	> events are published to events/
 
 
 Code Details
