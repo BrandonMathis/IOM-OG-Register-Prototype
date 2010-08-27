@@ -11,7 +11,9 @@ class Event < CcomObjectWithEventsAndAuditing
   
   def build_xml(builder)
     super(builder)
-    builder.tag!("forCCOMObjectWithEvents", "xsi:type" => self.for.class.to_s) { |b| self.for.build_xml(b) } if self.for
-    builder.tag!("hasMonitoredObject", "xsi:type" => self.monitored_object.class.to_s) { |b| self.monitored_object.build_xml(b) } if monitored_object
+    builder.Test do
+      builder.tag!("forCCOMObjectWithEvents", "xsi:type" => self.for.class.to_s) { |b| self.for.build_xml(b) } if self.for
+      builder.tag!("hasMonitoredObject", "xsi:type" => self.monitored_object.class.to_s) { |b| self.monitored_object.build_xml(b) } if monitored_object
+    end
   end
 end

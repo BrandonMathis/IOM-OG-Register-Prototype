@@ -17,9 +17,18 @@ class SegmentTest < ActiveSupport::TestCase
       assert @seg.installed_assets.include?(@asset) && @seg.installed_assets.include?(asset2)
     end
   end
-
-  should "be valid from factory" do
-    assert_valid Factory.create(:segment)
+  
+  context "The segment" do
+    setup do
+      @seg = Factory.create(:segment)
+    end
+    should "be valid from factory" do
+      assert_valid Factory.create(:segment)
+    end
+  
+    should "contain a valid guid" do
+      Segment.valid_guid(@seg.g_u_i_d)
+    end
   end
 
   should "support multiple meas locations" do
@@ -53,7 +62,7 @@ class SegmentTest < ActiveSupport::TestCase
       end
       
       should "not generate a remove event" do
-        assert flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).never
+        assert flexmock(AssetObserver).should_receive(:remove).with(@asset, @hist).never
       end
       
       should "generate an asset install history with GUID" do
@@ -63,9 +72,14 @@ class SegmentTest < ActiveSupport::TestCase
       should "generate an asset install history start timestamp" do
         assert Time.parse(@hist.start) < Time.now
       end
+      
+      should "generate an asset install history with a referenceable segment" do
+        assert_not_nil @hist.segment
+        assert_equal @hist.segment.g_u_i_d, @segment.g_u_i_d
+      end
 
       before_should "fire off the install event" do
-        flexmock(AssetObserver).should_receive(:install).with(@asset, @segment).once
+        flexmock(AssetObserver).should_receive(:install).once
       end
       
       should "include the asset in the segment's list of installed assets" do
@@ -85,7 +99,7 @@ class SegmentTest < ActiveSupport::TestCase
         end
 
         before_should "fire off the uninstall event" do
-          flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).once
+          flexmock(AssetObserver).should_receive(:remove).with(@asset, @hist).once
         end
         
         should "set an end time for the asset on segment history" do
@@ -110,7 +124,7 @@ class SegmentTest < ActiveSupport::TestCase
             @segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
           end
           should "not generate a remove event" do
-            assert flexmock(AssetObserver).should_receive(:remove).with(@asset, @segment).never
+            assert flexmock(AssetObserver).should_receive(:remove).with(@asset, @hist).never
           end
           should "include the reinstalled asset in the list of installed assets" do
             assert @segment.installed_assets.include?(@asset)

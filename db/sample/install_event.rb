@@ -1,4 +1,4 @@
-puts Event.new(:g_u_i_d => "251ff520-e40e-11de-8a39-0800200c9a36",
+puts ActualEvent.new(:g_u_i_d => "251ff520-e40e-11de-8a39-0800200c9a36",
                :tag => "[2010-02-10 13:21:00] Motor installed on 01G-7A",
                :name => "[2010-02-10 13:21:00] Asset: Model Z400-A1 S/N 3Z84G32AA0-4 AC Induction Motor installed on Functional Location: 01G-7A Motor ",
                :last_edited => "2009-07-03T13:30:00",

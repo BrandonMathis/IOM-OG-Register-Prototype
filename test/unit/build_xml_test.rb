@@ -14,7 +14,7 @@ class BuildXmlTest < ActiveSupport::TestCase
     end
 
     should "have proper number of meas location elements" do
-      assert_equal @segment.meas_locations.size, @doc.mimosa_xpath("//Segment/MeasurementLocation").size
+      assert_equal @segment.meas_locations.size, @doc.mimosa_xpath("//Entity[@*='Segment']/MeasurementLocation").size
     end
   end
 

@@ -81,11 +81,9 @@ class Asset < MonitoredObject
   # value is null
   def asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
     if self.asset_on_segment_history
-      RAILS_DEFAULT_LOGGER.debug("AUTOMATED REMOVE GENERATED")
       AssetObserver.remove(self, self.asset_on_segment_history)
     end
     unless asset_on_segment_history_to_assign.nil?
-      RAILS_DEFAULT_LOGGER.debug("AUTOMATED INSTALL GENERATED")
       AssetObserver.install(self, asset_on_segment_history_to_assign) unless asset_on_segment_history_to_assign.nil?
     end
     # self.asset_on_segment_history_without_observer=(asset_on_segment_history_to_assign)

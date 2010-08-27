@@ -25,16 +25,16 @@ class ObjectDatumTest < ActiveSupport::TestCase
     end
     
     should "have proper path for data value" do
-      assert_not_nil data_node = @doc.mimosa_xpath("//ObjectDatum/Value/Text").first
+      assert_not_nil data_node = @doc.mimosa_xpath("//Entity[@*='ObjectDatum']/Value/Text").first
       assert_equal @datum.data, data_node.content
     end
 
     should "have the proper path for attribute type" do
-      assert_not_nil attribute_type_node = @doc.mimosa_xpath("//ObjectDatum/Type").first
+      assert_not_nil attribute_type_node = @doc.mimosa_xpath("//Entity[@*='ObjectDatum']/Type").first
     end
 
     should "have the proper path for eng unit type" do
-      assert_not_nil attribute_type_node = @doc.mimosa_xpath("//ObjectDatum/UnitType").first
+      assert_not_nil attribute_type_node = @doc.mimosa_xpath("//Entity[@*='ObjectDatum']/UnitType").first
     end
   end
 end

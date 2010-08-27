@@ -108,7 +108,7 @@ Factory.define(:topology_asset, :parent => :asset) do |f|
   f.association :type, :factory => :topology_type
 end
 
-Factory.define(:event) do |f|
+Factory.define(:actual_event) do |f|
   ccom_entity_fields(f)
 end
 

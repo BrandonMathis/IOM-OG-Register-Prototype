@@ -2,21 +2,21 @@ class CcomEntity
   include Mongoid::Document
   include CcomXml
   
-  field :g_u_i_d           #change
+  field :g_u_i_d           
   field :i_d_in_info_source
   field :source_id
   field :tag
   field :name
-  field :last_edited, :type => Time
+  field :last_edited
   field :status, :type => Integer
 
-  def self.attribute_names  #guid -> g_u_i_d
-    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :status]
+  def self.attribute_names
+    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :last_edited, :status]
   end
 
-  def self.field_names  #guid -> g_u_i_d
+  def self.field_names
     # @field_names ||= fields.keys.reject { |key| association_foreign_keys.include?(key) }.collect(&:to_sym)
-    [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :status]
+    [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :last_edited, :status]
   end
 
   def self.association_foreign_keys
@@ -31,7 +31,7 @@ class CcomEntity
     self.class.attribute_names
   end
   
-  before_save :generate_guid
+  before_save :generate_guid, :generate_last_edited
 
   def tag_with_fallback
     tag = tag_without_fallback
@@ -55,6 +55,10 @@ class CcomEntity
 
   def generate_guid
     self.g_u_i_d = UUID.generate if g_u_i_d.blank?
+  end
+  
+  def generate_last_edited
+    self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S')
   end
 
 end

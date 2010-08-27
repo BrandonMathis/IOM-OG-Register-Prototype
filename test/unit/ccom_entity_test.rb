@@ -51,14 +51,14 @@ class CcomEntityTest < ActiveSupport::TestCase
     end
 
     should "include id in source" do
-      xpath = "/CCOMData/CCOMEntity/IDInInfoSource"
+      xpath = "/CCOMData/Entity[@*='CCOMEntity']/IDInInfoSource"
       node_set = @doc.xpath(xpath.to_mimosa, mimosa_xmlns)
       assert_not_nil node_set.first, "#{xpath}\n#{@xml.inspect}\n#{@doc.inspect}"
 #      assert_equal @ccom_entity.id_in_source, 
     end
 
     should "not include status code when it's blank" do
-      node_set = @doc.xpath("//CCOMEntity/statusCode", mimosa_xmlns)
+      node_set = @doc.xpath("//Entity[@*='CCOMEntity']/statusCode", mimosa_xmlns)
       assert node_set.blank?, node_set.inspect
     end
   end

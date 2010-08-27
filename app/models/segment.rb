@@ -40,11 +40,10 @@ class Segment < MonitoredObject
   def install_asset_id=(asset_id)
     asset = Asset.find_by_guid(asset_id)
     hist = AssetOnSegmentHistory.create()
-    asset.asset_on_segment_history = nil
     hist.install(asset)
     asset.save
     asset_on_segment_historys <<  hist
-    AssetObserver.install(asset, self)
+    AssetObserver.install(asset, hist)
   end
   
   # KeysetTS
@@ -56,9 +55,9 @@ class Segment < MonitoredObject
     if asset = installed_assets.detect {|asset| asset.g_u_i_d == asset_id }
       hist = asset.asset_on_segment_history
       hist.uninstall()
+      AssetObserver.remove(asset, hist)
       asset.asset_on_segment_history_id = nil
       assets_to_save << asset
-      AssetObserver.remove(asset, self)
     end
   end
 

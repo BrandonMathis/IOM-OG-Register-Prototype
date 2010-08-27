@@ -8,9 +8,14 @@ module CcomXml
   end
 
   module ClassMethods
+    def valid_guid(guid)
+      regex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
+      return true if guid.gsub(regex)
+    end
+    
     def from_xml(xml)
       doc = Nokogiri::XML.parse(xml)
-      entity_node = doc.mimosa_xpath("/CCOMData/#{xml_entity_name}").first
+      entity_node = doc.mimosa_xpath("/CCOMData/Entity[@*='#{xml_entity_name}']").first
       parse_xml(entity_node)
     end
 
@@ -66,7 +71,7 @@ module CcomXml
       builder = Builder::XmlMarkup.new(opts)
       builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
       xml = builder.tag!("CCOMData", self.class.xml_entity_attributes) do |b|
-        b.tag!(self.class.xml_entity_name) do |bb|
+        b.tag!("Entity", "xsi:type" => self.class.xml_entity_name) do |bb|
           build_xml(bb)
         end
       end

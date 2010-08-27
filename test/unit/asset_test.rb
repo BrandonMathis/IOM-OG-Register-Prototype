@@ -1,11 +1,24 @@
 require 'test_helper'
 
 class AssetTest < ActiveSupport::TestCase
-  
-  should "be valid from factory" do
-    assert_valid Factory.create(:asset)
+  context "The Asset" do
+    setup do
+      @asset = Factory.create(:asset)
+    end
+    
+    should "be valid from factory" do
+      assert_valid @asset
+    end
+    
+    should "have a valid guid" do
+      assert Asset.valid_guid(@asset.g_u_i_d)
+    end
+    
+    should "have a last edited time" do
+      assert_not_nil @asset.last_edited
+    end
   end
-
+  
   should "support a serial number" do
     sn = "3Z84G32AA0-4"
     assert_valid asset = Factory.create(:asset, :serial_number => sn)
@@ -134,7 +147,7 @@ class AssetTest < ActiveSupport::TestCase
     end
 
     should "have the proper element name" do
-      assert_has_xpath("/CCOMData/Asset", @doc)
+      assert_has_xpath("/CCOMData/Entity[@*='Asset']", @doc)
     end
   end
 
