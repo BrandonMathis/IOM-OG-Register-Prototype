@@ -4,19 +4,18 @@ class CcomEntity
   
   field :g_u_i_d           
   field :i_d_in_info_source
-  field :source_id
   field :tag
   field :name
   field :last_edited
   field :status, :type => Integer
 
   def self.attribute_names
-    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :last_edited, :status]
+    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
 
   def self.field_names
     # @field_names ||= fields.keys.reject { |key| association_foreign_keys.include?(key) }.collect(&:to_sym)
-    [:g_u_i_d, :i_d_in_info_source, :source_id, :tag, :name, :last_edited, :status]
+    [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
 
   def self.association_foreign_keys

@@ -4,7 +4,6 @@ Factory.sequence(:i_d_in_info_source) { |i| "#{i}" }
 def ccom_entity_fields(factory)
 #  factory.guid { Factory.next :guid }
   factory.i_d_in_info_source { Factory.next :i_d_in_info_source }
-  factory.source_id "exxon.com/uehm/ramp/V1.0"
 end
 
 Factory.define(:ccom_entity) do |f|

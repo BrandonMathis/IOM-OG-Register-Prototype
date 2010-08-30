@@ -24,7 +24,6 @@ class Type < ActiveSupport::TestCase
     setup do
       @object_type = Factory.create(:object_type, 
                                     :i_d_in_info_source => "0000000000000000.1.125",
-                                    :source_id => "www.mimosa.org/CRIS/V3-2-1/meas_loc_type",
                                     :name => "Vibration, Absolute, Casing, Broadband")
       builder = Builder::XmlMarkup.new
       xml = builder.Type do |b|

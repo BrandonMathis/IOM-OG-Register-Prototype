@@ -13,7 +13,6 @@ class TopologiesControllerTest < ActionController::IntegrationTest
                                :tag => "Topology Asset",
                                :name => "My long winded name for this topology",
                                :i_d_in_info_source => "19837418734192874319784",
-                               :source_id => "www.example.com/cris/v1.0",
                                :entry_edge => entry_edge)
     
   end

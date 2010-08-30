@@ -40,7 +40,6 @@ class CcomEntityTest < ActiveSupport::TestCase
     setup do
       @ccom_entity = Factory.create(:ccom_entity, 
                                     :i_d_in_info_source => "0000000000000000.1.125",
-                                    :source_id => "www.mimosa.org/CRIS/V3-2-1/meas_loc_type",
                                     :name => "Vibration, Absolute, Casing, Broadband")
       @xml = @ccom_entity.to_xml
       @doc = Nokogiri::XML.parse(@xml)

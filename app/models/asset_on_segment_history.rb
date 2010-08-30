@@ -9,14 +9,15 @@ class AssetOnSegmentHistory < CcomEntity
   
   before_create :generate_guid
   
-  def install(asset)
+  def install(a)
     self.update_attributes(:start => Time.now.to_s)
     self.save
-    assets << asset
+    assets << a
   end
   
   def uninstall()
     self.update_attributes(:end => Time.now.to_s)
     self.save
   end
+
 end
