@@ -9,8 +9,8 @@ How to start this app
 	1. Install mongodb for your system and start it with mongod
 	2. Unpack gems
 	3. cd into directory containing app
-	4. boot sinatra postback server 		[$ ruby lib/postback_server.rb]
-	5. start server 						[$script/server]
+	4. boot sinatra postback server			[$ ruby lib/postback_server.rb]
+	5. start server							[$script/server]
 	
 	> app will be at http://localhost:3000
 	> events are published to events/
