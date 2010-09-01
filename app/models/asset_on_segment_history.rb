@@ -4,20 +4,25 @@ class AssetOnSegmentHistory < CcomEntity
   # It would be nice to fix this
   belongs_to_related :segment
   has_many_related :assets, :class_name => "Asset", :xml_element => "Asset"
+  has_one :logged_asset
   field :start          #when the asset was placed onto the segment
   field :end            #when the asset was removed from the segment
   
   before_create :generate_guid
   
   def install(a)
-    self.update_attributes(:start => Time.now.to_s)
+    self.update_attributes(:start => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
     self.save
     assets << a
   end
   
   def uninstall()
-    self.update_attributes(:end => Time.now.to_s)
+    self.update_attributes(:end => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
     self.save
   end
-
+  
+  def build_xml(builder)
+    builder.Asset {|b| self.logged_asset.build_xml(b)} if logged_asset
+    builder.Segment {|b| self.segment.build_xml(b)} if segment
+  end
 end

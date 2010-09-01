@@ -89,7 +89,30 @@ class SegmentTest < ActiveSupport::TestCase
       should "have the segment as the asset's (installed on) segment" do
         assert_equal @segment, Asset.find_by_guid(@asset.g_u_i_d).segment
       end
+      
+      context "then generating the xml of that logged history" do
+        setup do
+          builder = Builder::XmlMarkup.new
+          @xml = @hist.to_xml
+          @doc = Nokogiri::XML.parse(@xml)
+        end
+        
+        should "contain a copy of Asset with a valid GUID" do
+          assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']", @doc)
+          assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset", @doc)
+          assert_equal @asset.g_u_i_d, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset/GUID").first.content
+          assert_equal @asset.tag, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset/Tag").first.content
+        end
+        
+        should "contain a copy of the Segment with a valid GUID" do
+          assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']", @doc)
+          assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Segment", @doc)
+          assert_equal @segment.g_u_i_d, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Segment/GUID").first.content
+          assert_equal @asset.tag, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset/Tag").first.content
+        end
 
+      end   
+      
       context "and uninstalling assets" do
         setup do
           @segment.update_attributes(:delete_asset_id => @asset.g_u_i_d)
@@ -100,6 +123,10 @@ class SegmentTest < ActiveSupport::TestCase
 
         before_should "fire off the uninstall event" do
           flexmock(AssetObserver).should_receive(:remove).with(@asset, @hist).once
+        end
+        
+        should "have nil as the assets AOSH" do
+          assert_nil @asset.asset_on_segment_history_id
         end
         
         should "set an end time for the asset on segment history" do
@@ -115,8 +142,18 @@ class SegmentTest < ActiveSupport::TestCase
           assert_nil hist
         end
         
-        should_eventually "keep a history of that asset being installed then uninstalled" do
-          assert_equal @hist.assets.first.g_u_i_d, @asset.g_u_i_d
+        should "keep a history of that asset being installed then uninstalled" do
+          assert_not_nil @hist.logged_asset
+          assert_equal @hist.logged_asset.g_u_i_d, @asset.g_u_i_d
+          @asset.attribute_names.each do |field|
+            unless (value = @asset.send(field)).blank?
+              unless (value2 = @hist.logged_asset.send(field)).blank?
+                assert_equal value, value2
+              end
+            end
+          end
+              
+            
         end
           
         context "Then reinstalling the asset" do
@@ -129,7 +166,7 @@ class SegmentTest < ActiveSupport::TestCase
           should "include the reinstalled asset in the list of installed assets" do
             assert @segment.installed_assets.include?(@asset)
           end
-          should_eventually "keep asset linked to previous install history" do
+          should_eventually "keep a logged copy of that asset in the history" do
             assert_equals @hist.assets.first.g_u_i_d, @asset.g_u_i_d
           end
         end          

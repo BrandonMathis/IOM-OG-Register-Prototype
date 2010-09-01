@@ -25,7 +25,7 @@ class Segment < MonitoredObject
     asset_on_segment_historys.each do |hist|
       if !hist.assets.first.nil?
         asset = Asset.find_by_guid(hist.assets.first.g_u_i_d)
-        installed << asset if asset.asset_on_segment_history.end.nil?
+        installed << asset unless asset.asset_on_segment_history.nil?
       end
     end
     return installed
@@ -37,12 +37,22 @@ class Segment < MonitoredObject
   # installing a new asset involves creating a new history and setting <Start> to Time.now
   #
   # AssetObserver then generates an install event to be caught by sinatra postback_server
+  #
+  # A copy of the asset is placed inside of logged_asset for future reference when we want
+  # to see a history of all assets installed on the segment
   def install_asset_id=(asset_id)
     asset = Asset.find_by_guid(asset_id)
     hist = AssetOnSegmentHistory.create()
     hist.install(asset)
     asset.save
     asset_on_segment_historys <<  hist
+    hist.update_attributes(:logged_asset => LoggedAsset.create(
+                                              :g_u_i_d => asset.g_u_i_d, 
+                                              :tag => asset.tag,
+                                              :i_d_in_info_source => asset.i_d_in_info_source,
+                                              :last_edited => asset.last_edited,
+                                              :status => "1"))
+    hist.update_attributes(:last_edited => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
     AssetObserver.install(asset, hist)
   end
   
@@ -57,7 +67,7 @@ class Segment < MonitoredObject
       hist.uninstall()
       AssetObserver.remove(asset, hist)
       asset.asset_on_segment_history_id = nil
-      assets_to_save << asset
+      assets_to_save << asset      
     end
   end
 
