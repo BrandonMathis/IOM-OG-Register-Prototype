@@ -8,7 +8,7 @@ get '/hello' do
     'Hello World'
 end
 
-post '/CCOMData/Event' do
+post '/CCOMData/ActualEvent' do
   data = request.body.read
   time = Time.now.strftime('%Y%m%dT%H%M%S')
   if (doc = Nokogiri::XML.parse(data) rescue nil)
