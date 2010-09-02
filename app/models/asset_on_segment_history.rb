@@ -12,8 +12,15 @@ class AssetOnSegmentHistory < CcomEntity
   
   def install(a)
     self.update_attributes(:start => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
-    self.save
+    self.update_attributes(:logged_asset => LoggedAsset.create(
+                                                    :g_u_i_d => a.g_u_i_d, 
+                                                    :tag => a.tag,
+                                                    :i_d_in_info_source => a.i_d_in_info_source,
+                                                    :last_edited => a.last_edited,
+                                                    :status => "1"))
+    self.update_attributes(:last_edited => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
     assets << a
+    self.save
   end
   
   def uninstall()

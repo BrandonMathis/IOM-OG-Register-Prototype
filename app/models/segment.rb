@@ -46,13 +46,6 @@ class Segment < MonitoredObject
     hist.install(asset)
     asset.save
     asset_on_segment_historys <<  hist
-    hist.update_attributes(:logged_asset => LoggedAsset.create(
-                                              :g_u_i_d => asset.g_u_i_d, 
-                                              :tag => asset.tag,
-                                              :i_d_in_info_source => asset.i_d_in_info_source,
-                                              :last_edited => asset.last_edited,
-                                              :status => "1"))
-    hist.update_attributes(:last_edited => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
     AssetObserver.install(asset, hist)
   end
   
