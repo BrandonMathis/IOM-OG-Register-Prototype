@@ -17,8 +17,26 @@ class CcomController < ApplicationController
     end
   end
   
-  protected
+  def new
+    respond_to do |format|
+      format.html
+    end
+  end
   
+  def create
+    @entity = Asset.create(params[:entity])
+    
+    respond_to do |format|
+      if @entity.save
+        flash[:notice] = "Asset was saved into database"
+        format.html { redirect_to(:controller => 'assets')}
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end
+  
+  protected
   def load_asset
     @asset = Asset.find(:all, :conditions => {:g_u_i_d => params[:id]})
   end  

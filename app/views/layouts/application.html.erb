@@ -32,6 +32,7 @@
     		<li><%= link_to "Topologies", topologies_path %></li>
                 <li><%= link_to "Serialized Assets", assets_path %></li>
     		<li><%= link_to "Upload XML", ccom_data_path %></li>
+			<li><%= link_to "Create Entity", :controller => "ccom", :action => "new"%>
                 <li><%= link_to "Clear DB", delete_ccom_data_path, 
                         :confirm => "Are you sure you want to delete all objects from the database?" %></li>
   		</ul>

@@ -163,8 +163,8 @@ class SegmentTest < ActiveSupport::TestCase
           should "include the reinstalled asset in the list of installed assets" do
             assert @segment.installed_assets.include?(@asset)
           end
-          should_eventually "keep a logged copy of that asset in the history" do
-            assert_equals @hist.assets.first.g_u_i_d, @asset.g_u_i_d
+          should "keep a logged copy of that asset in the history" do
+            assert_equal @hist.logged_asset.g_u_i_d, @asset.g_u_i_d
           end
           context "then generating the xml of that logged history" do
             setup do
