@@ -1,5 +1,9 @@
-<ul>
+<ul id="show-assets">
 <% @assets.each do |asset| -%>
-  <li><%= link_to asset.tag, asset_url(asset) %></li>
+  <li><%= link_to asset.tag, asset_url(asset) %>
+	  <%= button_to "Destroy", asset,
+				:confirm => 'Are you sure?',
+				:method => :delete %>
+  </li>
 <% end -%>
 </ul>

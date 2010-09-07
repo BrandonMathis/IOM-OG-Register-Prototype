@@ -152,3 +152,5 @@ th { border: 1px solid #666666;padding: 5px; }
 .selected-segment { background: #184980; color: white; padding: 2px; }
 
 #notice { padding: 5px; background: yellow; }
+
+#show-assets li *{display: inline;}
