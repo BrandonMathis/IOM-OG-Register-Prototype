@@ -1,5 +1,5 @@
 <h1> Create New Asset </h1>
-<% form_for :entity, :html => {:name => "create"}, :url => {:action => :create} do |f| -%>	
+<% form_for @entity, :html => {:name => "create"}, :url => {:action => :create} do |f| -%>	
 	<%= f.error_messages %>
 	<p>
 		<%= f.label :g_u_i_d, "GUID" %><br/>
@@ -22,18 +22,18 @@
 		<%= f.text_field :i_d_in_info_source %>
 	</p>
 	<p>
-		<%= f.label :type_id, "Type" %><br/>
+		<%= f.label :type, "Type" %><br/>
 		<% if !@types.empty? -%>
 			<%options = options_for_select(@types.collect{ |t| [t.name, t.g_u_i_d] })-%>
-			<%=f.select 'type_id', options, {:include_blank => "Select an Valid Type"}%>
+			<%=f.select 'type', options, {:include_blank => "Select an Valid Type"}%>
 		<% else -%>
 			No Types have been defined. Please upload a valid XML with defined Asset Types
 		<% end -%>
 	</p>
 	<p>
 		<%options = options_for_select(@networks.collect{ |n| [n.network.name, n.g_u_i_d] })-%>
-		<%=f.label :network_id, "Valid Network"%><br/>
-		<%=f.select 'network_id', options, {:include_blank => "Select an Valid Network"}%>		
+		<%=f.label :valid_network, "Valid Network"%><br/>
+		<%=f.select 'valid_network', options, {:include_blank => "Select an Valid Network"}%>		
 	</p>
 	<p>
 		<%= f.submit "Create" %>

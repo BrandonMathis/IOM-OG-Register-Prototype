@@ -24,6 +24,7 @@ class CcomController < ApplicationController
   # Dup Networks and Types are ignored if they are 100% similar. The slightest
   # difference will cause the type or network to be included in the dropdown
   def new
+    @entity = Asset.new
     @all_networks = ValidNetwork.find(:all)
     @all_assets = Asset.find(:all)
     @types = []
@@ -44,12 +45,16 @@ class CcomController < ApplicationController
   #
   # User is redirectred to Assets page uppon form submission
   def create
-    passed_values = params[:entity]
-    @entity = Asset.create(passed_values)
+    passed_values = params[:asset]
+    @entity = Asset.create(
+                      :g_u_i_d => passed_values[:g_u_i_d],
+                      :tag => passed_values[:tag],
+                      :name => passed_values[:name],
+                      :i_d_in_info_source => passed_values[:i_d_in_info_source])
     @entity.update_attributes(
                     :status => "1",
-                    :valid_network => ValidNetwork.find_by_guid(passed_values[:network_id]),
-                    :type => Type.find_by_guid(passed_values[:type_id]))
+                    :valid_network => ValidNetwork.find_by_guid(passed_values[:valid_network]),
+                    :type => Type.find_by_guid(passed_values[:type]))
     
     respond_to do |format|
       if @entity.save
