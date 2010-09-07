@@ -47,6 +47,7 @@ class CcomController < ApplicationController
     passed_values = params[:entity]
     @entity = Asset.create(passed_values)
     @entity.update_attributes(
+                    :status => "1",
                     :valid_network => ValidNetwork.find_by_guid(passed_values[:network_id]),
                     :type => Type.find_by_guid(passed_values[:type_id]))
     
