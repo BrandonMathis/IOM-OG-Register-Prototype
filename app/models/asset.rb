@@ -24,7 +24,7 @@ class Asset < MonitoredObject
   end
   
   def self.attribute_names
-    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :status, :serial_number]
+    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
 
   def segment

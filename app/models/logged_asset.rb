@@ -1,2 +1,2 @@
-class LoggedAsset < Asset
+class LoggedAsset < CcomEntity
 end

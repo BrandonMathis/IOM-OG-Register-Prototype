@@ -38,8 +38,8 @@ class AssetsControllerTest < ActionController::IntegrationTest
 
       should_respond_with :success
 
-      should "show my serial number" do
-        assert_contain @asset.serial_number
+      should "show my laste edited time" do
+        assert_contain @asset.last_edited
       end
 
       should "have the segment's user tag" do

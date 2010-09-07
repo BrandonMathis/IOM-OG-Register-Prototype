@@ -1,5 +1,6 @@
 <table>
   <% ccom_entity.attribute_names.each do |field| -%>
+	<% RAILS_DEFAULT_LOGGER.debug("***#{field}")%>
     <% unless (value = ccom_entity.send(field)).blank? %>
       <tr><td><%= field.to_s.camelize %></td><td> <%= value %></td></tr>
     <% end -%>
