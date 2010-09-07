@@ -154,3 +154,13 @@ th { border: 1px solid #666666;padding: 5px; }
 #notice { padding: 5px; background: yellow; }
 
 #show-assets li *{display: inline;}
+
+input.form-input{
+	background: none repeat scroll 0 0 #184980;
+	border: 2px solid #091A57;
+	color: #FFFFFF;
+}
+
+input.form-input:hover{
+	background: none repeat scroll 0 0 #091A57;
+}
