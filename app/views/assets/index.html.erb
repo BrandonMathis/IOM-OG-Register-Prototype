@@ -1,10 +1,19 @@
 <ul id="show-assets">
 <% @assets.each do |asset| -%>
-  <li><%= link_to asset.tag, asset_url(asset) %>
-	  <%= button_to "Destroy", asset,
+  <li><%= link_to asset.tag, "#", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
+	   <div class="clear">
+			<%= link_to "<span>View</span>", asset_url(asset),
+				:class => "button" %>
+			<%= link_to "<span>Edit</span>", edit_asset_path(asset),
+				:class => "button" %>
+	   		<%= link_to "<span>Destroy</span>", asset,
 				:confirm => 'Are you sure?',
 				:method => :delete,
-				:class => "form-input" %>
+				:class => "button" %>
+	   </div>
   </li>
+  <div id=<%="asset" << asset.g_u_i_d %> style="display: none;">
+  	<%= render :partial => "ccom_entities/basic_info", :object => asset %>
+  </div>
 <% end -%>
 </ul>

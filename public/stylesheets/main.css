@@ -155,12 +155,38 @@ th { border: 1px solid #666666;padding: 5px; }
 
 #show-assets li *{display: inline;}
 
-input.form-input{
-	background: none repeat scroll 0 0 #184980;
-	border: 2px solid #091A57;
-	color: #FFFFFF;
+.clear{
+	overflow: hidden;
+	width: 100%;
 }
 
-input.form-input:hover{
-	background: none repeat scroll 0 0 #091A57;
+a.button {
+	background: transparent url('images/bg_button_a.gif') no-repeat scroll top right;
+	color: #444;
+	display: block;
+	float: left;
+	font: normal 12px arial, sans-serif;
+	height: 24px;
+	margin-right: 6px;
+	padding-right: 18px; /* sliding doors padding */
+	text-decoration: none;	
+}
+
+a.button span{
+	background: transparent url('images/bg_button_span.gif') no-repeat;
+	display: block;
+	line-height: 24px;
+	padding: 5px 0 5px 18px;	
+}
+
+a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+    background-position: bottom left;
+	line-height: 26px;
+    padding: 6px 0 4px 18px; /* push text down 1px */
 }

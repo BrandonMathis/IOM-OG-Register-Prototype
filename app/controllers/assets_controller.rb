@@ -23,6 +23,25 @@ class AssetsController < ApplicationController
     end
   end
   
+  def edit
+    @asset = Asset.find_by_guid(params[:id])
+  end
+  
+  def update
+    @asset = Asset.find_by_guid(params[:id])
+    
+    respond_to do |format|
+      if @asset.update_attributes(params[:asset])
+        flash[:notice] = 'Product was successfully updated'
+        format.html { redirect_to(@asset) }
+        format.xml { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml { render :xml => @asset.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  
   # Setup for the Entity Creation Form
   # Types and Valid Networks are pulled from exsisting Assets which should
   # have been uploaded via CCOM XML (or maybe defined by admin in future)
