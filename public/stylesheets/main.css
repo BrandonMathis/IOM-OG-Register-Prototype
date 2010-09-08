@@ -190,3 +190,17 @@ a.button:active span {
 	line-height: 26px;
     padding: 6px 0 4px 18px; /* push text down 1px */
 }
+
+.asset-basic{
+	float: left;
+}
+
+.asset-basic td.value {
+	min-width: 540px;
+}
+
+#show-assets .asset-name{
+	float: left;
+	margin-right: 20px;
+	min-width: 490px;
+}

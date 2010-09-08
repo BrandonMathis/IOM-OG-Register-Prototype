@@ -1,6 +1,6 @@
 <ul id="show-assets">
 <% @assets.each do |asset| -%>
-  <li><%= link_to asset.tag, "#", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
+  <li><%= link_to asset.tag, "#", :class => "asset-name", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
 	   <div class="clear">
 			<%= link_to "<span>View</span>", asset_url(asset),
 				:class => "button" %>
@@ -12,8 +12,10 @@
 				:class => "button" %>
 	   </div>
   </li>
-  <div id=<%="asset" << asset.g_u_i_d %> style="display: none;">
-  	<%= render :partial => "ccom_entities/basic_info", :object => asset %>
+  <div class="asset-basic">
+  	<div id= <%="asset" << asset.g_u_i_d %> style="display: none;">
+  		<%= render :partial => "ccom_entities/basic_info", :object => asset %>
+  	</div>
   </div>
 <% end -%>
 </ul>
