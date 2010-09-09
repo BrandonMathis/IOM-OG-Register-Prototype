@@ -1,7 +1,10 @@
 <ul id="show-assets">
 <% @assets.each do |asset| -%>
-  <li><%= link_to asset.tag, "#", :class => "asset-name", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
-	   <div class="clear">
+  <li>
+	<div class="asset-interface">
+	  <%= image_tag "asset_collapsed.png", :class=>"icon", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
+      <%= link_to asset.tag, "#", :class => "asset-name", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %> 
+	  <div class="clear">
 			<%= link_to "<span>View</span>", asset_url(asset),
 				:class => "button" %>
 			<%= link_to "<span>Edit</span>", edit_asset_path(asset),
@@ -11,6 +14,7 @@
 				:method => :delete,
 				:class => "button" %>
 	   </div>
+	</div>
   </li>
   <div class="asset-basic">
   	<div id= <%="asset" << asset.g_u_i_d %> style="display: none;">
