@@ -25,7 +25,10 @@ class AssetsControllerTest < ActionController::IntegrationTest
       end
       should_respond_with :success
       should "link to the asset" do
-        assert_select "a[href=?]", asset_url(@asset), @asset.tag
+        assert_select "a[href=?]", asset_url(@asset), "View"
+      end
+      should "quick link to the asset" do
+        assert_select "a.asset-name", @asset.tag
       end
       should "not have the topology" do
         assert_not_contain @topology.tag

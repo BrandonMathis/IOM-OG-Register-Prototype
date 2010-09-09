@@ -84,7 +84,7 @@ class AssetsController < ApplicationController
     respond_to do |format|
       if @asset.save
         flash[:notice] = "Asset was saved into database"
-        format.html { redirect_to(:controller => 'assets')}
+        format.html { redirect_to(@asset)}
       else
         format.html { render :action => "new" }
       end
