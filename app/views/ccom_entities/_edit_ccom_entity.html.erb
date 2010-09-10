@@ -2,7 +2,7 @@
 	<table>
   	<% edit_ccom_entity.attribute_names.each do |field| -%>
     	<% unless (value = edit_ccom_entity.send(field)).blank? %>
-      		<tr><td><%= field.to_s.camelize %></td><td> <%= f.text_field field.to_s.parameterize.underscore.to_sym %></td></tr>
+      		<tr><td><%= field.to_s.camelize %></td><td> <%= f.text_field field.to_s.parameterize.underscore.to_sym, :size => '62' %></td></tr>
     	<% end -%>
   	<% end -%>
 	</table>
