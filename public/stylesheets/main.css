@@ -170,3 +170,25 @@ th { border: 1px solid #666666;padding: 5px; }
 	margin-right: 20px;
 	min-width: 490px;
 }
+
+a.button {
+	color:#000;
+	text-decoration:none;
+	display:block;
+	width:578px;
+	padding:10px;
+	border:1px solid #DDD;
+	text-align:center;
+
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	-o-border-radius:5px;
+	border-radius:5px;
+	background:#FFFFFF;
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#EEE));
+	background:-moz-linear-gradient(0% 90% 90deg, #EEE, #FFF);
+}
+a.button:hover {
+	color:#000;
+	border-color:#3278BE;
+}

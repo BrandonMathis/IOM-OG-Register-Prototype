@@ -6,7 +6,7 @@
       <%= link_to asset.tag, "#", :class => "asset-name", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %> 
 	  <div class="clear">
 			<%= link_to "<span>View</span>", asset_url(asset),
-				:class => "button" %>
+				:class => "button" %></button>
 			<%= link_to "<span>Edit</span>", edit_asset_path(asset),
 				:class => "button" %>
 	   		<%= link_to "<span>Destroy</span>", asset,
