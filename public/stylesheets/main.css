@@ -192,3 +192,13 @@ a.button:hover {
 	color:#000;
 	border-color:#3278BE;
 }
+
+/*Searilize Asset index*/
+#show-assets .button{
+	display: inline;
+}
+
+#show-assets table.index,
+#show-assets td.index {
+	border: none;
+}
