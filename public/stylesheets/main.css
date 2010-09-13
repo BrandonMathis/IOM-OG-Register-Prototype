@@ -153,6 +153,58 @@ th { border: 1px solid #666666;padding: 5px; }
 
 #notice { padding: 5px; background: yellow; }
 
+/* The error box */
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: #EEFFEE;
+  display: inline;
+}
+
+.fieldWithErrors * {
+  background-color: red;
+}
+
+.fieldWithErrors label{
+	line-height: 180%;
+}
+
+.fieldWithErrors input{
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+  margin-left: 35px;
+}
+
+/* Asset index*/
+
 #show-assets li *{display: inline;}
 .clear{
 	overflow: hidden;
@@ -192,6 +244,7 @@ a.button:hover {
 	color:#000;
 	border-color:#3278BE;
 }
+
 
 /*Searilize Asset index*/
 #show-assets .button{

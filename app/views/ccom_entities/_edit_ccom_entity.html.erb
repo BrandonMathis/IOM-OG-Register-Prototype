@@ -1,4 +1,5 @@
 <%form_for(@asset) do |f| -%>
+	<%= f.error_messages %>
 	<table>
   	<% edit_ccom_entity.attribute_names.each do |field| -%>
     	<% unless (value = edit_ccom_entity.send(field)).blank? %>

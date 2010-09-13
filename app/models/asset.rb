@@ -10,6 +10,9 @@ class Asset < MonitoredObject
 
   delegate :network, :to => :valid_network
   
+  validates_presence_of :g_u_i_d
+  validates_format_of :g_u_i_d, :with => /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
+
   # KeysetTS
   # Will query and give an array of all uninstalled assets based on if the asset has a
   # history or if it has a history with a set end time
@@ -111,5 +114,4 @@ class Asset < MonitoredObject
     entity.save
     entity
   end
-
 end

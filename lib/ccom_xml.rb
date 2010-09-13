@@ -7,12 +7,7 @@ module CcomXml
     end
   end
 
-  module ClassMethods
-    def valid_guid(guid)
-      regex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
-      return true if guid.gsub(regex)
-    end
-    
+  module ClassMethods    
     def from_xml(xml)
       doc = Nokogiri::XML.parse(xml)
       entity_node = doc.mimosa_xpath("/CCOMData/Entity[@*='#{xml_entity_name}']").first

@@ -50,12 +50,8 @@ class AssetsController < ApplicationController
   # difference will cause the type or network to be included in the dropdown
   def new
     @asset = Asset.new
-    @all_networks = ValidNetwork.find(:all)
-    @all_assets = Asset.find(:all)
-    @types = []
-    @networks = []
-    @all_assets.each{ |a| @types << a.type unless a.type.nil? || @types.include?(a.type)}
-    @all_networks.each{ |n| @networks << n unless @networks.include?(n) }
+    @types = define_types()
+    @networks = define_networks()
     respond_to do |format|
       format.html
     end
@@ -86,6 +82,8 @@ class AssetsController < ApplicationController
         flash[:notice] = "Asset was saved into database"
         format.html { redirect_to(@asset)}
       else
+        @types = define_types()
+        @networks = define_networks()
         format.html { render :action => "new" }
       end
     end
@@ -93,7 +91,22 @@ class AssetsController < ApplicationController
   
   protected
 
-  def load_asset
-    @asset = Asset.find_by_guid(params[:id]) if params[:id]
-  end
+    def load_asset
+      @asset = Asset.find_by_guid(params[:id]) if params[:id]
+    end
+  
+  private
+    def define_types()
+      @all_assets = Asset.find(:all)
+      types = []
+      @all_assets.each{ |a| types << a.type unless a.nil? || a.type.nil? || types.include?(a.type) }
+      return types
+    end
+  
+    def define_networks()
+      @all_networks = ValidNetwork.find(:all)
+      networks = []
+      @all_networks.each{ |n| networks << n unless networks.include?(n) }
+      return networks
+    end
 end

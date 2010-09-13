@@ -5,12 +5,12 @@
   <tr>
 	<td class="index">
 	    <%= image_tag "asset_collapsed.png", :class=>"icon", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
-        <%= link_to asset.tag, asset_url(asset), :class => "asset-name" %> 
+        <%= link_to !asset.tag.empty? ? asset.tag : "Asset: "<<asset.g_u_i_d, asset_url(asset), :class => "asset-name" %> 
 	</td>
 	<td class="index">
 		<div class="buttons">
 	  		<%= link_to "<span>View</span>", asset_url(asset),
-	  			:class => "button" %></button>
+	  			:class => "button" %>
 	  		<%= link_to "<span>Edit</span>", edit_asset_path(asset),
 	  			:class => "button" %>
 	   		<%= link_to "<span>Destroy</span>", asset,
