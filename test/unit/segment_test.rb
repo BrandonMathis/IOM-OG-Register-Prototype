@@ -27,7 +27,7 @@ class SegmentTest < ActiveSupport::TestCase
     end
   
     should "contain a valid guid" do
-      Segment.valid_guid(@seg.g_u_i_d)
+      CcomEntity.valid_guid(@seg.g_u_i_d)
     end
   end
 

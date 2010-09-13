@@ -9,6 +9,12 @@ class CcomEntity
   field :last_edited
   field :status, :type => Integer
 
+  # Return true if given GUID is a valid UUID
+  def self.valid_guid(guid)
+    regex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
+    return true if guid.gsub(regex)
+  end
+  
   def self.attribute_names
     @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
@@ -57,7 +63,7 @@ class CcomEntity
   end
   
   def generate_last_edited
-    self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S')
+    self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S') if last_edited.blank?
   end
 
 end

@@ -18,7 +18,6 @@ class AssetOnSegmentHistory < CcomEntity
                                                     :i_d_in_info_source => a.i_d_in_info_source,
                                                     :last_edited => a.last_edited,
                                                     :status => "1"))
-    self.update_attributes(:last_edited => Time.now.strftime('%Y-%m-%dT%H:%M:%S'))
     assets << a
     self.save
   end

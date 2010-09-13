@@ -11,7 +11,7 @@ class AssetTest < ActiveSupport::TestCase
     end
     
     should "have a valid guid" do
-      assert Asset.valid_guid(@asset.g_u_i_d)
+      assert CcomEntity.valid_guid(@asset.g_u_i_d)
     end
     
     should "have a last edited time" do
