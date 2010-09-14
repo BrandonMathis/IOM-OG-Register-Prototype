@@ -18,7 +18,7 @@
 	</p>
 	
 	<p>
-		<%= f.label :i_d_in_info_source, "IDInInfoSource" %><br/>
+		<%= f.label :i_d_in_info_source, "Native System ID" %><br/>
 		<%= f.text_field :i_d_in_info_source %>
 	</p>
 	<p>
@@ -33,8 +33,8 @@
 	<p>
 		<% if !@networks.nil? && !@networks.empty? -%>
 			<%options = options_for_select(@networks.collect{ |n| [n.network.name, n.g_u_i_d] })-%>
-			<%=f.label :valid_network, "Valid Network"%><br/>
-			<%=f.select 'valid_network', options, {:include_blank => "Select an Valid Network"}%>
+			<%=f.label :valid_network, "Valid Datasheet"%><br/>
+			<%=f.select 'valid_network', options, {:include_blank => "Select an Valid Datasheet"}%>
 		<% else -%>
 			No Networks have been defined. Please upload a valid XML with defined Networks
 		<% end -%> 	

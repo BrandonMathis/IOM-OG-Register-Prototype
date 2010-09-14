@@ -23,8 +23,8 @@
   <tr>
 	<td colspan="2" class="index">
   		<div class="asset-basic">
-  			<div id= <%="asset" << asset.g_u_i_d %> style="display: none;">
-  				<%= render :partial => "ccom_entities/basic_info", :object => asset %>
+  			<div id= <%="asset" << asset.g_u_i_d %> style="display: none;" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+  				<%= render :partial => "ccom_entities/ccom_entity", :object => asset %>
   			</div>
   		</div>
      </td>
