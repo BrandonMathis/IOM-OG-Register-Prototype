@@ -74,8 +74,8 @@ class AssetsController < ApplicationController
                       :i_d_in_info_source => passed_values[:i_d_in_info_source])
     @asset.update_attributes(
                     :status => "1",
-                    :valid_network => ValidNetwork.find_by_guid(passed_values[:valid_network]),
-                    :type => Type.find_by_guid(passed_values[:type]))
+                    :valid_network => ValidNetwork.find_by_guid(passed_values[:valid_network]))
+    @asset.update_attributes(:type => Type.find_by_guid(passed_values[:type]) || Type.undetermined )
     
     respond_to do |format|
       if @asset.save
@@ -106,7 +106,7 @@ class AssetsController < ApplicationController
     def define_networks()
       @all_networks = ValidNetwork.find(:all)
       networks = []
-      @all_networks.each{ |n| networks << n unless networks.include?(n) }
+      @all_networks.each{ |n| networks << n unless networks.include?(n) || !n.network.tag[(/^(Data Sheet)/)] }
       return networks
     end
 end
