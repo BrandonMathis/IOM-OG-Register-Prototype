@@ -36,7 +36,7 @@ class CcomEntity
     self.class.attribute_names
   end
   
-  before_save :generate_guid, :generate_last_edited
+  before_save :generate_guid
 
   def tag_with_fallback
     tag = tag_without_fallback
@@ -61,9 +61,4 @@ class CcomEntity
   def generate_guid
     self.g_u_i_d = UUID.generate if g_u_i_d.blank?
   end
-  
-  def generate_last_edited
-    self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S') if last_edited.blank?
-  end
-
 end

@@ -10,6 +10,8 @@ class Asset < MonitoredObject
 
   delegate :network, :to => :valid_network
   
+  before_save :generate_name
+  
   # Would be nice to have this so GUIDs can be validated but throws an error when 'rake test' is run
   # validates_format_of :g_u_i_d, 
   #                    :with => /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
@@ -114,5 +116,10 @@ class Asset < MonitoredObject
     end
     entity.save
     entity
+  end
+  
+  private
+  def generate_name
+    self.name = "Asset: " << self.g_u_i_d if name.blank?
   end
 end
