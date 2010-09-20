@@ -54,7 +54,6 @@ class AssetsController < ApplicationController
     @manufacturers = get_all_asset(:manufacturer)
     @models = get_all_asset(:model)
     @networks = define_networks()
-    RAILS_DEFAULT_LOGGER.debug("***#{@manufacturers.first.guid}")
     respond_to do |format|
       format.html
     end
@@ -75,8 +74,11 @@ class AssetsController < ApplicationController
                       :tag => passed_values[:tag],
                       :name => passed_values[:name],
                       :i_d_in_info_source => passed_values[:i_d_in_info_source],
-                      :status => "1")
-    
+                      :status => "1",
+                      :model => Model.find_by_guid(passed_values[:model]),
+                      :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
+                      :serial_number => passed_values[:serial_number])
+                      
     @asset.update_attributes(:type => Type.find_by_guid(passed_values[:type]) || Type.undetermined )
     
     ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
