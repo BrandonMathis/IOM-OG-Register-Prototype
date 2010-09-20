@@ -31,6 +31,28 @@
 		<% end -%>
 	</p>
 	<p>
+		<%= f.label :manufacturer, "Manufacturer" %><br/>
+		<% if !@manufacturers.nil? && !@manufacturers.empty? -%>
+			<% options = options_for_select(@manufacturers.collect{ |m| [m.name, m.guid]})-%>
+			<%= f.select 'manufacturer', options, {:include_blank => "Select a Valid Manufacturer"}%>
+		<% else -%>
+			No Manufacturers have been defined. Please upload a valid XML with defined Manufacturers
+		<% end -%>
+	</p>
+	<p>
+		<%= f.label :model, "Model" %><br/>
+		<% if !@models.nil? && !@models.empty? -%>
+			<%options = options_for_select(@models.collect{ |m| [m.name, m.guid]})-%>
+			<%= f.select 'model', options, {:include_blank => "Select a Valid Manufacturer"}%>
+		<% else -%>
+			No Models have been defined. Please upload a valid XML with defined Models
+		<% end -%>
+	</p>
+	<p>
+		<%= f.label :model, "Model" %><br/>
+		<%= f.text_field :model %>
+	</p>
+	<p>
 		<% if !@networks.nil? && !@networks.empty? -%>
 			<%options = options_for_select(@networks.collect{ |n| [n.network.name, n.g_u_i_d] })-%>
 			<%=f.label :valid_network, "Valid Datasheet"%><br/>

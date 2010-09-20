@@ -18,7 +18,8 @@ class Type < BaseTypeEntity
   end
   
   def self.undetermined
-    undetermined = create!(:g_u_i_d => "400ebcb3-80f3-4601-b693-49e4232ff797",
+    undetermined = first(:conditions => { :g_u_i_d => "400ebcb3-80f3-4601-b693-49e4232ff797"})
+    undetermined ||= create!(:g_u_i_d => "400ebcb3-80f3-4601-b693-49e4232ff797",
                            :tag => "Undetermined",
                            :name => "Undetermined",
                            :status => "1")

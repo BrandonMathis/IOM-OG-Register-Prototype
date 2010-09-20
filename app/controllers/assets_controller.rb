@@ -50,8 +50,11 @@ class AssetsController < ApplicationController
   # difference will cause the type or network to be included in the dropdown
   def new
     @asset = Asset.new
-    @types = define_types()
+    @types = get_all_asset(:type)
+    @manufacturers = get_all_asset(:manufacturer)
+    @models = get_all_asset(:model)
     @networks = define_networks()
+    RAILS_DEFAULT_LOGGER.debug("***#{@manufacturers.first.guid}")
     respond_to do |format|
       format.html
     end
@@ -71,18 +74,23 @@ class AssetsController < ApplicationController
                       :g_u_i_d => passed_values[:g_u_i_d],
                       :tag => passed_values[:tag],
                       :name => passed_values[:name],
-                      :i_d_in_info_source => passed_values[:i_d_in_info_source])
-    @asset.update_attributes(
-                    :status => "1",
-                    :valid_network => ValidNetwork.find_by_guid(passed_values[:valid_network]))
+                      :i_d_in_info_source => passed_values[:i_d_in_info_source],
+                      :status => "1")
+    
     @asset.update_attributes(:type => Type.find_by_guid(passed_values[:type]) || Type.undetermined )
+    
+    ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
+    valid_network = ref_valid_network.nil? ? nil : ref_valid_network.dup_entity(:gen_new_guids => true)
+    @asset.update_attributes( :valid_network => valid_network)
     
     respond_to do |format|
       if @asset.save
         flash[:notice] = "Asset was saved into database"
         format.html { redirect_to(@asset)}
       else
-        @types = define_types()
+        @types = get_all_asset(:type)
+        @manufacturers = get_all_asset(:manufacturer)
+        @models = get_all_asset(:model)
         @networks = define_networks()
         format.html { render :action => "new" }
       end
@@ -96,17 +104,23 @@ class AssetsController < ApplicationController
     end
   
   private
-    def define_types()
+    def get_all_asset(child)
       @all_assets = Asset.find(:all)
-      types = []
-      @all_assets.each{ |a| types << a.type unless a.nil? || a.type.nil? || types.include?(a.type) }
-      return types
+      children = []
+      @all_assets.each{ |a| children << a.send("#{child}") unless a.nil? || a.send("#{child}").nil? || children.include?(a.send("#{child}")) }
+      return children
     end
   
     def define_networks()
       @all_networks = ValidNetwork.find(:all)
+      logged= []
       networks = []
-      @all_networks.each{ |n| networks << n unless networks.include?(n) || !n.network.tag[(/^(Data Sheet)/)] }
+      @all_networks.each do |n| 
+        unless logged.include?(n.guid) || !n.network.tag[(/^(Data Sheet)/)]
+          networks << n
+          logged << n.guid
+        end
+      end
       return networks
     end
 end
