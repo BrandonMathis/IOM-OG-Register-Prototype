@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ObjectTypeTest < ActiveSupport::TestCase
+class Type < ActiveSupport::TestCase
   should "be valid from factory" do
     assert_valid Factory.create(:object_type)
   end
@@ -13,28 +13,27 @@ class ObjectTypeTest < ActiveSupport::TestCase
 
   context "with the one and only install event object type" do
     setup do
-      @install_event = ObjectType.install_event
+      @install_event = Type.install_event
     end
     should "have user name" do
-      assert_equal "Install Event", @install_event.user_name
+      assert_equal "Install Event", @install_event.name
     end
   end
 
   context "generating xml" do
     setup do
       @object_type = Factory.create(:object_type, 
-                                    :id_in_source => "0000000000000000.1.125",
-                                    :source_id => "www.mimosa.org/CRIS/V3-2-1/meas_loc_type",
-                                    :user_name => "Vibration, Absolute, Casing, Broadband")
+                                    :i_d_in_info_source => "0000000000000000.1.125",
+                                    :name => "Vibration, Absolute, Casing, Broadband")
       builder = Builder::XmlMarkup.new
-      xml = builder.ObjectType do |b|
+      xml = builder.Type do |b|
         @object_type.build_xml(b)
       end
       @doc = Nokogiri::XML.parse(xml)
     end
     
     should "include id in source" do
-      assert_equal @object_type.id_in_source, @doc.xpath("//ObjectType/idInSource").first.content
+      assert_equal @object_type.i_d_in_info_source, @doc.xpath("//Type/IDInInfoSource").first.content
     end
   end
 end

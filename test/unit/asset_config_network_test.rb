@@ -2,11 +2,11 @@ require 'test_helper'
 
 class AssetConfigNetworkTest < ActiveSupport::TestCase
   should "be valid from factory" do
-    assert_valid Factory.create(:asset_config_network)
+    assert_valid Factory.create(:valid_network)
   end
 
   should "support an associated network" do
-    assert_valid Factory.create(:asset_config_network, :associated_network => Factory.create(:network))
+    assert_valid Factory.create(:valid_network, :network => Factory.create(:network))
   end
 
   # context "generating xml" do

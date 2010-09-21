@@ -10,3 +10,4 @@ class Nokogiri::XML::Node
     xpath(path.to_mimosa, { "mimosa" => MIMOSA_XMLNS } )
   end
 end
+

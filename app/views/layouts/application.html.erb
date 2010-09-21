@@ -8,6 +8,8 @@
   <%= javascript_include_tag "jquery.treeview" %>
   <%= javascript_include_tag "jquery.form" %>
   <%= javascript_include_tag "application/topologies" %>
+  <%= javascript_include_tag "addtext" %>
+  <%= javascript_include_tag "uuid" %>
   <%= stylesheet_link_tag "jquery.treeview" %>
   <%= stylesheet_link_tag "ui-lightness/jquery-ui" %>
   <%= stylesheet_link_tag "topologies" %>
@@ -21,7 +23,7 @@
 	<div id="header">
   		<div id="logo">
     		<a href="<%= root_url %>"><h1>Assetricity</h1></a>
-			<p class="right">IOM-CI Active Registry Server</p>
+			<p class="right">IOM-CI Active Registry Server version <%=APP_VERSION%></p>
     		<p>Your Strategic Partner In Open Operations and Maintenance</p>
   		</div>
 	</div>
@@ -32,6 +34,7 @@
     		<li><%= link_to "Topologies", topologies_path %></li>
                 <li><%= link_to "Serialized Assets", assets_path %></li>
     		<li><%= link_to "Upload XML", ccom_data_path %></li>
+			<li><%= link_to "Create Asset", :controller => "assets", :action => "new"%></li>
                 <li><%= link_to "Clear DB", delete_ccom_data_path, 
                         :confirm => "Are you sure you want to delete all objects from the database?" %></li>
   		</ul>

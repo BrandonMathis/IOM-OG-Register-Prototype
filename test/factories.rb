@@ -1,10 +1,9 @@
-Factory.sequence(:guid) { |i| "#{Time.now.to_i}#{i}" }
-Factory.sequence(:id_in_source) { |i| "#{i}" }
+Factory.sequence(:g_u_i_d) { |i| "#{Time.now.to_i}#{i}" }
+Factory.sequence(:i_d_in_info_source) { |i| "#{i}" }
 
 def ccom_entity_fields(factory)
 #  factory.guid { Factory.next :guid }
-  factory.id_in_source { Factory.next :id_in_source }
-  factory.source_id "exxon.com/uehm/ramp/V1.0"
+  factory.i_d_in_info_source { Factory.next :i_d_in_info_source }
 end
 
 Factory.define(:ccom_entity) do |f|
@@ -15,14 +14,14 @@ Factory.define(:ccom_object) do |f|
   ccom_entity_fields(f)
 end
 
-Factory.define(:object_type) do |f|
+Factory.define(:type) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_name) { |i| "Object Type #{i}" }
+  f.sequence(:name) { |i| "Object Type #{i}" }
 end
 
 Factory.define(:attribute_type) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_name) { |i| "Attribute Type #{i}" }
+  f.sequence(:name) { |i| "Attribute Type #{i}" }
 end
 
 Factory.define(:object_datum) do |f|
@@ -33,48 +32,54 @@ end
 
 Factory.define(:eng_unit_type) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_name) { |i| "Engineering Unit Type #{i}" }
+  f.sequence(:name) { |i| "Engineering Unit Type #{i}" }
 end
 
 Factory.define(:meas_location) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_tag) { |i| "meas-location-#{i}" }
-  f.sequence(:user_name) { |i| "Meas Location #{i}" }
-  f.object_type { |a| a.association(:object_type) }
+  f.sequence(:tag) { |i| "meas-location-#{i}" }
+  f.sequence(:name) { |i| "Meas Location #{i}" }
+  f.type { |a| a.association(:type) }
   f.association :default_eng_unit_type, :factory => :eng_unit_type
 end
 
 Factory.define(:segment) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_name) { |i| "Segment #{i}" }
+  f.sequence(:name) { |i| "Segment #{i}" }
+end
+
+Factory.define(:asset_on_segment_history) do |f|
+  ccom_entity_fields(f)
+  f.sequence(:name) { |i| "AssetOnSegmentHistory #{i}"}
 end
 
 Factory.define(:network_connection) do |f|
   ccom_entity_fields(f)
   f.association :source, :factory => :segment
-  f.sequence(:ordering_seq) { |i| i }
+  f.association :target, :factory => :segment
+  f.sequence(:order) { |i| i }
 end
 
 Factory.define(:network) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_name) { |i| "Network #{i}" }
+  f.sequence(:name) { |i| "Network #{i}" }
 end
 
-Factory.define(:asset_config_network) do |f|
+Factory.define(:valid_network) do |f|
   ccom_entity_fields(f)
-  f.association :associated_network, :factory => :network
+  f.association :network, :factory => :network
 end
 
 Factory.define(:manufacturer) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_tag) { |i| "manufacturer-#{i}" }
-  f.sequence(:user_name) { |i| "Manufacturer #{i}" }
+  f.sequence(:tag) { |i| "manufacturer-#{i}" }
+  f.sequence(:name) { |i| "Manufacturer #{i}" }
 end
 
 Factory.define(:model) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_tag) { |i| "model-#{i}" }
-  f.sequence(:user_name) { |i| "Model #{i}" }
+  f.sequence(:tag) { |i| "model-#{i}" }
+  f.sequence(:name) { |i| "Model #{i}" }
   f.sequence(:product_family) { |i| "Z40#{i}" }
   f.sequence(:product_family_member) do |i| 
     char = ("A".."Z").to_a[i%26]
@@ -87,22 +92,22 @@ end
 
 Factory.define(:asset) do |f|
   ccom_entity_fields(f)
-  f.sequence(:user_tag) { |i| "asset-#{i}" }
-  f.sequence(:user_name) { |i| "Asset #{i}" }
+  f.sequence(:tag) { |i| "asset-#{i}" }
+  f.sequence(:name) { |i| "Asset #{i}" }
 end
 
-Factory.define(:topology_object_type, :parent => :object_type) do |f|
-  f.guid "a62a6cdb-ca56-4b2b-90aa-fafac73caa33"
+Factory.define(:topology_type, :parent => :type) do |f|
+  f.g_u_i_d "a62a6cdb-ca56-4b2b-90aa-fafac73caa33"
 end
 
 Factory.define(:serialized_asset, :parent => :asset) do |f|
 end
 
 Factory.define(:topology_asset, :parent => :asset) do |f|
-  f.association :object_type, :factory => :topology_object_type
+  f.association :type, :factory => :topology_type
 end
 
-Factory.define(:event) do |f|
+Factory.define(:actual_event) do |f|
   ccom_entity_fields(f)
 end
 

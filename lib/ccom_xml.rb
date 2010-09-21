@@ -7,10 +7,10 @@ module CcomXml
     end
   end
 
-  module ClassMethods
+  module ClassMethods    
     def from_xml(xml)
       doc = Nokogiri::XML.parse(xml)
-      entity_node = doc.mimosa_xpath("/CCOMData/#{xml_entity_name}").first
+      entity_node = doc.mimosa_xpath("/CCOMData/Entity[@*='#{xml_entity_name}']").first
       parse_xml(entity_node)
     end
 
@@ -21,7 +21,7 @@ module CcomXml
           attributes[attr] =  node.content
         end
       end
-      if entity = find_by_guid(attributes[:guid])
+      if entity = find_by_guid(attributes[:g_u_i_d])
         entity.update_attributes(attributes)
       else
         entity = create(attributes)
@@ -55,7 +55,7 @@ module CcomXml
     end
 
     def attr_to_camel(attr)
-      attr.to_s.camelize(:lower)
+      attr.to_s.camelize()
     end
     
   end
@@ -66,7 +66,7 @@ module CcomXml
       builder = Builder::XmlMarkup.new(opts)
       builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
       xml = builder.tag!("CCOMData", self.class.xml_entity_attributes) do |b|
-        b.tag!(self.class.xml_entity_name) do |bb|
+        b.tag!("Entity", "xsi:type" => self.class.xml_entity_name) do |bb|
           build_xml(bb)
         end
       end

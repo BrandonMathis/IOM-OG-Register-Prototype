@@ -11,7 +11,7 @@ class TopologyAssetTest < ActiveSupport::TestCase
     end
 
     should "have a nil entry point" do
-      assert_nil @topology.entry_point
+      assert_nil @topology.entry_edge
     end
   end
 
@@ -21,14 +21,14 @@ class TopologyAssetTest < ActiveSupport::TestCase
 
   context "assigning an entry point" do
     setup do
-      @entry_point = Factory.create(:network_connection)
-      @topology = Factory.create(:topology_asset, :entry_point => @entry_point)
+      @entry_edge = Factory.create(:network_connection)
+      @topology = Factory.create(:topology_asset, :entry_edge => @entry_edge)
     end
     should "be assigned" do
-      assert_equal @entry_point, @topology.entry_point
+      assert_equal @entry_edge, @topology.entry_edge
     end
     should "still be assinged when I reload it" do
-      assert_equal @entry_point, Asset.find_by_guid(@topology.guid).entry_point
+      assert_equal @entry_edge, Asset.find_by_guid(@topology.g_u_i_d).entry_edge
     end
   end
 end

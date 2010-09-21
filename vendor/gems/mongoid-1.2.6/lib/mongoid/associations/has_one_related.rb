@@ -4,16 +4,17 @@ module Mongoid #:nodoc:
     class HasOneRelated #:nodoc:
       include Proxy
 
-      delegate :nil?, :to => :target
+      delegate :==, :nil?, :to => :document
+      attr_reader :klass, :document
 
       # Builds a new Document and sets it as the association.
       #
       # Returns the newly created object.
       def build(attributes = {})
-        @target = @klass.instantiate(attributes)
+        @document = @klass.instantiate(attributes)
         name = @parent.class.to_s.underscore
-        @target.send("#{name}=", @parent)
-        @target
+        @document.send("#{name}=", @parent)
+        @document
       end
 
       # Builds a new Document and sets it as the association, then saves the
@@ -21,7 +22,7 @@ module Mongoid #:nodoc:
       #
       # Returns the newly created object.
       def create(attributes)
-        build(attributes); @target.save; @target
+        build(attributes); @document.save; @document
       end
 
       # Initializing a related association only requires looking up the objects
@@ -31,11 +32,15 @@ module Mongoid #:nodoc:
       #
       # document: The +Document+ that contains the relationship.
       # options: The association +Options+.
-      def initialize(document, options, target = nil)
+      def initialize(document, options)
         @parent, @klass = document, options.klass
         @foreign_key = document.class.to_s.foreign_key
-        @target = target || @klass.first(:conditions => { @foreign_key => @parent.id })
-        extends(options)
+        @document = @klass.first(:conditions => { @foreign_key => @parent.id })
+      end
+
+      # Delegate all missing methods over to the +Document+.
+      def method_missing(name, *args)
+        @document.send(name, *args)
       end
 
       class << self
@@ -45,8 +50,8 @@ module Mongoid #:nodoc:
         #
         # document: The +Document+ that contains the relationship.
         # options: The association +Options+.
-        def instantiate(document, options, target = nil)
-          new(document, options, target)
+        def instantiate(document, options)
+          new(document, options)
         end
 
         # Returns the macro used to create the association.
@@ -65,14 +70,11 @@ module Mongoid #:nodoc:
         #
         # Example:
         #
-        # <tt>HasOneToRelated.update(game, person, options)</tt>
-        def update(target, document, options)
-          if target
-            name = document.class.to_s.underscore
-            target.send("#{name}=", document)
-            return instantiate(document, options, target)
-          end
-          target
+        # <tt>HasManyToRelated.update(game, person, options)</tt>
+        def update(related, document, options)
+          name = document.class.to_s.underscore
+          related.send("#{name}=", document)
+          related
         end
       end
 

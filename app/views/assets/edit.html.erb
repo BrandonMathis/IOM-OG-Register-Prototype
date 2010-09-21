@@ -1,0 +1,20 @@
+<div id="asset_dialog">
+  <div id="asset_tabs">
+    <ul class="tab_links">
+      <li><a href="#asset_details">Details</a></li>
+      <% if @asset.type %><li><a href="#asset_object_type">Type</a></li><% end %>
+      <% if @asset.valid_network %><li><a href="#asset_datasheet">Data Sheet</a></li><% end %>
+    </ul>
+    <div id="asset_details">
+      <%= render :partial => "ccom_entities/edit_ccom_entity", :object => @asset %>
+    </div>
+
+    <% if @asset.type %><div id="asset_object_type">
+        <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.type %>
+      </div><% end %>
+
+    <div id="asset_datasheet">
+      <%= render :partial => "network_connections/datasheet", :collection => @asset.entry_edges, :locals => {:indent_level => 1 } %>
+    </div>
+  </div>
+</div>

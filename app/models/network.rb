@@ -1,10 +1,17 @@
 class Network < CcomObjectWithChildren
-  has_many :entry_points, :class_name => "NetworkConnection"
-
+  has_many :entry_edges, :class_name => "NetworkConnection", :xml_element => "EntryEdge"
+  
+  def dup_entity(options ={})
+    entity = super(options)
+    entry_edges.each {|edge| entity.entry_edges << edge.dup_entity(options) if edge}
+    entity.save
+    return entity
+  end
+  
   def build_xml(builder)
     super(builder)
-    entry_points.each do |e|
-      builder.hasEntryPoint do |b|
+    entry_edges.each do |e|
+      builder.EntryEdge do |b|
         e.build_xml(b)
       end
     end

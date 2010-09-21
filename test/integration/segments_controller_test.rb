@@ -4,12 +4,12 @@ class SegmentsControllerTest < ActionController::IntegrationTest
 
   def setup
     super
-    @functional_location = Factory.create(:segment, :user_tag => "CU-1", 
-                                          :user_name => "Something other than the user tag",
-                                          :object_type => nil)
+    @functional_location = Factory.create(:segment, :tag => "CU-1", 
+                                          :name => "Something other than the user tag",
+                                          :type => nil)
 
     @asset = Factory(:asset)
-    @functional_location.installed_assets << @asset
+    @functional_location.update_attributes(:install_asset_id => @asset.g_u_i_d)
     @functional_location.save
   end
 
@@ -19,25 +19,25 @@ class SegmentsControllerTest < ActionController::IntegrationTest
     end
 
     should "have the some of the ccom entity details displayed" do
-      [:guid, :user_name].each do |attr|
+      [:g_u_i_d, :name].each do |attr|
         assert_contain @functional_location.send(attr)
       end
     end
 
     context "with an object type" do
       setup do
-        @object_type = Factory.create(:object_type, :user_tag => "some object type")
-        @functional_location.object_type = @object_type
+        @object_type = Factory.create(:type, :tag => "some object type")
+        @functional_location.type = @object_type
         @functional_location.save
-        @functional_location = Segment.find_by_guid(@functional_location.guid)
+        @functional_location = Segment.find_by_guid(@functional_location.g_u_i_d)
         visit segment_url(@functional_location)
       end
       should "have a new object type" do
-        assert_equal @object_type, @functional_location.object_type
+        assert_equal @object_type, @functional_location.type
       end
       should_respond_with :success
       should "have the object type's details" do
-        [:guid, :user_tag].each do |attr|
+        [:g_u_i_d, :tag].each do |attr|
           assert_contain @object_type.send(attr)
         end
       end
@@ -48,14 +48,17 @@ class SegmentsControllerTest < ActionController::IntegrationTest
     setup do
       visit segment_url(@functional_location)
     end
+    should "Have our asset as an installed asset" do
+      assert @functional_location.installed_assets.include?(@asset)
+    end
     should_respond_with :success
     should "display the asset user tag" do
-      assert_contain @asset.user_tag
+      assert_contain @asset.tag
     end
 
     context "uninstalling an asset" do
       setup do
-        click_button "uninstall-#{@asset.guid}"
+        click_button "uninstall-#{@asset.g_u_i_d}"
       end
       should_eventually "flash a message about uninstalling the asset" do
         assert_contain /Uninstalled.*#{@asset.user_tag}/
@@ -74,11 +77,11 @@ class SegmentsControllerTest < ActionController::IntegrationTest
       visit segment_url(@functional_location)
     end
     should "show the uninstalled asset in a select list" do
-      assert_select "option", @uninstalled_asset.user_tag
+      assert_select "option", @uninstalled_asset.tag
     end
     context "and really doing it" do
       setup do
-        select @uninstalled_asset.user_tag
+        select @uninstalled_asset.tag
         click_button "Install"
       end
 
@@ -99,19 +102,19 @@ class SegmentsControllerTest < ActionController::IntegrationTest
       @obj_data1 = ObjectDatum.create_from_fields("2300", "Armature Voltage, Rated", "Volts")
       @obj_data2 = ObjectDatum.create_from_fields("42", "Armature Voltage, unrated", "Volts")
       @meas_loc1 = Factory.create(:meas_location, 
-                                  :user_tag => "VLT-RAT",
+                                  :tag => "VLT-RAT",
                                   :object_data => [@obj_data1, @obj_data2])
-      @segment = Factory.create(:segment, :user_tag => "ELEC SPEC", :meas_locations => [@meas_loc1])
+      @segment = Factory.create(:segment, :tag => "ELEC SPEC", :meas_locations => [@meas_loc1])
       
       ep = Factory.create(:network_connection, :source => @segment)
-      network = Factory.create(:network, :entry_points => [ep])
-      scn = SegmentConfigNetwork.create(:associated_network => network)
+      network = Factory.create(:network, :entry_edges => [ep])
+      scn = SegmentConfigNetwork.create(:network => network)
       @functional_location = Factory.create(:segment, :segment_config_network => scn)
       visit segment_url(@functional_location)
     end
 
     should "have the meas loc's user tag" do
-      assert_select "tr > td.user_tag", @meas_loc1.user_tag
+      assert_select "tr > td.user_tag", @meas_loc1.tag
     end
 
     should "have the meas loc's attribute type" do

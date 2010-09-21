@@ -41,7 +41,7 @@ class PostbackServerTest < Test::Unit::TestCase
   context "posting a real ccom event" do
     setup do
       @user_tag = "Model Z400-A1 S/N 3Z84G32AA0-4 AC Induction Motor"
-      @event_xml = "<?xml version='1.0' encoding='UTF-8'?> <CCOMData xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.mimosa.org/osa-eai/v3-3/xml/CCOM-ML'> <Event> <guid>251ff520-e40e-11de-8a39-0800200c9a36</guid> <userTag>#{@user_tag}</userTag></Event></CCOMData>"
+      @event_xml = "<?xml version='1.0' encoding='UTF-8'?> <CCOMData xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML'> <Event> <GUID>251ff520-e40e-11de-8a39-0800200c9a36</GUID> <userTag>#{@user_tag}</userTag></Event></CCOMData>"
       post '/events', @event_xml
       @new_filename = (Dir.entries(EVENTS_PATH) - @start_entries).first
     end

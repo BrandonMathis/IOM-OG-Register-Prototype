@@ -1,0 +1,2 @@
+class LoggedAsset < CcomEntity
+end

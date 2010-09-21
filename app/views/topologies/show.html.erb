@@ -1,10 +1,10 @@
 <div id="right-side"><div id="segment-details"> </div></div>
 <div id="left-side">
 <div id="topology">
-<%= @topology.user_tag %>
+<%= @topology.tag %>
 <ul id="topology_root" class="functional_locations">
-  <li><%= render :partial => 'network_connections/network_connection', :object => @topology.entry_point %>
-  </li><!-- <%= @topology.entry_point.source.user_tag %> -->
+  <li><%= render :partial => 'network_connections/network_connection', :object => @topology.entry_edge %>
+  </li><!-- <%= @topology.entry_edge.source.tag %> -->
 </ul>
 </div>
 </div>

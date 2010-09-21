@@ -1,0 +1,67 @@
+<h1> Create New Asset </h1>
+<% form_for @asset, :html => {:name => "create"}, :url => {:action => :create} do |f| -%>	
+	<%= f.error_messages %>
+	<p>
+		<%= f.label :g_u_i_d, "GUID" %><br/>
+		<%= f.text_field :g_u_i_d %>
+		<%= button_to_function "Generate GUID", "addtext()" %>
+	</p>
+	
+	<p>
+		<%= f.label :tag, "Tag" %><br/>
+		<%= f.text_field :tag %>
+	</p>
+	
+	<p>
+		<%= f.label :name, "Name" %><br/>
+		<%= f.text_field :name %>
+	</p>
+	
+	<p>
+		<%= f.label :i_d_in_info_source, "Native System ID" %><br/>
+		<%= f.text_field :i_d_in_info_source %>
+	</p>
+	<p>
+		<%= f.label :type, "Type" %><br/>
+		<% if !@types.nil? && !@types.empty? -%>
+			<%options = options_for_select(@types.collect{ |t| [t.name, t.g_u_i_d] })-%>
+			<%=f.select 'type', options, {:include_blank => "Select an Valid Type"}%>
+		<% else -%>
+			No Types have been defined. Please upload a valid XML with defined Types
+		<% end -%>
+	</p>
+	<p>
+		<%= f.label :manufacturer, "Manufacturer" %><br/>
+		<% if !@manufacturers.nil? && !@manufacturers.empty? -%>
+			<% options = options_for_select(@manufacturers.collect{ |m| [m.name, m.guid]})-%>
+			<%= f.select 'manufacturer', options, {:include_blank => "Select a Valid Manufacturer"}%>
+		<% else -%>
+			No Manufacturers have been defined. Please upload a valid XML with defined Manufacturers
+		<% end -%>
+	</p>
+	<p>
+		<%= f.label :model, "Model" %><br/>
+		<% if !@models.nil? && !@models.empty? -%>
+			<%options = options_for_select(@models.collect{ |m| [m.name, m.guid]})-%>
+			<%= f.select 'model', options, {:include_blank => "Select a Valid Manufacturer"}%>
+		<% else -%>
+			No Models have been defined. Please upload a valid XML with defined Models
+		<% end -%>
+	</p>
+	<p>
+		<%= f.label :serial_number, "Serial Number" %><br/>
+		<%= f.text_field :serial_number %>
+	</p>
+	<p>
+		<% if !@networks.nil? && !@networks.empty? -%>
+			<%options = options_for_select(@networks.collect{ |n| [n.network.name, n.g_u_i_d] })-%>
+			<%=f.label :valid_network, "Valid Datasheet"%><br/>
+			<%=f.select 'valid_network', options, {:include_blank => "Select an Valid Datasheet"}%>
+		<% else -%>
+			No Networks have been defined. Please upload a valid XML with defined Networks
+		<% end -%> 	
+	</p>
+	<p>
+		<%= f.submit "Create" %>
+	</p>
+<% end %>

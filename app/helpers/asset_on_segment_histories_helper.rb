@@ -1,0 +1,2 @@
+module AssetOnSegmentHistoriesHelper
+end

@@ -1,2 +1,2 @@
-class EngUnitType < BaseTypeEntity
+class EngUnitType < CcomEntity
 end

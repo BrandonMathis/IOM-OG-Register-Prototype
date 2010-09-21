@@ -2,21 +2,29 @@ class CcomEntity
   include Mongoid::Document
   include CcomXml
   
-  field :guid
-  field :id_in_source
-  field :source_id
-  field :user_tag
-  field :user_name
-  field :utc_last_updated, :type => Time
-  field :status_code, :type => Integer
+  field :g_u_i_d           
+  field :i_d_in_info_source
+  field :tag
+  field :name
+  field :last_edited
+  field :status, :type => Integer
 
+  # Return true if given GUID is a valid UUID
+  def self.valid_guid(guid)
+    regex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
+    return true if guid.gsub(regex)
+  end
+  
+  def guid
+    g_u_i_d
+  end
+  
   def self.attribute_names
-    @field_attributes ||= [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
+    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
 
   def self.field_names
-    # @field_names ||= fields.keys.reject { |key| association_foreign_keys.include?(key) }.collect(&:to_sym)
-    [:guid, :id_in_source, :source_id, :user_tag, :user_name, :status_code]
+    [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
 
   def self.association_foreign_keys
@@ -33,28 +41,47 @@ class CcomEntity
   
   before_save :generate_guid
 
-  def user_tag_with_fallback
-    tag = user_tag_without_fallback
-    tag.blank? ? user_name : tag
+  def tag_with_fallback
+    tag = tag_without_fallback
+    tag.blank? ? name : tag
   end
-  alias_method_chain :user_tag, :fallback
+  alias_method_chain :tag, :fallback
 
   def to_param
-    guid
+    g_u_i_d
   end
   
-  def self.find_by_guid(guid)
-    first(:conditions => { :guid => guid })
+  def self.find_by_guid(globally_unique_identifier)
+    first(:conditions => { :g_u_i_d => globally_unique_identifier })
   end
 
   def ==(object)
     self._id == object._id rescue false
   end
-
+  
+  # Preforms a deep copy of self using relationship and names
+  # of those relationships to transend down into the object 
+  # tree and recursivly collect values by calling dup_entity
+  # related object (children)
+  def dup_entity (options = {})
+    return self if self.nil?
+    attributes = define_attributes
+    entity = self.class.create(attributes)
+    entity.save
+    return entity
+  end
+  
+  def define_attributes
+    attributes = {}
+    self.field_names.each do |attr|
+      attributes[attr] = self.send(attr) if !self.send(attr).blank?
+    end
+    return attributes
+  end
+  
   private
 
   def generate_guid
-    self.guid = UUID.generate if guid.blank?
+    self.g_u_i_d = UUID.generate if g_u_i_d.blank?
   end
-
 end

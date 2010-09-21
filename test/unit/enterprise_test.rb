@@ -17,7 +17,7 @@ class EnterpriseTest < ActiveSupport::TestCase
 
   context "importing xml" do
     setup do
-      @enterprise.guid = UUID.generate
+      @enterprise.g_u_i_d = UUID.generate
       @parsed_enterprise = Enterprise.from_xml(@enterprise.to_xml)
     end
 

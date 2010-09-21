@@ -6,7 +6,7 @@ class MeasLocationTest < ActiveSupport::TestCase
   end
 
   should "support object type" do
-    assert_valid Factory.create(:meas_location, :object_type => Factory.create(:object_type))
+    assert_valid Factory.create(:meas_location, :type => Factory.create(:type))
   end
 
   should "support default engineering unit type" do
@@ -20,7 +20,9 @@ class MeasLocationTest < ActiveSupport::TestCase
 
   context "generating xml" do
     setup do
+      
       @meas_location = Factory.create(:meas_location,
+                                      :type => Factory.create(:type),
                                       :object_data => [Factory.create(:object_datum), Factory.create(:object_datum)])
       builder = Builder::XmlMarkup.new
       @xsi = "somthine"
@@ -31,17 +33,17 @@ class MeasLocationTest < ActiveSupport::TestCase
     end
     
     should "have proper attribute name for object type" do
-      assert_not_nil object_type = @doc.xpath("//MeasLocation/ofObjectType").first, "no ofObjectType"
-      assert_not_nil object_user_name = object_type.xpath("//ofObjectType/userName").first, "object type has no userName, #{object_type.inspect}"
-      assert_equal @meas_location.object_type.user_name, object_user_name.content
+      assert_not_nil object_type = @doc.xpath("//MeasLocation/Type").first, "no Type"
+      assert_not_nil object_user_name = object_type.xpath("//Type/Name").first, "object type has no Name, #{object_type.inspect}"
+      assert_equal @meas_location.type.name, object_user_name.content
     end
 
     should "have proper number of object data elements" do
-      assert_equal @meas_location.object_data.size, @doc.xpath("//MeasLocation/hasObjectData").size
+      assert_equal @meas_location.object_data.size, @doc.xpath("//MeasLocation/Attribute").size
     end
 
     should "have a default eng unit" do
-      assert_not_nil @doc.xpath("//MeasLocation/hasDefaultEngUnitType").first
+      assert_not_nil @doc.xpath("//MeasLocation/DefaultUnitType").first
     end
   end
 
