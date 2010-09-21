@@ -63,7 +63,18 @@ class Segment < MonitoredObject
       assets_to_save << asset      
     end
   end
-
+  
+  def dup_entity(options = {})
+    entity = super(options)
+    entity.segment_config_network = self.segment_config_network if segment_config_network
+    meas_locations.each { |mloc| entity.meas_locations << mloc.dup_entity(options) if mloc }
+    asset_on_segment_historys.each { |hist| entity.hist << hist.dup_entity(options) if hist }
+    installed_assets.each { |asset| entity.installed_assets << installed_assets.dup_entity(options) if installed_assets }
+    entity.save
+    return entity
+  end
+  
+  
   def build_xml(builder)
     super(builder)
     builder.ValidNetwork {|b| segment_config_network.build_xml(b) } if segment_config_network

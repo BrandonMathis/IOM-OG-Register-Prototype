@@ -178,5 +178,5 @@ class AssetTest < ActiveSupport::TestCase
         assert @topologies.include?(@topology)
       end
     end
-  end
+  end    
 end

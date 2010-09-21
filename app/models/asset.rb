@@ -118,8 +118,18 @@ class Asset < MonitoredObject
     entity
   end
   
-  private
-  def generate_name
-    self.name = "Asset: " << self.g_u_i_d if name.blank?
+  def dup_entity (options ={})
+    entity = super(options)
+    entity.update_atributes(:serial_number => self.send(:serial_number))
+    
+    entity.manufacturer = self.manufacturer.dup_entity(options) if manufacturer
+    entity.model = self.model.dup_entity(options) if model
+    entity.valid_network = self.valid_network.dup_entity(options) if valid_network      
+    return entity.save
   end
+  
+  private 
+    def generate_name
+      self.name = "Asset: " << self.g_u_i_d if name.blank?
+    end
 end

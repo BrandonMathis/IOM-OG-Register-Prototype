@@ -1,4 +1,4 @@
-class ObjectDatum < CcomEntity
+class ObjectDatum < CcomObject
   has_one :attribute_type, :xml_element => "Type"
   has_one :eng_unit_type, :xml_element => "UnitType"
   field :data, :xml_element => "Value"
@@ -11,6 +11,15 @@ class ObjectDatum < CcomEntity
     else
       data.to_s
     end
+  end
+  
+  def dup_entity (options={})
+    entity = super(options)
+    entity.update_attributes(:data => self.data) if data
+    entity.attribute_type = self.attribute_type.dup_entity(options) if attribute_type
+    entity.eng_unit_type = self.eng_unit_type.dup_entity(options) if eng_unit_type
+    entity.save
+    return entity
   end
 
   def build_xml(builder)

@@ -1,4 +1,4 @@
-class Type < BaseTypeEntity
+class Type < CcomEntity
   has_one :info_collection
 
   def self.install_event

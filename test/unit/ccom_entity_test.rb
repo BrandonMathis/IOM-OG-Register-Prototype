@@ -101,34 +101,24 @@ class CcomEntityTest < ActiveSupport::TestCase
 
   end
   
-  context "duplicating a ccom entity with no children" do
-    setup do
-      @entity1 = Factory.create(:ccom_entity)
-      @entity2 = @entity1.dup_entity
-    end
-    
-    should "duplicate a separate object with unique ID" do
-      assert @entity1 != @entity2
-    end
-    
-    should "Copy GUID of entity" do
-      assert @entity1.guid == @entity2.guid
-    end
-    
-    should "Generate new GUID if option is selected" do
-      assert @entity1.guid != @entity1.dup_entity(:gen_new_guids => true).guid
-    end
-  end
   context "duplicating an asset data sheet with multiple children" do
     setup do
       @entity1 = Factory.create(:valid_network,
                     :network => Factory.create(:network,
+                        :type => Factory.create(:type),
                         :entry_edges =>[
                           Factory.create(:network_connection,
                             :source => Factory.create(:segment,
+                              :type => Factory.create(:type),
                               :meas_locations => [
-                                Factory.create(:meas_location, 
-                                  :object_data => Factory.create(:object_datum)
+                                Factory.create(:meas_location,
+                                  :default_eng_unit_type => Factory.create(:eng_unit_type),
+                                  :object_data => [
+                                    Factory.create(:object_datum,
+                                      :attribute_type => Factory.create(:type),
+                                      :eng_unit_type => Factory.create(:eng_unit_type)
+                                    )
+                                  ]
                                 )
                               ]
                             ),
@@ -140,32 +130,43 @@ class CcomEntityTest < ActiveSupport::TestCase
       @entity2 = @entity1.dup_entity
     end
     should "all children should contain identical guids" do
-      assert @entity1.network.guid == @entity2.network.guid
-      assert @entity1.network.entry_edges.first.guid == @entity2.network.entry_edges.first.guid
-      assert @entity1.network.entry_edges.first.source.guid == @entity2.network.entry_edges.first.source.guid
-      assert @entity1.network.entry_edges.first.source.meas_locations.first.guid == @entity2.network.entry_edges.first.source.meas_locations.first.guid
-      assert @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.guid == @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.guid
+      assert_equal @entity1.network.guid, @entity2.network.guid
+      assert_equal @entity1.network.entry_edges.first.guid, @entity2.network.entry_edges.first.guid
+      assert_equal @entity1.network.entry_edges.first.source.guid , @entity2.network.entry_edges.first.source.guid
+      assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.guid
+      assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.guid
+      
+      assert_equal @entity1.network.type.guid , @entity2.network.type.guid
+      assert_equal @entity1.network.entry_edges.first.source.type.guid , @entity2.network.entry_edges.first.source.type.guid
+      assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid , @entity2.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid
+      assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid
     end
     should "contain data" do
       assert @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.data
     end
     should "be unique objects" do
-      assert @entity1.network != @entity2.network
-      assert @entity1.network.entry_edges.first != @entity2.network.entry_edges.first
-      assert @entity1.network.entry_edges.first.source != @entity2.network.entry_edges.first.source
-      assert @entity1.network.entry_edges.first.source.meas_locations.first != @entity2.network.entry_edges.first.source.meas_locations.first
-      assert @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first != @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first
+      assert_not_equal @entity1.network , @entity2.network
+      assert_not_equal @entity1.network.entry_edges.first , @entity2.network.entry_edges.first
+      assert_not_equal @entity1.network.entry_edges.first.source , @entity2.network.entry_edges.first.source
+      assert_not_equal @entity1.network.entry_edges.first.source.meas_locations.first , @entity2.network.entry_edges.first.source.meas_locations.first
+      assert_not_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first
     end
     context "with gen_new_guids option given as true" do
       setup do
         @entity2 = @entity1.dup_entity(:gen_new_guids => true)
       end
       should "give all children unique guids" do
-        assert @entity1.network.guid != @entity2.network.guid
-        assert @entity1.network.entry_edges.first.guid != @entity2.network.entry_edges.first.guid
-        assert @entity1.network.entry_edges.first.source.guid != @entity2.network.entry_edges.first.source.guid
-        assert @entity1.network.entry_edges.first.source.meas_locations.first.guid != @entity2.network.entry_edges.first.source.meas_locations.first.guid
-        assert @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.guid != @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.guid
+        assert_not_equal @entity1.network.guid , @entity2.network.guid
+        assert_not_equal @entity1.network.entry_edges.first.guid , @entity2.network.entry_edges.first.guid
+        assert_not_equal @entity1.network.entry_edges.first.source.guid , @entity2.network.entry_edges.first.source.guid
+        assert_not_equal @entity1.network.entry_edges.first.source.meas_locations.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.guid
+        assert_not_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.guid
+      end
+      should "not set new GUIDs for type, unit type, and default unit type" do
+        assert_equal @entity1.network.type.guid, @entity2.network.type.guid
+        assert_equal @entity1.network.entry_edges.first.source.type.guid, @entity2.network.entry_edges.first.source.type.guid
+        assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid, @entity2.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid
+        assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid, @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid
       end
     end
   end

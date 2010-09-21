@@ -27,6 +27,17 @@ class AssetOnSegmentHistory < CcomEntity
     self.save
   end
   
+  def dup_entity (options = {})
+    entity = super(options)
+    entity.update_attributes(:start => self.send(:start))
+    entity.update_attribute(:end => self.send(:end))
+    
+    entity.logged_asset = self.logged_asset if logged_asset
+    assets.each{ |a| entity.assets << a }
+    entity.save
+    return entity
+  end
+  
   def build_xml(builder)
     builder.Asset {|b| self.logged_asset.build_xml(b)} if logged_asset
     builder.Segment {|b| self.segment.build_xml(b)} if segment

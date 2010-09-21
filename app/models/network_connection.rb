@@ -4,7 +4,17 @@ class NetworkConnection < CcomObject
   has_many :successors, :class_name => "NetworkConnection", :xml_element => "Successor"
   
   field :order, :type => Integer
-
+  
+  def dup_entity(options = {})
+    entity = super(options)
+    entity.source = self.source.dup_entity(options) if source
+    entity.target = self.target.dup_entity(options) if target
+    successors.each {|s| entity.successors << s.dup_entity(options) if s}
+    entity.save
+    return entity
+  end
+  
+  
   def build_xml(builder)
     super(builder)
     if source

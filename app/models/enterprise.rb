@@ -9,7 +9,14 @@ class Enterprise < CcomObject
 #    end
 #    entity
 #  end
-
+  
+  def dup_entity (options = {})
+    entity = super(options)
+    entity.controller_site = self.controlled_site.dup_entity(options) if controlled_site
+    entity.save
+    return entity
+  end
+  
   def build_xml(builder)
     super(builder)
     builder.ControlledSite { |b| self.controlled_site.build_xml(b) } if controlled_site
