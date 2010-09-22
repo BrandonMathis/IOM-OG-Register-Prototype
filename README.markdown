@@ -1,9 +1,9 @@
-# IOM-CI Active Registry
+# IOM-CI MIMOSA Active Registry
 Brandon Mathis  
 Keyset Technical Solutions (for Assetricity)  
 13 July 2010  
 
-This is an open source reference implementation of the MIMOSA Active Registry
+[Link to Active Registry](http://activeregistry.assetricity.com)
 
 ## How to start this app
 
