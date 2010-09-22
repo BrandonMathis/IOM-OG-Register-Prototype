@@ -7,6 +7,7 @@ class ActualEvent < CcomObjectWithEventsAndAuditing
   def initialize(opts = { })
     super(opts)
     self.tag ||= "#{type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.hist.segment.tag rescue nil}"
+    self.hist.tag = "#{type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.hist.segment.tag rescue nil}" if hist
     self.status ||= "1"
     self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S')    
   end
@@ -16,19 +17,8 @@ class ActualEvent < CcomObjectWithEventsAndAuditing
   def build_xml(builder)
     super(builder)
     builder.tag!("EventableEntity", "xsi:type" => self.hist.segment.class.to_s) { |b| self.hist.segment.build_xml(b) } if self.hist && self.hist.segment
-    # XML for EventableEntity if above does not validate
-    # builder.tag!("EventableEntity", "xsi:type" => self.for.class.to_s) do
-    #   builder.GUID self.for.g_u_i_d
-    #   builder.Tag self.for.tag
-    # end
     builder.tag!(self.hist.class.to_s) do |b|
-      builder.GUID self.hist.g_u_i_d if self.hist && self.hist.g_u_i_d
-      builder.Tag self.tag  if self.tag
-      builder.LastEdited self.hist.last_edited if self.hist && self.hist.last_edited
-      builder.tag!(self.monitored_object.class.to_s) { |b| self.monitored_object.build_xml(b) } if monitored_object
-      builder.tag!(self.hist.segment.class.to_s) { |b| self.hist.segment.build_xml(b) } if self.hist && self.hist.segment
-      builder.Start self.hist.start if self.hist && self.hist.start
-      builder.End self.hist.end if self.hist && self.hist.end
+      hist.build_xml(builder) if hist
     end
   end
 end

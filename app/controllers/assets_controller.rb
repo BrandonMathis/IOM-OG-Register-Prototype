@@ -50,7 +50,7 @@ class AssetsController < ApplicationController
   # difference will cause the type or network to be included in the dropdown
   def new
     @asset = Asset.new
-    @types = get_all_asset(:type)
+    @types = get_all_asset(:type)                          
     @manufacturers = get_all_asset(:manufacturer)
     @models = get_all_asset(:model)
     @networks = define_networks()

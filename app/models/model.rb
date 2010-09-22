@@ -6,6 +6,15 @@ class Model < CcomEntity
   field :product_family_member_revision
   field :part_number
   
+  def field_names
+    self.class.field_names
+  end
+  
+  def self.field_names
+    super << :product_family << :product_family_member << :product_family_member_revision << :part_number unless super.include?(:product_family) || super.include?(:product_family_member) || super.include?(:product_family_member_revision) || super.include?(:part_number) 
+    super
+  end
+  
   def dup_entity(options = {})
     entity = super(options)
     entity.update_attributes(:product_family => product_family) if product_family

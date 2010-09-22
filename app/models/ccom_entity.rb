@@ -36,7 +36,7 @@ class CcomEntity
   end
   
   def attribute_names
-    self.class.attribute_names
+   self.class.attribute_names
   end
   
   before_save :generate_guid
@@ -77,6 +77,14 @@ class CcomEntity
       attributes[attr] = self.send(attr) if !self.send(attr).blank?
     end
     return attributes
+  end
+  
+  def generate_last_edited
+    self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S') if last_edited.blank?
+  end
+  
+  def get_time
+    Time.now.strftime('%Y-%m-%dT%H:%M:%S')
   end
   
   private

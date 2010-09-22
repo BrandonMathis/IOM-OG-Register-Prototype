@@ -60,7 +60,7 @@ class ActualEventTest < ActiveSupport::TestCase
     setup do
       @asset = Factory.create(:asset)
       @segment = Factory.create(:segment)
-      @hist = Factory.create(:asset_on_segment_history, :segment => @segment)
+      @hist = Factory.create(:asset_on_segment_history, :segment => @segment, :logged_asset => @asset)
       @type = Factory.create(:type, :name => "Install Event")
       @event = Factory.create(:actual_event, :type => @type, :hist => @hist, :monitored_object => @asset)
       @xml = @event.to_xml
@@ -97,6 +97,7 @@ class ActualEventTest < ActiveSupport::TestCase
 
     context "the monitored object" do
       setup do
+        RAILS_DEFAULT_LOGGER.debug()
         @subdoc_list = @doc.mimosa_xpath("//Entity/AssetOnSegmentHistory/Asset")
         @element = @subdoc_list.first
       end

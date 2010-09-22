@@ -178,5 +178,53 @@ class AssetTest < ActiveSupport::TestCase
         assert @topologies.include?(@topology)
       end
     end
-  end    
+  end 
+  
+  context "duplicating an asset" do
+    setup do
+      @model = Factory.create(:model)
+      @manufacturer = Factory.create(:manufacturer)
+      @asset1 = Factory.create(:asset, :model => @model, :manufacturer => @manufacturer)
+      @asset2 = @asset1.dup_entity
+    end
+    should "create two separate asset objects" do
+      assert_not_equal @asset1, @asset2
+      assert_equal @asset1.guid, @asset2.guid
+    end
+    should "create two objects with identical information" do
+      assert_not_equal @asset1, @asset2
+      @asset1.field_names do |field|
+        assert_equal @asset1.send("#{field}"), @asset2.send("#{field}")
+      end
+    end
+    should "copy over the asset manufacturer" do
+      assert_not_equal @asset1.manufacturer, @asset2.manufacturer
+      @asset1.manufacturer.field_names do |field|
+        assert_equal @asset1.manufacturer.send("#{field}"), @asset2.manufacturer.send("#{field}")
+      end
+    end
+    should "copy over the asset model" do
+      assert_not_equal @asset1.model, @asset2.model
+      @asset1.model.field_names do |field|
+        assert_equal @asset1.model.send("#{field}"), @asset2.model.send("#{field}")
+      end
+    end
+    context "with new guids" do
+      setup do
+        @asset2 = @asset1.dup_entity(:gen_new_guids => true)
+      end
+      should "create two separate asset objects" do
+        assert_not_equal @asset1, @asset2
+      end
+      should "gen new guids for the assets" do
+        assert_not_equal @asset1.guid, @asset2.guid
+      end
+      should "keep guids same for model" do
+        assert_equal @asset1.model.guid, @asset2.model.guid
+      end
+      should "keep guids same for manufacturer" do
+        assert_equal @asset1.manufacturer.guid, @asset2.manufacturer.guid
+      end
+    end
+  end
 end

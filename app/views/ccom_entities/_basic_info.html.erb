@@ -1,9 +1,0 @@
-<div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-	<table>
-		<% basic_info.attribute_names.each do |field| -%>
-   			<% unless (value = basic_info.send(field)).blank? %>
-   				<tr class ="attribute"><td class="field"><%= field.to_s.camelize %></td><td class="value"> <%= value %></td></tr>
-   			<% end -%>
-		<% end -%>
-	</table>
-</div>

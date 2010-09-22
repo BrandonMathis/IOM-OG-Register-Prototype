@@ -29,8 +29,22 @@ class Asset < MonitoredObject
     return uninstalled
   end
   
+  def self.field_names
+    super << :serial_number unless super.include?(:serial_number)
+    super
+  end
+  
   def self.attribute_names
-    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
+    super << :serial_number unless super.include?(:serial_number)
+    super
+  end
+  
+  def field_names
+    self.class.field_names
+  end
+  
+  def attribute_names
+    self.class.attribute_names
   end
 
   def segment
@@ -120,12 +134,13 @@ class Asset < MonitoredObject
   
   def dup_entity (options ={})
     entity = super(options)
-    entity.update_atributes(:serial_number => self.send(:serial_number))
+    entity.update_attributes(:serial_number => self.send(:serial_number))
     
     entity.manufacturer = self.manufacturer.dup_entity(options) if manufacturer
     entity.model = self.model.dup_entity(options) if model
     entity.valid_network = self.valid_network.dup_entity(options) if valid_network      
-    return entity.save
+    entity.save
+    return entity
   end
   
   private 
