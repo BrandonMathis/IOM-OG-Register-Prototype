@@ -3,7 +3,6 @@ set :user, "deploy"
 
 set :scm, :git
 set :repository, "git@github.com:assetricity/mimosa-active-registry.git"
-set :branch, "ccom3-3"
 
 set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
