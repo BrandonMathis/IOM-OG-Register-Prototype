@@ -245,6 +245,14 @@ a.button:hover {
 	border-color:#3278BE;
 }
 
+#show-assets table{
+	width: 90%;
+}
+
+#show-assets .ui-widget table{
+	width: 99%;
+	padding: 1px 1px 1px 1px;
+}
 
 /*Searilize Asset index*/
 #show-assets .button{
@@ -254,4 +262,7 @@ a.button:hover {
 #show-assets table.index,
 #show-assets td.index {
 	border: none;
+}
+.buttons{
+	float: right;
 }
