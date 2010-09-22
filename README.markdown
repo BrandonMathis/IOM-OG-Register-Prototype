@@ -3,7 +3,7 @@ Brandon Mathis
 Keyset Technical Solutions (for Assetricity)  
 13 July 2010  
 
-[Link to Active Registry](http://activeregistry.assetricity.com)
+The most recent deployment of the Active Registry can be found [online](http://activeregistry.assetricity.com)
 
 ## How to start this app
 
