@@ -7,10 +7,11 @@ module CcomXml
     end
   end
 
-  module ClassMethods    
+  module ClassMethods
     def from_xml(xml)
       doc = Nokogiri::XML.parse(xml)
       entity_node = doc.mimosa_xpath("/CCOMData/Entity[@*='#{xml_entity_name}']").first
+      xml = doc.mimosa_xpath("/CCOMData")
       parse_xml(entity_node)
     end
 
@@ -44,7 +45,7 @@ module CcomXml
         end
       end
     end
-
+      
     def xml_entity_name
       self.to_s.gsub(/^Ccom/, 'CCOM')
     end

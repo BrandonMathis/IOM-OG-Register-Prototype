@@ -75,7 +75,7 @@ class MeasLocationTest < ActiveSupport::TestCase
     end
     context "with new guids" do
       setup do
-        @meas_loc2 = @meas_loc1.dup_entity
+        @meas_loc2 = @meas_loc1.dup_entity(:gen_new_guids => true)
       end
       should "generate new guids for the two meas locations" do
         assert_not_equal @meas_loc1, @meas_loc2

@@ -21,6 +21,7 @@ class Model < CcomEntity
     entity.update_attributes(:product_family_member => product_family_member) if product_family_member
     entity.update_attributes(:product_family_member_revision => product_family_member_revision) if product_family_member_revision
     entity.update_attributes(:part_number => part_number) if part_number
+    entity.type = self.type.dup_entity(options) if type
     entity.save
     return entity
   end

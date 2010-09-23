@@ -97,7 +97,6 @@ class ActualEventTest < ActiveSupport::TestCase
 
     context "the monitored object" do
       setup do
-        RAILS_DEFAULT_LOGGER.debug()
         @subdoc_list = @doc.mimosa_xpath("//Entity/AssetOnSegmentHistory/Asset")
         @element = @subdoc_list.first
       end
