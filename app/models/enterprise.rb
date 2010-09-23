@@ -12,7 +12,7 @@ class Enterprise < CcomObject
   
   def dup_entity (options = {})
     entity = super(options)
-    entity.controller_site = self.controlled_site.dup_entity(options) if controlled_site
+    entity.controlled_site = self.controlled_site.dup_entity(options) if controlled_site
     entity.save
     return entity
   end

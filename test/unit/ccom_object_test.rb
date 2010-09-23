@@ -65,4 +65,36 @@ class CcomObjectTest < ActiveSupport::TestCase
       assert_not_equal @entity1.guid , @entity1.dup_entity(:gen_new_guids => true).guid
     end
   end   
+  context "duplicating the ccom object" do
+    setup do
+      @type = Factory.create(:type)
+      @object1 = Factory.create(:ccom_object, :type => @type)
+      @object2 = @object1.dup_entity
+    end
+    should "create two separate objects" do
+      assert_not_equal @object1, @object2
+    end
+    should "create two object with identical information" do
+      @object1.field_names.each do |field|
+        assert_equal @object1.send("#{field}"), @object2.send("#{field}")
+      end
+    end
+    should "copy the information from type" do
+      @object1.type.field_names.each do |field|
+        assert_equal @object1.type.send("#{field}"), @object2.type.send("#{field}")
+      end
+    end
+    context "with new guids" do
+      setup do
+        @object1 = @object2.dup_entity(:gen_new_guids => true)
+      end
+      should "generate a new guid for the ccom object" do
+        assert_not_equal @object1, @object2
+        assert_not_equal @object1.guid, @object2.guid
+      end
+      should "not generate a new guid for the object type" do
+        assert_equal @object1.type.guid, @object2.type.guid
+      end
+    end      
+  end
 end
