@@ -10,6 +10,11 @@ class MeasLocation < CcomObjectWithEvents
     return entity
   end
   
+  def destroy
+    object_data.each {|o| ObjectDatum.find_by_guid(o.guid).destroy if o}
+    super
+  end
+  
   def build_xml(builder)
     super(builder)
     object_data.each do |d|

@@ -5,7 +5,6 @@ class AssetsController < ApplicationController
   def destroy
     @entity = Asset.find_by_guid(params[:id])
     @entity.destroy
-    
     respond_to do |format|
       format.html { redirect_to(:controller => 'assets') }
     end

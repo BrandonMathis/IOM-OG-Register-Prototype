@@ -64,6 +64,12 @@ class Segment < MonitoredObject
     end
   end
   
+  def destroy
+    ValidNetwork.find_by_guid(segment_config_network.guid).destroy if segment_config_network
+    meas_locations.each {|mloc| MeasLocation.find_by_guid(mloc.guid).destroy if mloc }
+    super
+  end    
+  
   def dup_entity(options = {})
     entity = super(options)
     entity.segment_config_network = self.segment_config_network if segment_config_network
@@ -73,7 +79,6 @@ class Segment < MonitoredObject
     entity.save
     return entity
   end
-  
   
   def build_xml(builder)
     super(builder)

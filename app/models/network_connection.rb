@@ -5,6 +5,13 @@ class NetworkConnection < CcomObject
   
   field :order, :type => Integer
   
+  def destroy
+    Segment.find_by_guid(source.guid).destroy if source
+    Segment.find_by_guid(target.guid).destroy if target
+    successors.each {|successor| NetworkConnection.find_by_guid(successor.guid).destroy if successor}
+    super
+  end
+  
   def dup_entity(options = {})
     entity = super(options)
     entity.source = self.source.dup_entity(options) if source

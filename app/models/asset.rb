@@ -143,6 +143,11 @@ class Asset < MonitoredObject
     return entity
   end
   
+  def destroy
+    ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network
+    super
+  end
+  
   private 
     def generate_name
       self.name = "Asset: " << self.g_u_i_d if name.blank?

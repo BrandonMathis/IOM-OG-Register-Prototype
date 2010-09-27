@@ -180,6 +180,56 @@ class AssetTest < ActiveSupport::TestCase
     end
   end 
   
+  context "destroying an asset" do
+    setup do
+      @type = Factory.create(:type)
+      @unit_type = Factory.create(:eng_unit_type)
+      @object_datum1 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
+      @object_datum2 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
+      @object_datum3 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
+      @object_datum4 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
+      @mloc1 = Factory.create(:meas_location, :default_eng_unit_type => @unit_type, :object_data => [@object_datum1, @object_datum2])
+      @mloc2 = Factory.create(:meas_location, :default_eng_unit_type => @unit_type, :object_data => [@object_datum3, @object_datum4])
+      @source = Factory.create(:segment, :type => @type, :meas_locations => [@mloc1, @mloc2])
+      @target = Factory.create(:segment, :type => @type)
+      @edge = Factory.create(:network_connection, :source => @source, :target => @target)      
+      @network = Factory.create(:network, :type => @type, :entry_edges =>[@edge])
+      @vnet = Factory.create(:valid_network, :network => @network)
+      @asset = Factory.create(:asset, :valid_network => @vnet)
+      @asset.destroy
+    end
+    should "delete the asset" do
+      assert !Asset.find_by_guid(@asset.guid)
+    end
+    should "delete the valid network" do
+      assert !ValidNetwork.find_by_guid(@vnet.guid)
+    end
+    should "delete the network" do
+      assert !Network.find_by_guid(@network.guid)
+    end
+    should "delete the network Connection" do
+      assert !NetworkConnection.find_by_guid(@edge.guid)
+    end
+    should "delete the source and target" do
+      assert !Segment.find_by_guid(@target.guid)
+      assert !Segment.find_by_guid(@source.guid)
+    end
+    should "delete the mesaurment locations" do
+      assert !MeasLocation.find_by_guid(@mloc1.guid)
+      assert !MeasLocation.find_by_guid(@mloc2.guid)
+    end
+    should "delete the object datum" do
+      assert !ObjectDatum.find_by_guid(@object_datum1.guid)
+      assert !ObjectDatum.find_by_guid(@object_datum2.guid)
+    end
+    should "NOT delete the Engineering Unit Type" do
+      assert EngUnitType.find_by_guid(@unit_type.guid)            
+    end    
+    should "NOT delete the type" do
+      assert Type.find_by_guid(@type.guid)
+    end
+  end
+  
   context "duplicating an asset" do
     setup do
       @model = Factory.create(:model)

@@ -29,6 +29,11 @@ class AssetOnSegmentHistory < CcomObject
     self.save
   end
   
+  def destroy
+    LoggedAsset.find_by_guid(logged_asset.guid).destroy if logged_asset
+    super
+  end
+  
   def dup_entity (options = {})
     entity = super(options)
     entity.update_attributes(:start => self.send(:start))

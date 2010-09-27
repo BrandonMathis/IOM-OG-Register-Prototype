@@ -1,6 +1,11 @@
 class Network < CcomObjectWithChildren
   has_many :entry_edges, :class_name => "NetworkConnection", :xml_element => "EntryEdge"
   
+  def destroy
+    entry_edges.each {|edge| NetworkConnection.find_by_guid(edge.guid).destroy if edge}
+    super
+  end
+  
   def dup_entity(options ={})
     entity = super(options)
     entry_edges.each {|edge| entity.entry_edges << edge.dup_entity(options) if edge}

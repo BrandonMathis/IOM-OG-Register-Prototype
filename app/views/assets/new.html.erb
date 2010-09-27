@@ -53,9 +53,9 @@
 		<%= f.text_field :serial_number %>
 	</p>
 	<p>
+		<%options = options_for_select(@networks.collect{ |n| [n.network.name, n.g_u_i_d] })-%>
+		<%=f.label :valid_network, "Valid Datasheet"%><br/>
 		<% if !@networks.nil? && !@networks.empty? -%>
-			<%options = options_for_select(@networks.collect{ |n| [n.network.name, n.g_u_i_d] })-%>
-			<%=f.label :valid_network, "Valid Datasheet"%><br/>
 			<%=f.select 'valid_network', options, {:include_blank => "Select an Valid Datasheet"}%>
 		<% else -%>
 			No Networks have been defined. Please upload a valid XML with defined Networks
