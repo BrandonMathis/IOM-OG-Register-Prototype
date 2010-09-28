@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :topologies
   map.resources :segments
-  map.resources :assets
+  map.resources :assets, :as => "Asset"
   map.resources :ccom_data
   map.resources :ccom
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
