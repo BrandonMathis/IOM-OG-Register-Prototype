@@ -31,7 +31,7 @@ class AssetsController < ApplicationController
     
     respond_to do |format|
       if @asset.update_attributes(params[:asset])
-        flash[:notice] = 'Product was successfully updated'
+        flash[:notice] = "Product was successfully updated at #{@asset.last_edited}"
         format.html { redirect_to(@asset) }
         format.xml { head :ok }
       else
@@ -86,7 +86,7 @@ class AssetsController < ApplicationController
     
     respond_to do |format|
       if @asset.save
-        flash[:notice] = "Asset was saved into database"
+        flash[:notice] = "Asset was saved into database at #{@asset.last_edited}"
         format.html { redirect_to(@asset)}
       else
         @types = get_all_asset(:type)
