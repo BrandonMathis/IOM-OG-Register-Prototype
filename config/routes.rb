@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :asset_on_segment_histories
-
 
   map.resources :topologies
   map.resources :segments
