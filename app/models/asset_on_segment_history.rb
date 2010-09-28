@@ -8,7 +8,7 @@ class AssetOnSegmentHistory < CcomObject
   field :start          #when the asset was placed onto the segment
   field :end            #when the asset was removed from the segment
   
-  before_create :generate_guid, :generate_last_edited
+  before_create :generate_guid
   
   def install(a)
     time = get_time

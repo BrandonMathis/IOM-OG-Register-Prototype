@@ -8,6 +8,9 @@ class CcomEntity
   field :name
   field :last_edited
   field :status, :type => Integer
+  
+  before_create :generate_last_edited
+  before_save :generate_guid, :generate_last_edited
 
   # Return true if given GUID is a valid UUID
   def self.valid_guid(guid)
@@ -80,7 +83,8 @@ class CcomEntity
   end
   
   def generate_last_edited
-    self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S') if last_edited.blank?
+    RAILS_DEFAULT_LOGGER.debug("IN")
+    self.last_edited = get_time
   end
   
   def get_time
