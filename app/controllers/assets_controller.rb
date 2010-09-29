@@ -1,4 +1,4 @@
-class AssetsController < ApplicationController
+class AssetsController < CcomRestController
 
   before_filter :load_asset
 
@@ -87,15 +87,17 @@ class AssetsController < ApplicationController
     respond_to do |format|
       if @asset.save
         flash[:notice] = "Asset was saved into database at #{@asset.last_edited}"
-        format.html { redirect_to(@asset)}
+        format.xml { render :xml => @asset.to_xml, :status => :created }
+        format.html { redirect_to(@asset) }
       else
         @types = get_all_asset(:type)
         @manufacturers = get_all_asset(:manufacturer)
         @models = get_all_asset(:model)
         @networks = define_networks()
         format.html { render :action => "new" }
+        format.xml {render :xml =>"ERROR", :status => 500 }
       end
-    end
+    end 
   end
   
   protected

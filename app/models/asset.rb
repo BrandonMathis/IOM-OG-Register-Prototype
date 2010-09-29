@@ -4,7 +4,7 @@ class Asset < MonitoredObject
   belongs_to_related :asset_on_segment_history
   has_one :valid_network, :xml_element => "ValidNetwork"
   field :serial_number
-
+                    
   named_scope :topologies, where("type.g_u_i_d" => "a62a6cdb-ca56-4b2b-90aa-fafac73caa33")
   named_scope :serialized, where.not_in("type.g_u_i_d" => ["a62a6cdb-ca56-4b2b-90aa-fafac73caa33"])
 

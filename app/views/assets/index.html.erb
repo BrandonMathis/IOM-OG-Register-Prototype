@@ -4,8 +4,8 @@
 <% @assets.each do |asset| -%>
   <tr>
 	<td class="index">
-	    <%= image_tag "asset_collapsed.png", :class=>"icon", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d) %>
-        <%= link_to !asset.tag.empty? ? asset.tag : "Asset: "<<asset.g_u_i_d, asset_url(asset), :class => "asset-name" %> 
+	    <%= image_tag "asset_collapsed.png", :class=>"icon", :onclick => visual_effect(:toggle_blind, 'asset'<< asset.g_u_i_d.gsub(/ /,'')) %>
+        <%= link_to !asset.tag.empty? ? asset.tag : "Asset: "<< asset.g_u_i_d, asset_url(asset), :class => "asset-name" %> 
 	</td>
 	<td class="index">
 		<div class="buttons">
@@ -23,7 +23,7 @@
   <tr>
 	<td colspan="2" class="index">
   		<div class="asset-basic">
-  			<div id= "asset<%=asset.g_u_i_d %>" style="display: none;" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+  			<div id= "asset<%=asset.g_u_i_d.gsub(/ /,'') %>" style="display: none;" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
   				<%= render :partial => "ccom_entities/ccom_entity", :object => asset %>
   			</div>
   		</div>

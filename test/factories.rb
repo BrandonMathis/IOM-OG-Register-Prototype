@@ -1,8 +1,6 @@
-Factory.sequence(:g_u_i_d) { |i| "#{Time.now.to_i}#{i}" }
 Factory.sequence(:i_d_in_info_source) { |i| "#{i}" }
 
 def ccom_entity_fields(factory)
-#  factory.guid { Factory.next :guid }
   factory.i_d_in_info_source { Factory.next :i_d_in_info_source }
 end
 

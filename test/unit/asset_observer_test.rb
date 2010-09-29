@@ -5,6 +5,8 @@ class AssetObserverTest < ActiveSupport::TestCase
   context "with an asset and a segment" do
     setup do
       @asset = Factory.create(:asset)
+      
+      RAILS_DEFAULT_LOGGER.debug("#{@asset.guid}, #{Factory.create(:asset).guid}")
       @segment = Factory.create(:segment)
       @hist = Factory.create(:asset_on_segment_history, :segment => @segment)
     end

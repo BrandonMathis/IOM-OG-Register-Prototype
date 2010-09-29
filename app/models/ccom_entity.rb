@@ -7,11 +7,15 @@ class CcomEntity
   field :tag
   field :name
   field :last_edited
-  field :status, :type => Integer
+  field :status, :type => Integer  
   
+  validates_format_of :g_u_i_d,
+                      :with => /(^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$|^$)/,
+                      :message => "is invalid"
+                      
   before_create :generate_last_edited
   before_save :generate_guid, :generate_last_edited
-
+  
   # Return true if given GUID is a valid UUID
   def self.valid_guid(guid)
     regex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
