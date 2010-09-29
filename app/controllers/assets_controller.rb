@@ -11,7 +11,7 @@ class AssetsController < ApplicationController
   end
   
   def index
-    @assets = Asset.find(:all)
+    @assets = Asset.serialized
   end
 
   def show
