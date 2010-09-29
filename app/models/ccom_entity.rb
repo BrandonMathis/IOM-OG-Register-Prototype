@@ -83,7 +83,6 @@ class CcomEntity
   end
   
   def generate_last_edited
-    RAILS_DEFAULT_LOGGER.debug("IN")
     self.last_edited = get_time
   end
   
