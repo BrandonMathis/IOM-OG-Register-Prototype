@@ -1,0 +1,2 @@
+class ValidNetworkController < ApplicationController
+end

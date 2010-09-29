@@ -1,0 +1,2 @@
+class MeasLocationController < ApplicationController
+end

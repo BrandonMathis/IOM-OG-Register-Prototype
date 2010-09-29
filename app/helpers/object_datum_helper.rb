@@ -1,0 +1,2 @@
+module ObjectDatumHelper
+end

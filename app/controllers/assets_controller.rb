@@ -11,13 +11,13 @@ class AssetsController < ApplicationController
   end
   
   def index
-    @assets = Asset.serialized
+    @assets = Asset.find(:all)
   end
 
   def show
     respond_to do |format|
       format.html {}
-      format.js { render :layout => false}
+      format.js   { render :layout => false}
       format.xml  { render :layout => false}
     end
   end
