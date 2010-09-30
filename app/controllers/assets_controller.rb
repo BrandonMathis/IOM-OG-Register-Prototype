@@ -95,7 +95,7 @@ class AssetsController < CcomRestController
         @models = get_all_asset(:model)
         @networks = define_networks()
         format.html { render :action => "new" }
-        format.xml {render :xml =>"ERROR", :status => 500 }
+        format.xml {render :xml =>CcomRest.error_xml({:method => "createAsset", :errorMessage => "Given Asset XML is invalid", :entity => "Asset"}), :status => 500 }
       end
     end 
   end
