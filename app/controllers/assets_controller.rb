@@ -67,37 +67,39 @@ class AssetsController < CcomRestController
   #
   # User is redirectred to Assets page uppon form submission
   def create
-    passed_values = params[:asset]
-    @asset = Asset.create(
-                      :g_u_i_d => passed_values[:g_u_i_d],
-                      :tag => passed_values[:tag],
-                      :name => passed_values[:name],
-                      :i_d_in_info_source => passed_values[:i_d_in_info_source],
-                      :status => "1",
-                      :model => Model.find_by_guid(passed_values[:model]),
-                      :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
-                      :serial_number => passed_values[:serial_number])
+    if request.media_type == "application/xml"
+      super
+    else
+      passed_values = params[:asset]
+      @asset = Asset.create(
+                        :g_u_i_d => passed_values[:g_u_i_d],
+                        :tag => passed_values[:tag],
+                        :name => passed_values[:name],
+                        :i_d_in_info_source => passed_values[:i_d_in_info_source],
+                        :status => "1",
+                        :model => Model.find_by_guid(passed_values[:model]),
+                        :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
+                        :serial_number => passed_values[:serial_number])
                       
-    @asset.update_attributes(:type => Type.find_by_guid(passed_values[:type]) || Type.undetermined )
+      @asset.update_attributes(:type => Type.find_by_guid(passed_values[:type]) || Type.undetermined )
     
-    ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
-    valid_network = ref_valid_network.nil? ? nil : ref_valid_network.dup_entity(:gen_new_guids => true)
-    @asset.update_attributes( :valid_network => valid_network)
+      ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
+      valid_network = ref_valid_network.nil? ? nil : ref_valid_network.dup_entity(:gen_new_guids => true)
+      @asset.update_attributes( :valid_network => valid_network)
     
-    respond_to do |format|
-      if @asset.save
-        flash[:notice] = "Asset was saved into database at #{@asset.last_edited}"
-        format.xml { render :xml => @asset.to_xml, :status => :created }
-        format.html { redirect_to(@asset) }
-      else
-        @types = get_all_asset(:type)
-        @manufacturers = get_all_asset(:manufacturer)
-        @models = get_all_asset(:model)
-        @networks = define_networks()
-        format.html { render :action => "new" }
-        format.xml {render :xml =>CcomRest.error_xml({:method => "createAsset", :errorMessage => "Given Asset XML is invalid", :entity => "Asset"}), :status => 500 }
+      respond_to do |format|
+        if @asset.save
+          flash[:notice] = "Asset was saved into database at #{@asset.last_edited}"
+          format.html { redirect_to(@asset) }
+        else
+          @types = get_all_asset(:type)
+          @manufacturers = get_all_asset(:manufacturer)
+          @models = get_all_asset(:model)
+          @networks = define_networks()
+          format.html { render :action => "new" }
+        end
       end
-    end 
+    end
   end
   
   protected
