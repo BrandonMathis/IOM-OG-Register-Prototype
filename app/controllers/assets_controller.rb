@@ -67,7 +67,7 @@ class AssetsController < CcomRestController
   #
   # User is redirectred to Assets page uppon form submission
   def create
-    if request.media_type == "application/xml"
+    if request.format == :xml
       super
     else
       passed_values = params[:asset]

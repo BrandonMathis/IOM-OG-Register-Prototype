@@ -12,7 +12,7 @@ class AssetOnSegmentHistory < CcomObject
   
   def install(a)
     time = get_time
-    self.update_attributes(:start => time, :last_edited => time, :last_edited => time)
+    self.update_attributes(:start => time)
     self.update_attributes(:logged_asset => LoggedAsset.create(
                                                     :g_u_i_d => a.g_u_i_d, 
                                                     :tag => a.tag,

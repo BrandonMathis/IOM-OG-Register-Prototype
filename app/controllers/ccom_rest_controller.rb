@@ -7,9 +7,9 @@ class CcomRestController < ApplicationController
   def create
     respond_to do |format|
       if (entities = CcomData.from_xml(request.body.read))
-        format.xml { render :xml => entities, :status => :created }
+        format.xml { render :xml => CcomRest.build_entities(entities), :status => :created }
       else
-        format.xml {render :xml =>CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given Asset XML is invalid", :xml => request.body.read}), :status => 500 }
+        format.xml { render :xml =>CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given Asset XML is invalid", :xml => request.body.read}), :status => 500 }
       end
     end 
   end

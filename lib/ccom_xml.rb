@@ -58,7 +58,6 @@ module CcomXml
     def attr_to_camel(attr)
       attr.to_s.camelize()
     end
-    
   end
 
   module InstanceMethods
@@ -67,9 +66,13 @@ module CcomXml
       builder = Builder::XmlMarkup.new(opts)
       builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
       xml = builder.tag!("CCOMData", self.class.xml_entity_attributes) do |b|
-        b.tag!("Entity", "xsi:type" => self.class.xml_entity_name) do |bb|
-          build_xml(bb)
-        end
+        build_entity(b)
+      end
+    end
+    
+    def build_entity(builder)
+      builder.tag!("Entity", "xsi:type" => self.class.xml_entity_name) do |b|
+        build_xml(b)
       end
     end
 
