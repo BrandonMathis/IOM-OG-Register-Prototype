@@ -3,13 +3,13 @@ require 'net/http'
 
 class AssetObserver
   def self.install(asset, hist)
-    if e = ActualEvent.create(:monitored_object => asset, :hist => hist, :type => Type.install_event)
+    if e = ActualEvent.create(:monitored_object => asset, :hist => hist, :object_type => ObjectType.install_event)
       publish(e)
     end
   end
 
   def self.remove(asset, hist)
-    if e = ActualEvent.create(:monitored_object => asset, :hist => hist, :type => Type.remove_event)
+    if e = ActualEvent.create(:monitored_object => asset, :hist => hist, :object_type => ObjectType.remove_event)
       publish(e)
     end
   end

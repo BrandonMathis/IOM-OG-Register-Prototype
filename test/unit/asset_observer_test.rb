@@ -25,7 +25,7 @@ class AssetObserverTest < ActiveSupport::TestCase
           assert_not_nil @event
         end
         should "have created an install event" do
-          assert_equal "Installation of Asset on Segment", @event.type.name
+          assert_equal "Installation of Asset on Segment", @event.object_type.name
         end
       end
     end
@@ -46,7 +46,7 @@ class AssetObserverTest < ActiveSupport::TestCase
           assert @event
         end
         should "have created an remove event" do
-          assert_equal "Removal of Asset on Segment", @event.type.name
+          assert_equal "Removal of Asset on Segment", @event.object_type.name
         end
       end
     end

@@ -1,5 +1,5 @@
 class Model < CcomEntity
-  has_one :type, :xml_element => "Type"
+  has_one :object_type, :xml_element => "Type"
   
   field :product_family
   field :product_family_member
@@ -24,7 +24,7 @@ class Model < CcomEntity
     entity.update_attributes(:product_family_member => product_family_member) if product_family_member
     entity.update_attributes(:product_family_member_revision => product_family_member_revision) if product_family_member_revision
     entity.update_attributes(:part_number => part_number) if part_number
-    entity.type = self.type.dup_entity(options) if type
+    entity.object_type = self.object_type.dup_entity(options) if object_type
     entity.save
     return entity
   end

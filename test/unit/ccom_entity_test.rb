@@ -105,17 +105,17 @@ class CcomEntityTest < ActiveSupport::TestCase
     setup do
       @entity1 = Factory.create(:valid_network,
                     :network => Factory.create(:network,
-                        :type => Factory.create(:type),
+                        :object_type => Factory.create(:object_type),
                         :entry_edges =>[
                           Factory.create(:network_connection,
                             :source => Factory.create(:segment,
-                              :type => Factory.create(:type),
+                              :object_type => Factory.create(:object_type),
                               :meas_locations => [
                                 Factory.create(:meas_location,
                                   :default_eng_unit_type => Factory.create(:eng_unit_type),
                                   :object_data => [
                                     Factory.create(:object_datum,
-                                      :attribute_type => Factory.create(:type),
+                                      :attribute_type => Factory.create(:object_type),
                                       :eng_unit_type => Factory.create(:eng_unit_type)
                                     )
                                   ]
@@ -136,8 +136,8 @@ class CcomEntityTest < ActiveSupport::TestCase
       assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.guid
       assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.guid
       
-      assert_equal @entity1.network.type.guid , @entity2.network.type.guid
-      assert_equal @entity1.network.entry_edges.first.source.type.guid , @entity2.network.entry_edges.first.source.type.guid
+      assert_equal @entity1.network.object_type.guid , @entity2.network.object_type.guid
+      assert_equal @entity1.network.entry_edges.first.source.object_type.guid , @entity2.network.entry_edges.first.source.object_type.guid
       assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid , @entity2.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid
       assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid
     end
@@ -163,8 +163,8 @@ class CcomEntityTest < ActiveSupport::TestCase
         assert_not_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.guid , @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.guid
       end
       should "not set new GUIDs for type, unit type, and default unit type" do
-        assert_equal @entity1.network.type.guid, @entity2.network.type.guid
-        assert_equal @entity1.network.entry_edges.first.source.type.guid, @entity2.network.entry_edges.first.source.type.guid
+        assert_equal @entity1.network.object_type.guid, @entity2.network.object_type.guid
+        assert_equal @entity1.network.entry_edges.first.source.object_type.guid, @entity2.network.entry_edges.first.source.object_type.guid
         assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid, @entity2.network.entry_edges.first.source.meas_locations.first.default_eng_unit_type.guid
         assert_equal @entity1.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid, @entity2.network.entry_edges.first.source.meas_locations.first.object_data.first.eng_unit_type.guid
       end

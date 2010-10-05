@@ -23,8 +23,8 @@ class ModelTest < ActiveSupport::TestCase
   
   context "duplicating the entity" do
     setup do
-      @type = Factory.create(:type)
-      @model1 = Factory.create(:model, :type => @type)
+      @type = Factory.create(:object_type)
+      @model1 = Factory.create(:model, :object_type => @type)
       @model2 = @model1.dup_entity
     end
     should "create two unique objects" do
@@ -37,10 +37,10 @@ class ModelTest < ActiveSupport::TestCase
       end
     end
     should "copy the model's type" do
-      assert @model1.type
-      assert @model2.type
-      @model1.type.field_names do |field|
-        assert_equal @model1.type.send("#{field}"), @model2.type.send("#{field}")
+      assert @model1.object_type
+      assert @model2.object_type
+      @model1.object_type.field_names do |field|
+        assert_equal @model1.object_type.send("#{field}"), @model2.object_type.send("#{field}")
       end
     end
     context "with new guids" do
@@ -51,9 +51,9 @@ class ModelTest < ActiveSupport::TestCase
         assert_equal @model1.guid, @model2.guid
       end
       should "not gen a new guids for the model's type" do
-        assert @model1.type
-        assert @model2.type
-        assert_equal @model1.type.guid, @model2.type.guid
+        assert @model1.object_type
+        assert @model2.object_type
+        assert_equal @model1.object_type.guid, @model2.object_type.guid
       end
     end
   end

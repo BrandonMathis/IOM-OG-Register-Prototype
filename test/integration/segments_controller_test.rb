@@ -6,7 +6,7 @@ class SegmentsControllerTest < ActionController::IntegrationTest
     super
     @functional_location = Factory.create(:segment, :tag => "CU-1", 
                                           :name => "Something other than the user tag",
-                                          :type => nil)
+                                          :object_type => nil)
 
     @asset = Factory(:asset)
     @functional_location.update_attributes(:install_asset_id => @asset.g_u_i_d)
@@ -26,14 +26,14 @@ class SegmentsControllerTest < ActionController::IntegrationTest
 
     context "with an object type" do
       setup do
-        @object_type = Factory.create(:type, :tag => "some object type")
-        @functional_location.type = @object_type
+        @object_type = Factory.create(:object_type, :tag => "some object type")
+        @functional_location.object_type = @object_type
         @functional_location.save
         @functional_location = Segment.find_by_guid(@functional_location.g_u_i_d)
         visit segment_url(@functional_location)
       end
       should "have a new object type" do
-        assert_equal @object_type, @functional_location.type
+        assert_equal @object_type, @functional_location.object_type
       end
       should_respond_with :success
       should "have the object type's details" do

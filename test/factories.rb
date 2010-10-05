@@ -12,7 +12,7 @@ Factory.define(:ccom_object) do |f|
   ccom_entity_fields(f)
 end
 
-Factory.define(:type) do |f|
+Factory.define(:object_type) do |f|
   ccom_entity_fields(f)
   f.sequence(:name) { |i| "Object Type #{i}" }
 end
@@ -37,7 +37,7 @@ Factory.define(:meas_location) do |f|
   ccom_entity_fields(f)
   f.sequence(:tag) { |i| "meas-location-#{i}" }
   f.sequence(:name) { |i| "Meas Location #{i}" }
-  f.type { |a| a.association(:type) }
+  f.object_type { |a| a.association(:object_type) }
   f.association :default_eng_unit_type, :factory => :eng_unit_type
 end
 
@@ -94,7 +94,7 @@ Factory.define(:asset) do |f|
   f.sequence(:name) { |i| "Asset #{i}" }
 end
 
-Factory.define(:topology_type, :parent => :type) do |f|
+Factory.define(:topology_type, :parent => :object_type) do |f|
   f.g_u_i_d "a62a6cdb-ca56-4b2b-90aa-fafac73caa33"
 end
 
@@ -102,7 +102,7 @@ Factory.define(:serialized_asset, :parent => :asset) do |f|
 end
 
 Factory.define(:topology_asset, :parent => :asset) do |f|
-  f.association :type, :factory => :topology_type
+  f.association :object_type, :factory => :topology_type
 end
 
 Factory.define(:actual_event) do |f|

@@ -26,7 +26,7 @@ class CcomDataTest < ActiveSupport::TestCase
         assert_kind_of Segment, @site.equivalent_segment
       end
       should "have an object type" do
-        assert_kind_of Type, @site.type
+        assert_kind_of ObjectType, @site.object_type
       end
       context "equivalent segment" do
         setup do

@@ -7,8 +7,8 @@ class ManufacturerTest < ActiveSupport::TestCase
   
   context "duplicating the manufacturer" do
     setup do
-      @type = Factory.create(:type)
-      @man1 = Factory.create(:manufacturer, :type => @type)
+      @type = Factory.create(:object_type)
+      @man1 = Factory.create(:manufacturer, :object_type => @type)
       @man2 = @man1.dup_entity
     end
     should "create two separate objects" do
@@ -21,12 +21,12 @@ class ManufacturerTest < ActiveSupport::TestCase
       end
     end
     should "have a type" do
-      assert @man2.type
+      assert @man2.object_type
     end
     should "copy the type" do
-      assert_equal @man1.type.guid, @man2.type.guid
+      assert_equal @man1.object_type.guid, @man2.object_type.guid
       @man1.field_names.each do |field|
-        assert_equal @man1.type.send("#{field}"), @man2.type.send("#{field}")
+        assert_equal @man1.object_type.send("#{field}"), @man2.object_type.send("#{field}")
       end
     end
     context "with unique guids" do
@@ -34,7 +34,7 @@ class ManufacturerTest < ActiveSupport::TestCase
         @man2 = @man1.dup_entity(:gen_new_guids => true)
       end
       should "create two identical type guids" do
-        assert_equal @man1.type.guid, @man2.type.guid
+        assert_equal @man1.object_type.guid, @man2.object_type.guid
       end
       should "create identical guids for the manufacturers" do
         assert_equal @man1.guid, @man2.guid

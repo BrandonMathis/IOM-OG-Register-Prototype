@@ -3,9 +3,9 @@ require 'test_helper'
 class AssetsControllerTest < ActionController::TestCase
   context "Asset controller" do
     setup do
-      @type = Factory.create(:type)
+      @type = Factory.create(:object_type)
       @network = Factory.create(:valid_network)
-      @asset = Factory.create(:asset, :valid_network => @network, :type => @type)
+      @asset = Factory.create(:asset, :valid_network => @network, :object_type => @type)
     end
     
     should "should get index" do
@@ -39,7 +39,7 @@ class AssetsControllerTest < ActionController::TestCase
       should "give Undetermined type when type is not defined" do
         post :create, :asset => { :g_u_i_d => @asset_guid }
         assert_redirected_to asset_path(assigns(:asset))
-        assert_equal Type.undetermined.guid, Asset.find_by_guid(@asset_guid).type.guid
+        assert_equal ObjectType.undetermined.guid, Asset.find_by_guid(@asset_guid).object_type.guid
       end
     
       should "give Asset: GUID for an undetermined name" do

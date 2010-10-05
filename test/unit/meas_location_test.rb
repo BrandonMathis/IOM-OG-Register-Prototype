@@ -6,7 +6,7 @@ class MeasLocationTest < ActiveSupport::TestCase
   end
 
   should "support object type" do
-    assert_valid Factory.create(:meas_location, :type => Factory.create(:type))
+    assert_valid Factory.create(:meas_location, :object_type => Factory.create(:object_type))
   end
 
   should "support default engineering unit type" do
@@ -22,7 +22,7 @@ class MeasLocationTest < ActiveSupport::TestCase
     setup do
       
       @meas_location = Factory.create(:meas_location,
-                                      :type => Factory.create(:type),
+                                      :object_type => Factory.create(:object_type),
                                       :object_data => [Factory.create(:object_datum), Factory.create(:object_datum)])
       builder = Builder::XmlMarkup.new
       @xsi = "somthine"
@@ -35,7 +35,7 @@ class MeasLocationTest < ActiveSupport::TestCase
     should "have proper attribute name for object type" do
       assert_not_nil object_type = @doc.xpath("//MeasLocation/Type").first, "no Type"
       assert_not_nil object_user_name = object_type.xpath("//Type/Name").first, "object type has no Name, #{object_type.inspect}"
-      assert_equal @meas_location.type.name, object_user_name.content
+      assert_equal @meas_location.object_type.name, object_user_name.content
     end
 
     should "have proper number of object data elements" do

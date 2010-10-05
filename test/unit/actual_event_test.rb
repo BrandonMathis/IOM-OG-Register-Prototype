@@ -6,9 +6,9 @@ class ActualEventTest < ActiveSupport::TestCase
   end
 
   should "support assigning an object type" do
-    type = Factory.create(:type, :name => "Install Event")
-    assert_valid event = Factory.create(:actual_event, :type => type)
-    assert_equal type, event.type
+    type = Factory.create(:object_type, :name => "Install Event")
+    assert_valid event = Factory.create(:actual_event, :object_type => type)
+    assert_equal type, event.object_type
   end
 
   should "support the ccom object with events it is for" do
@@ -26,7 +26,7 @@ class ActualEventTest < ActiveSupport::TestCase
 
     context "for an install event" do
       setup do
-        assert @event = ActualEvent.create(:monitored_object => @asset, :hist => @hist, :type => Type.install_event)
+        assert @event = ActualEvent.create(:monitored_object => @asset, :hist => @hist, :object_type => ObjectType.install_event)
       end
 
       should "have the asset's user tag in the event's user tag" do
@@ -38,7 +38,7 @@ class ActualEventTest < ActiveSupport::TestCase
       end
 
       should "have the object type in the event's tag" do
-        assert_match @event.type.tag, @event.tag
+        assert_match @event.object_type.tag, @event.tag
       end
     end
   end
@@ -47,7 +47,7 @@ class ActualEventTest < ActiveSupport::TestCase
     h = AssetOnSegmentHistory.new(:g_u_i_d => "745b3eae-9ebd-46fa-a239-2436a4e67d00")
     s = Segment.new(:g_u_i_d => "515b3eae-93bf-44da-a239-2436ece17deb")
     a = Asset.new(:g_u_i_d => "df3cb180-e410-11de-8a39-0800200c9a66", :segment => s)
-    assert_kind_of ActualEvent, ActualEvent.create(:monitored_object => a, :hist => h, :type => Type.remove_event)
+    assert_kind_of ActualEvent, ActualEvent.create(:monitored_object => a, :hist => h, :object_type => ObjectType.remove_event)
   end
 
   should "support a monitored object" do
@@ -61,8 +61,8 @@ class ActualEventTest < ActiveSupport::TestCase
       @asset = Factory.create(:asset)
       @segment = Factory.create(:segment)
       @hist = Factory.create(:asset_on_segment_history, :segment => @segment, :logged_asset => @asset)
-      @type = Factory.create(:type, :name => "Install Event")
-      @event = Factory.create(:actual_event, :type => @type, :hist => @hist, :monitored_object => @asset)
+      @type = Factory.create(:object_type, :name => "Install Event")
+      @event = Factory.create(:actual_event, :object_type => @type, :hist => @hist, :monitored_object => @asset)
       @xml = @event.to_xml
       @doc = Nokogiri::XML.parse(@xml)
     end

@@ -1,9 +1,9 @@
 class Manufacturer < CcomEntity
-  has_one :type, :xml_element => :type
+  has_one :object_type, :xml_element => "Type"
   
   def dup_entity(options = {})
     entity = super(options)
-    entity.type = self.type.dup_entity(options) if type
+    entity.object_type = self.object_type.dup_entity(options) if object_type
     entity.save
     return entity
   end

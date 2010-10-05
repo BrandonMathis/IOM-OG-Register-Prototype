@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :ccom_data
   map.resources :ccom
   map.resources :ccom_rest
-  map.resources :type
+  map.resources :object_type
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
 
   map.connect ':controller/:action/:id'

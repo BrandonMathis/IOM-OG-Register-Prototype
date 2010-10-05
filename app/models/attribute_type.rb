@@ -1,2 +1,2 @@
-class AttributeType < Type
+class AttributeType < ObjectType
 end

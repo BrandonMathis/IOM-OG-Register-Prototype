@@ -188,7 +188,7 @@ class AssetTest < ActiveSupport::TestCase
   
   context "destroying an asset" do
     setup do
-      @type = Factory.create(:type)
+      @type = Factory.create(:object_type)
       @unit_type = Factory.create(:eng_unit_type)
       @object_datum1 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
       @object_datum2 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
@@ -196,10 +196,10 @@ class AssetTest < ActiveSupport::TestCase
       @object_datum4 = Factory.create(:object_datum, :attribute_type => @type, :eng_unit_type => @unit_type)
       @mloc1 = Factory.create(:meas_location, :default_eng_unit_type => @unit_type, :object_data => [@object_datum1, @object_datum2])
       @mloc2 = Factory.create(:meas_location, :default_eng_unit_type => @unit_type, :object_data => [@object_datum3, @object_datum4])
-      @source = Factory.create(:segment, :type => @type, :meas_locations => [@mloc1, @mloc2])
-      @target = Factory.create(:segment, :type => @type)
+      @source = Factory.create(:segment, :object_type => @type, :meas_locations => [@mloc1, @mloc2])
+      @target = Factory.create(:segment, :object_type => @type)
       @edge = Factory.create(:network_connection, :source => @source, :target => @target)      
-      @network = Factory.create(:network, :type => @type, :entry_edges =>[@edge])
+      @network = Factory.create(:network, :object_type => @type, :entry_edges =>[@edge])
       @vnet = Factory.create(:valid_network, :network => @network)
       @asset = Factory.create(:asset, :valid_network => @vnet)
       @asset.destroy
@@ -232,7 +232,7 @@ class AssetTest < ActiveSupport::TestCase
       assert EngUnitType.find_by_guid(@unit_type.guid)            
     end    
     should "NOT delete the type" do
-      assert Type.find_by_guid(@type.guid)
+      assert ObjectType.find_by_guid(@type.guid)
     end
   end
   

@@ -22,10 +22,10 @@
 		<%= f.text_field :i_d_in_info_source %>
 	</p>
 	<p>
-		<%= f.label :type, "Type" %><br/>
+		<%= f.label :object_type, "Type" %><br/>
 		<% if !@types.nil? && !@types.empty? -%>
 			<%options = options_for_select(@types.collect{ |t| [t.name, t.g_u_i_d] })-%>
-			<%=f.select 'type', options, {:include_blank => "Select an Valid Type"}%>
+			<%=f.select 'object_type', options, {:include_blank => "Select an Valid Type"}%>
 		<% else -%>
 			No Types have been defined. Please upload a valid XML with defined Types
 		<% end -%>

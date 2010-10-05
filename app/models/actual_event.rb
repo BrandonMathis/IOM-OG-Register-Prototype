@@ -6,8 +6,8 @@ class ActualEvent < CcomObjectWithEventsAndAuditing
   # the GUID is automatically generated at save time
   def initialize(opts = { })
     super(opts)
-    self.tag ||= "#{type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.hist.segment.tag rescue nil}"
-    self.hist.tag = "#{type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.hist.segment.tag rescue nil}" if hist
+    self.tag ||= "#{object_type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.hist.segment.tag rescue nil}"
+    self.hist.tag = "#{object_type.tag rescue nil} for #{monitored_object.tag rescue nil} on #{self.hist.segment.tag rescue nil}" if hist
     self.status ||= "1"
     self.last_edited = Time.now.strftime('%Y-%m-%dT%H:%M:%S')    
   end

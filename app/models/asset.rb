@@ -5,8 +5,8 @@ class Asset < MonitoredObject
   has_one :valid_network, :xml_element => "ValidNetwork"
   field :serial_number
                     
-  named_scope :topologies, where("type.g_u_i_d" => "a62a6cdb-ca56-4b2b-90aa-fafac73caa33")
-  named_scope :serialized, where.not_in("type.g_u_i_d" => ["a62a6cdb-ca56-4b2b-90aa-fafac73caa33"])
+  named_scope :topologies, where("object_type.g_u_i_d" => "a62a6cdb-ca56-4b2b-90aa-fafac73caa33")
+  named_scope :serialized, where.not_in("object_type.g_u_i_d" => ["a62a6cdb-ca56-4b2b-90aa-fafac73caa33"])
 
   delegate :network, :to => :valid_network
   

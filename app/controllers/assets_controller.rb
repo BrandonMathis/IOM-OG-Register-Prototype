@@ -49,7 +49,7 @@ class AssetsController < CcomRestController
   # difference will cause the type or network to be included in the dropdown
   def new
     @asset = Asset.new
-    @types = get_all_asset(:type)                          
+    @types = get_all_asset(:object_type)                          
     @manufacturers = get_all_asset(:manufacturer)
     @models = get_all_asset(:model)
     @networks = define_networks()
@@ -81,10 +81,10 @@ class AssetsController < CcomRestController
                         :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
                         :serial_number => passed_values[:serial_number])
                       
-      if type = Type.find_by_guid(passed_values[:type])
-        @asset.update_attributes(:type => type)
+      if object_type = ObjectType.find_by_guid(passed_values[:object_type])
+        @asset.update_attributes(:object_type => object_type)
       else
-        @asset.update_attributes(:type => Type.undetermined)
+        @asset.update_attributes(:object_type => ObjectType.undetermined)
       end
     
       ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
@@ -96,7 +96,7 @@ class AssetsController < CcomRestController
           flash[:notice] = "Asset was saved into database at #{@asset.last_edited}"
           format.html { redirect_to(@asset) }
         else
-          @types = get_all_asset(:type)
+          @types = get_all_asset(:object_type)
           @manufacturers = get_all_asset(:manufacturer)
           @models = get_all_asset(:model)
           @networks = define_networks()

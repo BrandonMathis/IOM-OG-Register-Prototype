@@ -2,15 +2,15 @@
   <div id="asset_tabs">
     <ul class="tab_links">
       <li><a href="#asset_details">Details</a></li>
-      <% if @asset.type %><li><a href="#asset_object_type">Type</a></li><% end %>
+      <% if @asset.object_type %><li><a href="#asset_object_type">Type</a></li><% end %>
       <% if @asset.valid_network %><li><a href="#asset_datasheet">Data Sheet</a></li><% end %>
     </ul>
     <div id="asset_details">
       <%= render :partial => "ccom_entities/edit_ccom_entity", :object => @asset %>
     </div>
 
-    <% if @asset.type %><div id="asset_object_type">
-        <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.type %>
+    <% if @asset.object_type %><div id="asset_object_type">
+        <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.object_type %>
       </div><% end %>
 
     <div id="asset_datasheet">

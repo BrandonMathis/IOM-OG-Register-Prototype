@@ -7,9 +7,9 @@ class CcomObjectTest < ActiveSupport::TestCase
 
   context "importing xml for a new entity" do
     setup do
-      @object_type = Factory.create(:type)
+      @object_type = Factory.create(:object_type)
       @ccom_object = Factory.create(:ccom_object, :tag => "foobar", 
-                                    :type => @object_type)
+                                    :object_type => @object_type)
       @ccom_object.g_u_i_d = UUID.generate
       @parsed_object = CcomObject.from_xml(@ccom_object.to_xml)
     end
@@ -21,7 +21,7 @@ class CcomObjectTest < ActiveSupport::TestCase
     end
 
     should "have the right object type" do
-      assert_equal @object_type, @parsed_object.type, @ccom_object.to_xml
+      assert_equal @object_type, @parsed_object.object_type, @ccom_object.to_xml
     end
   end
   
@@ -67,8 +67,8 @@ class CcomObjectTest < ActiveSupport::TestCase
   end   
   context "duplicating the ccom object" do
     setup do
-      @type = Factory.create(:type)
-      @object1 = Factory.create(:ccom_object, :type => @type)
+      @type = Factory.create(:object_type)
+      @object1 = Factory.create(:ccom_object, :object_type => @type)
       @object2 = @object1.dup_entity
     end
     should "create two separate objects" do
@@ -80,8 +80,8 @@ class CcomObjectTest < ActiveSupport::TestCase
       end
     end
     should "copy the information from type" do
-      @object1.type.field_names.each do |field|
-        assert_equal @object1.type.send("#{field}"), @object2.type.send("#{field}")
+      @object1.object_type.field_names.each do |field|
+        assert_equal @object1.object_type.send("#{field}"), @object2.object_type.send("#{field}")
       end
     end
     context "with new guids" do
@@ -93,7 +93,7 @@ class CcomObjectTest < ActiveSupport::TestCase
         assert_not_equal @object1.guid, @object2.guid
       end
       should "not generate a new guid for the object type" do
-        assert_equal @object1.type.guid, @object2.type.guid
+        assert_equal @object1.object_type.guid, @object2.object_type.guid
       end
     end      
   end
