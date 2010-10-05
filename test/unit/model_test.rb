@@ -33,14 +33,14 @@ class ModelTest < ActiveSupport::TestCase
     end
     should "copy all attributes" do
       @model1.field_names.each do |field|
-        assert_equal @model1.send("#{field}"), @model2.send("#{field}")
+        assert_equal @model1.send("#{field}"), @model2.send("#{field}") unless field == :last_edited
       end
     end
     should "copy the model's type" do
       assert @model1.object_type
       assert @model2.object_type
       @model1.object_type.field_names do |field|
-        assert_equal @model1.object_type.send("#{field}"), @model2.object_type.send("#{field}")
+        assert_equal @model1.object_type.send("#{field}"), @model2.object_type.send("#{field}") unless field == :last_edited
       end
     end
     context "with new guids" do

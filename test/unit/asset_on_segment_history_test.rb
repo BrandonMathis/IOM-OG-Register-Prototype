@@ -55,7 +55,7 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
     
     should "create histories with identical information" do
       @hist1.field_names.each do |field|
-        assert_equal @hist1.send("#{field}"), @hist2.send("#{field}")
+        assert_equal @hist1.send("#{field}"), @hist2.send("#{field}") unless field == :last_edited
       end
     end
     

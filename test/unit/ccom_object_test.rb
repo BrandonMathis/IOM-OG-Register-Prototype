@@ -33,7 +33,7 @@ class CcomObjectTest < ActiveSupport::TestCase
     
     should "create a new object with identical attributes" do
       @object1.field_names.each do |attr|
-        assert_equal @object1.send(attr), @object2.send(attr)
+        assert_equal @object1.send(attr), @object2.send(attr) unless attr == :last_edited
       end
     end
     
@@ -76,12 +76,12 @@ class CcomObjectTest < ActiveSupport::TestCase
     end
     should "create two object with identical information" do
       @object1.field_names.each do |field|
-        assert_equal @object1.send("#{field}"), @object2.send("#{field}")
+        assert_equal @object1.send("#{field}"), @object2.send("#{field}") unless field == :last_edited
       end
     end
     should "copy the information from type" do
       @object1.object_type.field_names.each do |field|
-        assert_equal @object1.object_type.send("#{field}"), @object2.object_type.send("#{field}")
+        assert_equal @object1.object_type.send("#{field}"), @object2.object_type.send("#{field}") unless field == :last_edited
       end
     end
     context "with new guids" do

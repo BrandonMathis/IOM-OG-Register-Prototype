@@ -17,7 +17,7 @@ class ManufacturerTest < ActiveSupport::TestCase
     end
     should "copy all attributes" do
       @man1.field_names.each do |field|
-        assert_equal @man1.send("#{field}"), @man2.send("#{field}")
+        assert_equal @man1.send("#{field}"), @man2.send("#{field}") unless field == :last_edited
       end
     end
     should "have a type" do
@@ -26,7 +26,7 @@ class ManufacturerTest < ActiveSupport::TestCase
     should "copy the type" do
       assert_equal @man1.object_type.guid, @man2.object_type.guid
       @man1.field_names.each do |field|
-        assert_equal @man1.object_type.send("#{field}"), @man2.object_type.send("#{field}")
+        assert_equal @man1.object_type.send("#{field}"), @man2.object_type.send("#{field}") unless field == :last_edited
       end
     end
     context "with unique guids" do

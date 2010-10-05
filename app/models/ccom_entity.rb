@@ -91,7 +91,7 @@ class CcomEntity
   end
   
   def get_time
-    Time.now.strftime('%Y-%m-%dT%H:%M:%S')
+    Time.now.strftime("%Y-%m-%dT%H:%M:%S.#{Time.now.usec}")
   end
   
   private
