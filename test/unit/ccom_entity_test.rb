@@ -19,7 +19,7 @@ class CcomEntityTest < ActiveSupport::TestCase
     
     context "after saving" do
       setup do
-        @uuid = "a;lskjdfq;lkwjer;wj;laksjdf;lkqjwe"
+        @uuid = "06E6B974-5657-4A2C-A0D0-B0FBB8DF4DDA"
         flexmock(UUID).should_receive(:generate).returns(@uuid).once
         @ccom_entity.save
       end

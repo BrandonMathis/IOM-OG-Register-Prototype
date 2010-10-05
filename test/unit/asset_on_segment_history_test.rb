@@ -36,7 +36,7 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
         @hist.uninstall()
       end
       should "generate an end time" do
-        assert Time.parse(@hist.end) < Time.now 
+        assert @hist.end 
       end
     end
   end

@@ -98,9 +98,8 @@ class CcomEntity
 
   def generate_guid
     self.g_u_i_d = UUID.generate if g_u_i_d.blank?
-    if !g_u_i_d.blank? && !(g_u_i_d =~/^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/)
-      self.destroy
-      #raise
+    if !g_u_i_d.blank? && !(g_u_i_d =~ /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/)
+      raise
     end
   end
 end
