@@ -10,7 +10,11 @@ class Asset < MonitoredObject
 
   delegate :network, :to => :valid_network
   
-  before_save :generate_name
+  before_save :generate_name, :default_model
+  
+  def default_model
+    self.model = Model.undetermined unless self.model
+  end
   
   # Would be nice to have this so GUIDs can be validated but throws an error when 'rake test' is run
   # validates_format_of :g_u_i_d, 
@@ -112,15 +116,6 @@ class Asset < MonitoredObject
     builder.tag!(:serialNumber, self.serial_number) unless self.serial_number.blank?
   end
 
-  
-  def self.parse_xml(entity_node)
-    entity = super(entity_node)
-    if node = entity_node.mimosa_xpath("./serialNumber").first
-      entity.serial_number = node.content
-    end
-    entity.save
-    entity
-  end
   
   def dup_entity (options ={})
     entity = super(options)
