@@ -114,6 +114,8 @@ class Asset < MonitoredObject
   def build_xml(builder)
     super(builder)
     builder.tag!(:serialNumber, self.serial_number) unless self.serial_number.blank?
+    builder.Model { |b| model.build_xml(b) } if model
+    builder.Manufacturer { |b| manufacturer.build_xml(b) } if manufacturer
   end
 
   
