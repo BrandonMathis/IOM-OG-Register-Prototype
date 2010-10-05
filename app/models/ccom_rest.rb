@@ -7,7 +7,7 @@ class CcomRest
       builder.method message[:method]
       builder.errorMessage message[:errorMessage]
       builder.arguments do
-        builder.CCOMEntity message[:entity]
+        builder.CCOMentity message[:entity]
       end
     end
   end

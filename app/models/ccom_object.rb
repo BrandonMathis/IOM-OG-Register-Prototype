@@ -1,6 +1,6 @@
 class CcomObject < CcomEntity
   has_one :type, :xml_element => "Type"
-  before_save :generate_last_edited
+  before_save :generate_last_edited, :set_default_type
 
   def dup_entity (options = {})
     entity = super(options) 
@@ -8,6 +8,10 @@ class CcomObject < CcomEntity
     entity.type = self.type.dup_entity(options) if type
     entity.save
     return entity
+  end
+  
+  def set_default_type
+  #  self.type = Type.undetermined unless self.type
   end
   
   def build_xml(builder)

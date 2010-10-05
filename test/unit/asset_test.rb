@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class AssetTest < ActiveSupport::TestCase
+  should "contain serial number in list of field and attributes" do
+    asset = Asset.create()
+    assert asset.field_names.include? :serial_number
+    assert asset.attribute_names.include? :serial_number
+  end
+  
   context "The Asset" do
     setup do
       @asset = Factory.create(:asset)

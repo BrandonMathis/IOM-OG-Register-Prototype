@@ -1,6 +1,22 @@
 require 'test_helper'
 
 class ModelTest < ActiveSupport::TestCase
+  should "contain product information in list of fields" do
+    m = Model.create()
+    assert m.field_names.include? :product_family
+    assert m.field_names.include? :product_family_member
+    assert m.field_names.include? :product_family_member_revision
+    assert m.field_names.include? :part_number
+  end
+  
+  should "contain product information in the list of attributes" do
+    m = Model.create()
+    assert m.attribute_names.include? :product_family
+    assert m.attribute_names.include? :product_family_member
+    assert m.attribute_names.include? :product_family_member_revision
+    assert m.attribute_names.include? :part_number
+  end
+  
   should "be valid from factory" do
     assert_valid Factory.create(:model)
   end

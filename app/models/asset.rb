@@ -30,23 +30,13 @@ class Asset < MonitoredObject
   end
   
   def self.field_names
-    super << :serial_number unless super.include?(:serial_number)
-    super
+    super + [:serial_number]
   end
   
   def self.attribute_names
-    super << :serial_number unless super.include?(:serial_number)
-    super
+    super + [:serial_number]
   end
   
-  def field_names
-    self.class.field_names
-  end
-  
-  def attribute_names
-    self.class.attribute_names
-  end
-
   def segment
     return asset_on_segment_history.segment
   end

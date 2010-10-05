@@ -4,6 +4,8 @@
       <li><a href="#asset_details">Details</a></li>
       <% if @asset.type %><li><a href="#asset_object_type">Type</a></li><% end %>
       <% if @asset.valid_network %><li><a href="#asset_datasheet">Data Sheet</a></li><% end %>
+	  <% if @asset.model %><li><a href="#asset_object_model">Model</a></li><% end %>
+	  <% if @asset.manufacturer %><li><a href="#asset_object_manufacturer">Manufacturer</a></li><% end %>
     </ul>
     <div id="asset_details">
       <%= render :partial => "ccom_entities/ccom_entity", :object => @asset %>
@@ -11,10 +13,16 @@
 
     <% if @asset.type %><div id="asset_object_type">
         <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.type %>
-      </div><% end %>
+    </div><% end %>
 
     <div id="asset_datasheet">
       <%= render :partial => "network_connections/datasheet", :collection => @asset.entry_edges, :locals => {:indent_level => 1 } %>
     </div>
+	<% if @asset.model %><div id="asset_object_model">
+        <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.model %>
+    </div><% end %>
+	<% if @asset.manufacturer %><div id="asset_object_manufacturer">
+        <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.manufacturer %>
+    </div><% end %>
   </div>
 </div>

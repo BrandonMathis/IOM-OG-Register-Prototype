@@ -11,8 +11,11 @@ class Model < CcomEntity
   end
   
   def self.field_names
-    super << :product_family << :product_family_member << :product_family_member_revision << :part_number unless super.include?(:product_family) || super.include?(:product_family_member) || super.include?(:product_family_member_revision) || super.include?(:part_number) 
-    super
+    super + [:product_family, :product_family_member, :product_family_member_revision, :part_number]
+  end
+  
+  def self.attribute_names
+    super + [:product_family, :product_family_member, :product_family_member_revision, :part_number]
   end
   
   def dup_entity(options = {})

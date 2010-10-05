@@ -85,7 +85,8 @@ class AssetsControllerTest < ActionController::TestCase
   end
   context "creating an Asset via RESTful call with XML" do
     setup do
-      @guid = 'C18340CE-23D3-4B69-A7D4-6BC5378BA0D2'
+      @guid1 = 'C18340CE-23D3-4B69-A7D4-6BC5378BA0D2'
+      @guid2 = 'A18340CE-23D3-4B69-A7D4-6BC5378BA0D2'
     end
     context "using good XML" do
       setup do
@@ -93,7 +94,7 @@ class AssetsControllerTest < ActionController::TestCase
         <?xml version="1.0" encoding="UTF-8"?>
     		<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     		<Entity xsi:type="Asset">
-    		        <GUID>'+@guid+'</GUID>
+    		        <GUID>'+@guid1+'</GUID>
     		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
     		        <Tag>A Sample Asset</Tag>
     		        <Name>Sample Asset</Name>
@@ -107,7 +108,7 @@ class AssetsControllerTest < ActionController::TestCase
     		        </Type>
     		</Entity>
     		<Entity xsi:type="Asset">
-    		        <GUID>A18340CE-23D3-4B69-A7D4-6BC5378BA0D2</GUID>
+    		        <GUID>'+@guid2+'</GUID>
     		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
     		        <Tag>A Sample Asset</Tag>
     		        <Name>Sample Asset</Name>
@@ -129,12 +130,133 @@ class AssetsControllerTest < ActionController::TestCase
       end
       should 'give that asset the specified guid' do
         post :create, :format => 'xml'
-        assert Asset.find_by_guid(@guid)
+        assert Asset.find_by_guid(@guid1)
       end
       should 'return the XML of the generated entity with set las updated time' do
         post :create, :format => 'xml'
-        RAILS_DEFAULT_LOGGER.debug(response.body.read)
+        @doc = Nokogiri::XML.parse(@response.body)
+        assert_has_xpath("/CCOMData/Entity[@*='Asset']", @doc)
+        assert_has_xpath("/CCOMData/Entity[@*='Asset']/GUID", @doc)
+        assert_has_xpath("/CCOMData/Entity[@*='Asset']/Tag", @doc)
       end
+      context "using bad XML with blank GUID" do
+        setup do
+          @request.env['RAW_POST_DATA'] = '
+          <?xml version="1.0" encoding="UTF-8"?>
+      		<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      		<Entity xsi:type="Asset">
+      		        <GUID></GUID>
+      		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+      		        <Tag>A Sample Asset</Tag>
+      		        <Name>Sample Asset</Name>
+      		        <Status>1</Status>
+      		        <Type>
+      		          <GUID>b0f69ccc-3d42-4055-90f3-5aec8ff4dc1d</GUID>
+      		          <IDInInfoSource>0000000000000000.0.147</IDInInfoSource>
+      		          <Tag>Ambient Atmosphere</Tag>
+      		          <Name>Ambient Atmosphere</Name>
+      		          <Status>1</Status>
+      		        </Type>
+      		</Entity>
+      		<Entity xsi:type="Asset">
+      		        <GUID></GUID>
+      		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+      		        <Tag>A Sample Asset</Tag>
+      		        <Name>Sample Asset</Name>
+      		        <Status>1</Status>
+      		        <Type>
+      		          <GUID>b0f69ccc-3d42-4055-90f3-5aec8ff4dc1d</GUID>
+      		          <IDInInfoSource>0000000000000000.0.147</IDInInfoSource>
+      		          <Tag>Ambient Atmosphere</Tag>
+      		          <Name>Ambient Atmosphere</Name>
+      		          <Status>1</Status>
+      		        </Type>
+      		</Entity>
+      		</CCOMData>'
+        end
+        should "add an asset to the database" do
+          assert_difference("Asset.count", +2) do
+            post :create, :format => 'xml'
+          end
+        end
+        should "assign a GUID to the empty GUID attr" do
+          post :create, :format => 'xml'
+          @doc = Nokogiri::XML.parse(@response.body)
+          guid = @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/GUID").first.content
+          assert guid =~ /(^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$|^$)/
+        end          
+      end
+      context "using bad XML with blank GUID" do
+        setup do
+          @request.env['RAW_POST_DATA'] = '
+          <?xml version="1.0" encoding="UTF-8"?>
+      		<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      		<Entity xsi:type="Asset">
+      		        <GUID>badguid1</GUID>
+      		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+      		        <Tag>A Sample Asset</Tag>
+      		        <Name>Sample Asset</Name>
+      		        <Status>1</Status>
+      		        <Type>
+      		          <GUID>b0f69ccc-3d42-4055-90f3-5aec8ff4dc1d</GUID>
+      		          <IDInInfoSource>0000000000000000.0.147</IDInInfoSource>
+      		          <Tag>Ambient Atmosphere</Tag>
+      		          <Name>Ambient Atmosphere</Name>
+      		          <Status>1</Status>
+      		        </Type>
+      		</Entity>
+      		<Entity xsi:type="Asset">
+      		        <GUID>badguid2</GUID>
+      		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+      		        <Tag>A Sample Asset</Tag>
+      		        <Name>Sample Asset</Name>
+      		        <Status>1</Status>
+      		        <Type>
+      		          <GUID>b0f69ccc-3d42-4055-90f3-5aec8ff4dc1d</GUID>
+      		          <IDInInfoSource>0000000000000000.0.147</IDInInfoSource>
+      		          <Tag>Ambient Atmosphere</Tag>
+      		          <Name>Ambient Atmosphere</Name>
+      		          <Status>1</Status>
+      		        </Type>
+      		</Entity>
+      		</CCOMData>'
+        end
+        should "generate an exception" do
+          post :create, :format => 'xml'
+          @doc = Nokogiri::XML.parse(@response.body)
+          assert_equal "Given XML contains an invalid value for GUID", @doc.xpath("/CCOMError/errorMessage").first.content
+          assert_equal "createEntity", @doc.xpath("/CCOMError/method").first.content
+        end
+      end
+      context "using Asset XML with no type" do
+        setup do
+          @request.env['RAW_POST_DATA'] = '
+          <?xml version="1.0" encoding="UTF-8"?>
+      		<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      		<Entity xsi:type="Asset">
+      		        <GUID>'+@guid1+'</GUID>
+      		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+      		        <Tag>Asset with no type</Tag>
+      		        <Name>Asset with no type</Name>
+      		        <Status>1</Status>
+      		</Entity>
+      		<Entity xsi:type="Asset">
+      		        <GUID>'+@guid2+'</GUID>
+      		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+      		        <Tag>Asset with no type</Tag>
+      		        <Name>Asset with no type</Name>
+      		        <Status>1</Status>
+      		</Entity>
+      		</CCOMData>'
+    		end
+    		should "generate types for Assets" do
+  		    post :create, :format => 'xml'
+  		    RAILS_DEFAULT_LOGGER.debug("Called")
+  		    @doc = Nokogiri::XML.parse(@response.body)
+  		    assert !@doc.mimosa_xpath("/CCOMData/Asset/Type").blank?
+  		    assert_equal 2, @doc.mimosa_xpath("/CCOMData/Asset/Type").count
+  		  end
+  		end
     end
   end
 end

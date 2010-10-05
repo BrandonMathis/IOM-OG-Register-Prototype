@@ -81,7 +81,11 @@ class AssetsController < CcomRestController
                         :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
                         :serial_number => passed_values[:serial_number])
                       
-      @asset.update_attributes(:type => Type.find_by_guid(passed_values[:type]) || Type.undetermined )
+      if type = Type.find_by_guid(passed_values[:type])
+        @asset.update_attributes(:type => type)
+      else
+        @asset.update_attributes(:type => Type.undetermined)
+      end
     
       ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
       valid_network = ref_valid_network.nil? ? nil : ref_valid_network.dup_entity(:gen_new_guids => true)
