@@ -10,15 +10,15 @@ class Asset < MonitoredObject
 
   delegate :network, :to => :valid_network
   
-  before_save :generate_name, :default_model
+  before_save :generate_name, :default_model, :set_default_type
   
   def default_model
-    self.model = Model.undetermined unless self.model
+    self.model ||= Model.undetermined
   end
   
-  # Would be nice to have this so GUIDs can be validated but throws an error when 'rake test' is run
-  # validates_format_of :g_u_i_d, 
-  #                    :with => /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
+  def set_default_type
+    self.object_type ||= ObjectType.undetermined
+  end
   
   # KeysetTS
   # Will query and give an array of all uninstalled assets based on if the asset has a
