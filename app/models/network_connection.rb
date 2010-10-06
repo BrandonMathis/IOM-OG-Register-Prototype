@@ -24,11 +24,7 @@ class NetworkConnection < CcomObject
   
   def build_xml(builder)
     super(builder)
-    if source
-      builder.tag!("FromEntity", "xsi:type" => self.source.class.to_s)
-    end
-    if target
-      builder.tag!("ToEntity", "xsi:type" => self.source.class.to_s)
-    end
+    builder.tag!("FromEntity", "xsi:type" => self.source.class.to_s) {|b| source.build_xml(b)} if source
+    builder.tag!("ToEntity", "xsi:type" => self.source.class.to_s) {|b| target.build_xml(b)} if target
   end
 end

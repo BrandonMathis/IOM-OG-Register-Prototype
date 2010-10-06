@@ -1,7 +1,8 @@
-class TopologiesController < ApplicationController
+class TopologiesController < CcomRestController
 
   def index
-    @topologies = Asset.topologies
+    super(Asset.topologies) if request.format == :xml
+    @topologies = Asset.topologies if request.format == :html
   end
 
   def show

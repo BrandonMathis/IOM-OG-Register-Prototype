@@ -11,7 +11,8 @@ class AssetsController < CcomRestController
   end
   
   def index
-    @assets = Asset.serialized
+    super(Asset.find(:all)) if request.format == :xml
+    @assets = Asset.serialized if request.format == :html
   end
 
   def show

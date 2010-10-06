@@ -3,7 +3,7 @@ class CcomRestController < ApplicationController
   def index(entities = {})
     @entities = entities
     logger.debug("#{@entities}")
-    render :file => "/ccom_rest/index.xml.builder"
+    render :xml => CcomRest.build_entities(@entities)
   end
   
   def create
@@ -17,7 +17,7 @@ class CcomRestController < ApplicationController
       if entities
         format.xml { render :xml => CcomRest.build_entities(entities), :status => 201 }
       else
-        format.xml { render :xml =>CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML is invalid", :entity => "COMData"}), :status => 500 }
+        format.xml { render :xml => CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML is invalid", :entity => "COMData"}), :status => 500 }
       end
     end 
   end

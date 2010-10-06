@@ -24,8 +24,8 @@ class ObjectDatum < CcomObject
 
   def build_xml(builder)
     super(builder)
-    builder.Value { |b| b.Text self.data }
     builder.Type { |b| attribute_type.build_xml(b) }
+    builder.Value { |b| b.Text self.data }
     builder.UnitType { |b| eng_unit_type.build_xml(b) } unless eng_unit_type.blank?
   end
 

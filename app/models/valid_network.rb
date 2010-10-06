@@ -6,6 +6,10 @@ class ValidNetwork < CcomObject
     super
   end
   
+  def build_xml(builder)
+    builder.Network{|b| network.build_xml(b) } if network
+  end
+  
   def dup_entity(options = {})
     entity = super(options)
     entity.network = self.network.dup_entity(options) if network

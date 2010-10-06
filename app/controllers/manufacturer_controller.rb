@@ -1,2 +1,5 @@
-class ManufacturerController < ApplicationController
+class ManufacturerController < CcomRestController
+  def index
+    super(Manufacturer.find(:all))
+  end
 end
