@@ -15,6 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :object_datum, :as => "Attribute"
   map.resources :site, :as => "ControlledSite"
   map.resources :valid_network, :as => "ValidNetwork"
+  map.resources :enterprise, :as => "Enterprise"
+  map.resources :site, :as => "Site"
+
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
 
   map.connect ':controller/:action/:id'

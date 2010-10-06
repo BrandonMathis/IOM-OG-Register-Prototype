@@ -83,6 +83,9 @@ class Segment < MonitoredObject
   def build_xml(builder)
     super(builder)
     builder.ValidNetwork {|b| segment_config_network.build_xml(b) } if segment_config_network
+    asset_on_segment_historys.each do |aosh|
+      builder.AssetOnSegmentHistory {|b| aosh.build_xml(b)} if aosh
+    end
     meas_locations.each do |m|
       builder.MeasurementLocation do |b|
         m.build_xml(b)

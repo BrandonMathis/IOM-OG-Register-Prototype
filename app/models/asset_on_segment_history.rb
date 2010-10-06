@@ -23,6 +23,14 @@ class AssetOnSegmentHistory < CcomObject
     self.save
   end
   
+  def self.field_names
+    super + [:start, :end]
+  end
+  
+  def self.attribute_names
+    super + [:start, :end]
+  end
+  
   def uninstall()
     time = get_time
     self.update_attributes(:end => time, :last_edited => time)
@@ -47,8 +55,11 @@ class AssetOnSegmentHistory < CcomObject
   
   def build_xml(builder)
     super(builder)
-    builder.Asset {|b| self.logged_asset.build_xml(b)} if logged_asset
-    builder.Segment {|b| self.segment.build_xml(b)} if segment
+    #builder.Asset {|b| self.logged_asset.build_xml(b)} if logged_asset
+    #builder.Segment {|b| self.segment.build_xml(b)} if segment
+    assets.each do |asset|
+      builder.Asset {|b| asset.build_xml(b)} if asset
+    end
     builder.Start self.start if start
     builder.End self.end if self.end
   end
