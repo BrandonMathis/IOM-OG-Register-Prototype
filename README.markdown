@@ -11,7 +11,7 @@ The most recent deployment of the Active Registry can be found [online](http://a
 	2. Unpack gems
 	3. cd into directory containing app
 	4. boot sinatra postback server			[$ ruby lib/postback_server.rb]
-	5. start server							[$script/server]
+	5. start server							[$ script/server]
 	
 	> app will be at http://localhost:3000
 	> events are published to events/
