@@ -128,6 +128,10 @@ class AssetsControllerTest < ActionController::TestCase
           post :create, :format => 'xml'
         end
       end
+      should 'give a 201 as responce' do
+        post :create, :format => 'xml'
+        assert_response 201
+      end
       should 'give that asset the specified guid' do
         post :create, :format => 'xml'
         assert Asset.find_by_guid(@guid1)

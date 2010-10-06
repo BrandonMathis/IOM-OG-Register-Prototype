@@ -1,6 +1,10 @@
-class SegmentsController < ApplicationController
+class SegmentsController < CcomRestController
 
   before_filter :load_segment
+  
+  def index 
+    super(Segment.find(:all))
+  end
 
   def show
     @uninstalled_assets = Asset.uninstalled
