@@ -1,3 +1,3 @@
 module Exceptions
-  class GuidError < StandardError; end
+  class BadGuid < StandardError; end
 end

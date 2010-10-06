@@ -18,8 +18,8 @@ module CcomXml
     def parse_xml(entity_node)
       attributes = { }
       self.field_names.each do |attr|
-        if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first
-          attributes[attr] =  node.content
+        if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first          
+          attributes[attr] = node.content
         end
       end
       if entity = find_by_guid(attributes[:g_u_i_d])

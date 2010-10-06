@@ -203,6 +203,13 @@ th { border: 1px solid #666666;padding: 5px; }
   margin-left: 35px;
 }
 
+#error{
+	background: none repeat scroll 0 0 #FFEEEE;
+	color: #990000;
+	border: solid 2px #CC0000;
+	padding: 5px;
+}
+
 /* Asset index*/
 
 #show-assets li *{display: inline;}

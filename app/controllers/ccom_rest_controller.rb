@@ -6,7 +6,7 @@ class CcomRestController < ApplicationController
   end
   def create
     entities = CcomData.from_xml(request.body.read)
-  rescue
+  rescue Exceptions::BadGuid
     respond_to do |format|
       format.xml { render :xml =>CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML contains an invalid value for GUID", :entity => "CCOMData"}), :status => 500 }
     end
