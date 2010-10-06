@@ -18,7 +18,8 @@ module CcomXml
     def parse_xml(entity_node)
       attributes = { }
       self.field_names.each do |attr|
-        if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first          
+        if node = entity_node.mimosa_xpath("./#{attr_to_camel(attr)}").first
+          raise Exceptions::BadGuid if (attr == :g_u_i_d) && !(node.content ~= /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/)
           attributes[attr] = node.content
         end
       end
