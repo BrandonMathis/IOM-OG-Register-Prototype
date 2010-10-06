@@ -33,7 +33,7 @@ class NetworkConnection < CcomObject
   def build_xml(builder)
     super(builder)
     builder.tag!("FromEntity", "xsi:type" => self.source.class.to_s) {|b| source.build_xml(b)} if source
-    builder.tag!("ToEntity", "xsi:type" => self.source.class.to_s) {|b| target.build_xml(b)} if target
+    builder.tag!("ToEntity", "xsi:type" => self.target.class.to_s) {|b| target.build_xml(b)} if target
     successors.each do |s|
       builder.Successor {|b| s.build_xml(b)} if s
     end

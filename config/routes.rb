@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :site, :as => "ControlledSite"
   map.resources :valid_network, :as => "ValidNetwork"
   map.resources :enterprise, :as => "Enterprise"
-  map.resources :site, :as => "Site"
+  map.resources :network_connection, :as => "EntryEdge"
 
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
 

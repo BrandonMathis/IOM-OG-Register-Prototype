@@ -256,7 +256,6 @@ class AssetsControllerTest < ActionController::TestCase
   		end
   		should "generate types for Assets" do
 		    post :create, :format => 'xml'
-		    RAILS_DEFAULT_LOGGER.debug("#{@response.body}")
 		    @doc = Nokogiri::XML.parse(@response.body)
 		    assert !@doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type").blank?
 		    assert_equal 2, @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type").count

@@ -2,7 +2,6 @@ class CcomRestController < ApplicationController
   
   def index(entities = {})
     @entities = entities
-    logger.debug("#{@entities}")
     render :xml => CcomRest.build_entities(@entities)
   end
   

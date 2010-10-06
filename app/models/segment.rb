@@ -1,5 +1,5 @@
 class Segment < MonitoredObject
-  has_one :segment_config_network, :xml_element => "ValidNetwork"
+  has_one :segment_config_network, :class_name => "ValidNetwork", :xml_element => "ValidNetwork"
   has_many :meas_locations, :xml_element => "MeasurementLocation"
   has_many_related :asset_on_segment_historys, :class_name => "AssetOnSegmentHistory", :xml_element => "AssetOnSegmentHistory"
   has_many :installed_assets, :class_name => "Asset"
