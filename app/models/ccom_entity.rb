@@ -16,12 +16,6 @@ class CcomEntity
   before_create :generate_last_edited, :generate_guid
   before_save :generate_guid, :generate_last_edited
   
-  # Return true if given GUID is a valid UUID
-  def self.valid_guid(guid)
-    regex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/
-    return (guid =~ regex)
-  end
-  
   def guid
     g_u_i_d
   end
@@ -98,8 +92,5 @@ class CcomEntity
 
   def generate_guid
     self.g_u_i_d = UUID.generate if g_u_i_d.blank?
-    #if !g_u_i_d.blank? && !(g_u_i_d =~ /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/)
-    #  raise Exceptions::BadGuid
-    #end
   end
 end

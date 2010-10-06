@@ -25,10 +25,6 @@ class SegmentTest < ActiveSupport::TestCase
     should "be valid from factory" do
       assert_valid Factory.create(:segment)
     end
-  
-    should "contain a valid guid" do
-      CcomEntity.valid_guid(@seg.g_u_i_d)
-    end
   end
 
   should "support multiple meas locations" do
