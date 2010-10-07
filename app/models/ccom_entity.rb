@@ -20,6 +20,10 @@ class CcomEntity
     g_u_i_d
   end
   
+  def self.get_time
+    Time.now.strftime("%Y-%m-%dT%H:%M:%S.#{Time.now.usec}")
+  end
+  
   def self.attribute_names
     @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
   end
@@ -81,11 +85,7 @@ class CcomEntity
   end
   
   def generate_last_edited
-    self.last_edited = get_time
-  end
-  
-  def get_time
-    Time.now.strftime("%Y-%m-%dT%H:%M:%S.#{Time.now.usec}")
+    self.last_edited = CcomEntity.get_time
   end
   
   private

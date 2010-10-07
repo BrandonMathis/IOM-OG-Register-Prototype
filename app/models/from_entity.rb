@@ -1,0 +1,2 @@
+class FromEntity < Segment
+end

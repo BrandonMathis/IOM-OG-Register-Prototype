@@ -76,12 +76,16 @@ module CcomXml
         build_xml(b)
       end
     end
-
-    def build_xml(builder)
+    
+    def build_basic_xml(builder)
       self.field_names.each do |attr|
         value = self.send(attr)
         builder.tag!(self.class.attr_to_camel(attr), value) unless value.blank?
       end
+    end
+
+    def build_xml(builder)
+      build_basic_xml(builder)
     end
   end
 

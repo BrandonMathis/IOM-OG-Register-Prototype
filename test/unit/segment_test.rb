@@ -148,6 +148,26 @@ class SegmentTest < ActiveSupport::TestCase
             end
           end 
         end
+        context "then generating the xml of that logged history" do
+          setup do
+            builder = Builder::XmlMarkup.new
+            @xml = @hist.to_xml
+            @doc = Nokogiri::XML.parse(@xml)
+          end
+          should "contain a copy of Asset with a valid GUID" do
+            assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']", @doc)
+            assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset", @doc)
+            assert_equal @asset.g_u_i_d, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset/GUID").first.content
+            assert_equal @asset.tag, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset/Tag").first.content
+          end
+
+          should "contain a copy of the Segment with a valid GUID" do
+            assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']", @doc)
+            assert_has_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Segment", @doc)
+            assert_equal @segment.g_u_i_d, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Segment/GUID").first.content
+            assert_equal @asset.tag, @doc.mimosa_xpath("/CCOMData/Entity[@*='AssetOnSegmentHistory']/Asset/Tag").first.content
+          end
+        end
           
         context "Then reinstalling the asset" do
           setup do

@@ -5,7 +5,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :assets, :as => "Asset"
   map.resources :ccom_data
   map.resources :ccom
-  map.resources :ccom_rest
   map.resources :type, :as => "Type"
   map.resources :eng_unit_type, :as => "UnitType"
   map.resources :manufacturer, :as => "Manufacturer"

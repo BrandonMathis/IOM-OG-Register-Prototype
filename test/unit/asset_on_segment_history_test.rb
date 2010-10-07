@@ -29,11 +29,11 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
       @hist.install(@asset)
     end
     should "generate a start time" do
-      assert Time.parse(@hist.start) < Time.now 
+      assert @hist.start
     end
     context "then recording an uninstall event" do
       setup do
-        @hist.uninstall()
+        @hist.uninstall(@asset)
       end
       should "generate an end time" do
         assert @hist.end 
@@ -42,9 +42,9 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
   end
   context "duplicating the AOSH" do
     setup do
-      @hist1 = Factory.create(:asset_on_segment_history)
       @asset = Factory.create(:asset)
-      @hist1.install(@asset)
+      @logged_asset = Factory.create(:asset)
+      @hist1 = Factory.create(:asset_on_segment_history, :assets => [@asset], :logged_asset => @logged_asset, :start => CcomEntity.get_time, :end => CcomEntity.get_time)
       @hist2 = @hist1.dup_entity
     end
     
@@ -60,10 +60,8 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
     end
     
     should "copy AOSH assets" do
-      @hist1.assets.each do |asset|
-        asset.field_names.each do |field|
-          assert_equals @hist1.send("#{field}"), @hist2.send("#{field}")
-        end
+      @hist1.assets.first.field_names.each do |field|
+        assert_equal @hist1.assets.first.send("#{field}"), @hist2.assets.first.send("#{field}") unless field == :last_edited
       end
     end
     
@@ -72,41 +70,9 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
         assert_equal @hist1.send("#{field}"), @hist2.send("#{field}")
       end
     end
-    
-    should "copy start time" do
-      assert @hist2.start
-    end
-    
-    context "after uninstall" do
-      setup do
-        @hist1.uninstall()
-        @hist2 = @hist1.dup_entity
-      end
-    
-      should "copy end time" do
-        assert @hist2.end
-      end
       
-      should "create logged assets with identical information" do
-        @hist1.logged_asset.field_names do |field|
-          assert_equal @hist1.send("#{field}"), @hist2.send("#{field}")
-          assert_not_equal @hist1, @hist2
-        end
-      end
-    end
-    
-    context "and generate unique guids" do
-      setup do
-        @hist2 = @hist1.dup_entity(:gen_new_guids => true)
-      end
-      
-      should "create unique guids for AOSHs" do
-        assert_not_equal @hist1.guid, @hist2.guid
-      end
-      
-      should "NOT create unique guids for AOSH logged assets" do
-        assert_equal @hist1.logged_asset.guid, @hist2.logged_asset.guid
-      end
+    should "NOT create unique guids for AOSH logged assets" do
+      assert_equal @hist1.logged_asset.guid, @hist2.logged_asset.guid
     end
   end    
 end

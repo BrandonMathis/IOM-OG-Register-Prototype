@@ -9,7 +9,7 @@ class AssetsControllerTest < ActionController::TestCase
     end
     
     should "should get index" do
-      get :index
+      get :index, :format => :html
       assert_response :success
       assert_not_nil assigns(:assets)
     end
