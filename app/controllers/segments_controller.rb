@@ -35,6 +35,6 @@ class SegmentsController < CcomRestController
   protected
 
   def load_segment
-    @segment = Segment.find_by_guid(params[:id]) if params[:id]
+    @segment = CcomEntity.find_by_guid(params[:id]) if params[:id]
   end
 end

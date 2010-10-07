@@ -64,6 +64,11 @@ class Segment < MonitoredObject
     end
   end
   
+  #def self.find_by_guid(guid)
+  #  RAILS_DEFAULT_LOGGER.debug("finding by guid")
+  #  Segment.find_by_guid(guid) << ToEntity.find_by_guid(guid) << FromEntity.find_by_guid(guid)
+  #end
+  
   def destroy
     ValidNetwork.find_by_guid(segment_config_network.guid).destroy if segment_config_network
     meas_locations.each {|mloc| MeasLocation.find_by_guid(mloc.guid).destroy if mloc }

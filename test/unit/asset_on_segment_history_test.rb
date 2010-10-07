@@ -44,7 +44,7 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
     setup do
       @asset = Factory.create(:asset)
       @logged_asset = Factory.create(:asset)
-      @hist1 = Factory.create(:asset_on_segment_history, :assets => [@asset], :logged_asset => @logged_asset, :start => CcomEntity.get_time, :end => CcomEntity.get_time)
+      @hist1 = Factory.create(:asset_on_segment_history, :assets => [@asset], :logged_asset => @logged_asset, :start => @asset.get_time, :end => @asset.get_time)
       @hist2 = @hist1.dup_entity
     end
     

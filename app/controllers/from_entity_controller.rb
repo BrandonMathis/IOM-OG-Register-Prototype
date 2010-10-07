@@ -1,4 +1,4 @@
-class FromEntityController < CcomRestController
+class FromEntityController < SegmentsController
   def index
     super(FromEntity.find(:all))
   end
