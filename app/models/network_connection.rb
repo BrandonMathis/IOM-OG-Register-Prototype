@@ -1,6 +1,6 @@
 class NetworkConnection < CcomObject
-  has_one :source, :class_name => "Segment", :xml_element => "FromEntity"
-  has_one :target, :class_name => "Segment", :xml_element => "ToEntity"
+  has_one :source, :class_name => "FromEntity", :xml_element => "FromEntity"
+  has_one :target, :class_name => "ToEntity", :xml_element => "ToEntity"
   has_many :successors, :class_name => "Successor", :xml_element => "Successor"
   
   field :order
