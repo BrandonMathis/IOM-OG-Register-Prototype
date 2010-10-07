@@ -17,15 +17,9 @@ Factory.define(:object_type) do |f|
   f.sequence(:name) { |i| "Object Type #{i}" }
 end
 
-Factory.define(:attribute_type) do |f|
-  ccom_entity_fields(f)
-  f.sequence(:name) { |i| "Attribute Type #{i}" }
-end
-
 Factory.define(:object_datum) do |f|
   ccom_entity_fields(f)
   f.data "5"
-  f.attribute_type { |a| a.association(:attribute_type) }
 end
 
 Factory.define(:eng_unit_type) do |f|

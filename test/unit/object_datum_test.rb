@@ -12,14 +12,15 @@ class ObjectDatumTest < ActiveSupport::TestCase
   end
 
   should "allow attr type" do
-    attr_type = Factory.create(:attribute_type)
-    assert_valid datum = Factory.create(:object_datum, :attribute_type => attr_type)
-    assert_equal attr_type, datum.attribute_type
+    attr_type = Factory.create(:object_type)
+    assert_valid datum = Factory.create(:object_datum, :object_type => attr_type)
+    assert_equal attr_type, datum.object_type
   end
 
   context "generating xml" do
     setup do
-      @datum = Factory.create(:object_datum, :eng_unit_type => Factory.create(:eng_unit_type))
+      @type = Factory.create(:object_type)
+      @datum = Factory.create(:object_datum, :eng_unit_type => Factory.create(:eng_unit_type), :object_type => @type)
 
       @doc = Nokogiri::XML.parse(@datum.to_xml)
     end

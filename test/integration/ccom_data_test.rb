@@ -71,9 +71,6 @@ class CcomDataTest < ActiveSupport::TestCase
       setup do
         @segment = Segment.find_by_guid("abcf6703-4d26-4f0b-8f0e-c4d704da514a")
       end
-      should "have a segment config network" do
-        assert_kind_of SegmentConfigNetwork, @segment.segment_config_network
-      end
 
       context "associated network" do
         setup do
@@ -113,10 +110,10 @@ class CcomDataTest < ActiveSupport::TestCase
 
         context "with an attribute type" do
           setup do
-            @attr_type = @object_data.attribute_type
+            @attr_type = @object_data.object_type
           end
           should "be an attribute type" do
-            assert_kind_of AttributeType, @attr_type
+            assert_kind_of ObjectType, @attr_type
           end
         end
       end

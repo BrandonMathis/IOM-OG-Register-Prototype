@@ -14,7 +14,7 @@
 	          <% title = "#{meas_loc.object_type.tag} (GUID: #{meas_loc.object_type.g_u_i_d})" rescue nil -%>
 	          <td class="user_tag" rowspan="<%= meas_loc.object_data.size %>" <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= meas_loc.tag %></td>
 	        <% end -%>
-	        <td class="attribute_type" title="GUID: <%= object_datum.attribute_type.g_u_i_d %>"><%= object_datum.attribute_user_tag %></td>
+	        <td class="attribute_type" title="GUID: <%= object_datum.object_type.g_u_i_d %>"><%= object_datum.attribute_user_tag %></td>
 	        <td class="object_data" <% if object_datum.eng_unit_type -%> title="GUID: <%= object_datum.eng_unit_type.g_u_i_d %>" <% end -%>> <%= object_datum.value %> </td>
 	      </tr>
 	    <% end -%>
@@ -33,7 +33,7 @@
 	          <% title = "#{meas_loc.object_type.tag} (GUID: #{meas_loc.object_type.g_u_i_d})" rescue nil -%>
 	          <td class="user_tag" rowspan="<%= meas_loc.object_data.size %>" <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= meas_loc.tag %></td>
 	        <% end -%>
-	        <td class="attribute_type" title="GUID: <%= object_datum.attribute_type.g_u_i_d %>"><%= object_datum.attribute_user_tag %></td>
+	        <td class="attribute_type" title="GUID: <%= object_datum.object_type.g_u_i_d %>"><%= object_datum.attribute_user_tag %></td>
 	        <td class="object_data" <% if object_datum.eng_unit_type -%> title="GUID: <%= object_datum.eng_unit_type.g_u_i_d %>" <% end -%>> <%= object_datum.value %> </td>
 	      </tr>
 	    <% end -%>

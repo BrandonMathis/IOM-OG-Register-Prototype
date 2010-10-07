@@ -30,7 +30,7 @@ voltage_type = ObjectType.create(:g_u_i_d => "08e90d6e-59c9-4560-95ad-838162b8ce
                                  :tag => "Voltage", :name => "Voltage",
                                  :last_edited => "2000-03-27T12:00:00.000000000",
                                  :status => "1")
-arm_volt_rated = AttributeType.create(:g_u_i_d => "c542ee51-2697-4564-b8fb-e68b89162970",
+arm_volt_rated = ObjectType.create(:g_u_i_d => "c542ee51-2697-4564-b8fb-e68b89162970",
                                       :i_d_in_info_source => "0000000000000000.1.523",
                                       :tag => "Armature Voltage, Rated")
 volts = EngUnitType.create(:g_u_i_d => "67284a42-b3a6-40e5-b06b-5d662d4a909e",
@@ -54,13 +54,13 @@ elec_spec = Segment.create(:g_u_i_d => "0c893aff-b524-41e7-b919-2ec279532f5f",
 
 vibration = ObjectType.create(:g_u_i_d => "7dcc3260-912f-456e-b370-749489ec43cd",
                               :name => "Vibration, Absolute, Casing, Broadband")
-data_type = AttributeType.create(:g_u_i_d => "6030c834-f62b-436f-a534-a83a6b631943", :tag => "Data Type")
-hi_spd_buffer = AttributeType.create(:g_u_i_d => "7499d276-f801-46cf-97a9-88278e5f4151",
+data_type = ObjectType.create(:g_u_i_d => "6030c834-f62b-436f-a534-a83a6b631943", :tag => "Data Type")
+hi_spd_buffer = ObjectType.create(:g_u_i_d => "7499d276-f801-46cf-97a9-88278e5f4151",
                                      :tag => "High Speed Buffer Data Poll Rate")
 seconds = EngUnitType.create(:g_u_i_d => "7499d276-f801-46cf-97a9-88278e5f4151",
                              :i_d_in_info_source => "0000000000000000.0.30",
                              :tag => "Seconds", :name => "Seconds")
-hist_aggr_rate = AttributeType.create(:g_u_i_d => "78b69ed6-6b1e-4673-9ff2-78068f254790",
+hist_aggr_rate = ObjectType.create(:g_u_i_d => "78b69ed6-6b1e-4673-9ff2-78068f254790",
                                       :name => "Engineering Data Historian Aggregation Rate")
 mil_per_sec = EngUnitType.create(:g_u_i_d => "7dcc3260-912f-456e-b370-749489ec43cc",
                                  :tag => "mm/sec", :name => "Millimeters Per Second")

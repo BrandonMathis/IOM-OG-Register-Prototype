@@ -115,7 +115,7 @@ class CcomEntityTest < ActiveSupport::TestCase
                                   :default_eng_unit_type => Factory.create(:eng_unit_type),
                                   :object_data => [
                                     Factory.create(:object_datum,
-                                      :attribute_type => Factory.create(:object_type),
+                                      :object_type => Factory.create(:object_type),
                                       :eng_unit_type => Factory.create(:eng_unit_type)
                                     )
                                   ]
