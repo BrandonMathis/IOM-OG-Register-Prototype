@@ -32,6 +32,14 @@ th { border: 1px solid #666666;padding: 5px; }
 	text-align: right;
 }
 
+.hide{
+	display: none;
+}
+
+div.pp_pic_holder{
+	font-size: 13px;
+}
+
 /* Header */
 
 #header-container {

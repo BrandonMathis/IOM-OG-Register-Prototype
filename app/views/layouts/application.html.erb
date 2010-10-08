@@ -10,14 +10,21 @@
   <%= javascript_include_tag "application/topologies" %>
   <%= javascript_include_tag "addtext" %>
   <%= javascript_include_tag "uuid" %>
+  <%= javascript_include_tag "jquery.prettyPhoto.js" %>
   <%= stylesheet_link_tag "jquery.treeview" %>
   <%= stylesheet_link_tag "ui-lightness/jquery-ui" %>
   <%= stylesheet_link_tag "topologies" %>
+  <%= stylesheet_link_tag "prettyPhoto" %>
 
   <%= yield :javascripts %>
 </head>
 
 <body>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("a[rel^='prettyPhoto']").prettyPhoto();
+	});
+</script>
 <div id="container">
   <div id="header-container">
 	<div id="header">
@@ -32,14 +39,16 @@
 	<div id="navigation">    
   		<ul>
     		<li><%= link_to "Topologies", topologies_path %></li>
-                <li><%= link_to "Serialized Assets", assets_path %></li>
+            <li><%= link_to "Serialized Assets", assets_path %></li>
     		<li><%= link_to "Upload XML", ccom_data_path %></li>
 			<li><%= link_to "Create Asset", :controller => "assets", :action => "new"%></li>
-                <li><%= link_to "Clear DB", delete_ccom_data_path, 
-                        :confirm => "Are you sure you want to delete all objects from the database?" %></li>
+            <li><%= link_to "Clear DB", delete_ccom_data_path, 
+                  	:confirm => "Are you sure you want to delete all objects from the database?" %></li>
+			<li class="right"><a href="#inline-1" rel="prettyPhoto[inline]">What's new in <%=APP_VERSION%>?</a></li>
   		</ul>
   	</div>
   </div>
+  <div id="inline-1" class="hide"><%=render :partial => "layouts/whats_new26"%></div>
   <div id="content">
   <%= render :partial => "shared/flash_display" %>
    	<%= yield %>
