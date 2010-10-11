@@ -1,6 +1,8 @@
 class ObjectType < CcomEntity
   has_one :info_collection
 
+  def xml_entity_name; "Type" end
+  
   def self.install_event
     install_event = first(:conditions => { :g_u_i_d => "ecc99353-412b-4995-bd71-1cbc6fc16c7c" })
     install_event ||= create!(:g_u_i_d => "ecc99353-412b-4995-bd71-1cbc6fc16c7c",
@@ -23,10 +25,5 @@ class ObjectType < CcomEntity
                            :tag => "Undetermined",
                            :name => "Undetermined",
                            :status => "1")
-  end
-  def build_entity(builder)
-    builder.tag!("Entity", "xsi:type" => "Type") do |b|
-      build_xml(b)
-    end
   end                     
 end

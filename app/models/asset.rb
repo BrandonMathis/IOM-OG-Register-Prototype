@@ -10,7 +10,11 @@ class Asset < MonitoredObject
 
   delegate :network, :to => :valid_network
   
-  before_save :generate_name, :default_model
+  before_save :generate_name, :set_default_type
+  
+  def default_model
+    self.model ||= Model.undetermined
+  end
   
   def set_default_type
     self.object_type ||= ObjectType.undetermined
