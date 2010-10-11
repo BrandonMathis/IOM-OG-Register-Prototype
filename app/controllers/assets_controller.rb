@@ -4,9 +4,14 @@ class AssetsController < CcomRestController
 
   def destroy
     @entity = Asset.find_by_guid(params[:id])
-    @entity.destroy
-    respond_to do |format|
-      format.html { redirect_to(:controller => 'assets') }
+    if request.format == :xml
+      super @entity
+    else
+      @entity = Asset.find_by_guid(params[:id])
+      @entity.destroy
+      respond_to do |format|
+        format.html { redirect_to(:controller => 'assets') }
+      end
     end
   end
   

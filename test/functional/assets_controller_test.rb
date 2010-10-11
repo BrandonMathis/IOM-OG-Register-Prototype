@@ -75,14 +75,27 @@ class AssetsControllerTest < ActionController::TestCase
       assert_equal "test", Asset.find_by_guid(@asset.g_u_i_d).tag
     end
 
-    should "should destroy asset" do
+    should "destroy asset" do
       assert_difference('Asset.count', -1) do
         delete :destroy, :id => @asset.g_u_i_d
       end
-
       assert_redirected_to assets_path
     end
+    
+    should "destroy restful destory asset" do
+      assert_difference('Asset.count', -1) do
+        delete :destroy, :id => @asset.g_u_i_d, :format => 'xml'
+      end
+    end
+    
+    should "return xml of destroyed asset" do
+      delete :destroy, :id => @asset.guid, :format => 'xml'
+      @doc = Nokogiri::XML.parse(@response.body)
+      guid = @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/GUID").first.content
+      assert guid =~ /(^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$|^$)/
+    end
   end
+  
   context "creating an Asset via RESTful call with XML" do
     setup do
       @guid1 = 'C18340CE-23D3-4B69-A7D4-6BC5378BA0D2'
