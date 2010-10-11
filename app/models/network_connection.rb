@@ -5,6 +5,8 @@ class NetworkConnection < CcomObject
   
   field :order
   
+  def self.xml_entity_name; "EntryEdge" end
+  
   def self.field_names
     super + [:order]
   end

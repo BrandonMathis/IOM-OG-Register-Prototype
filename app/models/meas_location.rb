@@ -2,6 +2,8 @@ class MeasLocation < CcomObjectWithEvents
   has_one :default_eng_unit_type, :class_name => "EngUnitType", :xml_element => "DefaultUnitType"
   has_many :object_data, :xml_element => "Attribute"
 
+  def self.xml_entity_name; "MeasurementLocation" end
+  
   def dup_entity (options = {})
     entity = super(options)
     entity.default_eng_unit_type = self.default_eng_unit_type.dup_entity(options) if default_eng_unit_type

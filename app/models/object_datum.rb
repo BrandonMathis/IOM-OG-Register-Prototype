@@ -3,6 +3,7 @@ class ObjectDatum < CcomObject
   has_one :eng_unit_type, :xml_element => "UnitType"
   field :data, :xml_element => "Value"
 
+  def self.xml_entity_name; "Attribute" end
   def attribute_user_tag; object_type.tag rescue ""; end
   def eng_unit_user_tag; eng_unit_type.tag rescue ""; end
   def value

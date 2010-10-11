@@ -1,7 +1,7 @@
 class ObjectType < CcomEntity
   has_one :info_collection
 
-  def xml_entity_name; "Type" end
+  def self.xml_entity_name; "Type" end
   
   def self.install_event
     install_event = first(:conditions => { :g_u_i_d => "ecc99353-412b-4995-bd71-1cbc6fc16c7c" })

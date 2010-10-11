@@ -7,11 +7,10 @@ class CcomRestController < ApplicationController
   end
   
   def show
-    render :xml => CcomEntity.find_by_guid(params[:id])
-    #respond_to do |format|
-  #    format.xml {render :xml => CcomEntity.find_by_guid(params[:id])}
-  #    format.html {render :xml => CcomEntity.find_by_guid(params[:id])}
-  #  end      
+    respond_to do |format|
+      format.xml {render :xml => CcomEntity.find_by_guid(params[:id])}
+      format.html {render :xml => CcomEntity.find_by_guid(params[:id])}
+    end      
   end
   
   #POST  

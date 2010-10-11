@@ -55,10 +55,10 @@ class AssetOnSegmentHistory < CcomObject
   
   def build_xml(builder)
     super(builder)
-    builder.Asset {|b| self.logged_asset.build_basic_xml(b)} if logged_asset
+    builder.Asset {|b| self.logged_asset.build_xml(b)} if logged_asset && assets.blank?
     builder.Segment {|b| self.segment.build_basic_xml(b)} if segment
     assets.each do |asset|
-      builder.Asset {|b| asset.build_basic_xml(b)} if asset
+      builder.Asset {|b| asset.build_xml(b)} if asset
     end
   end
 end
