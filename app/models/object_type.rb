@@ -23,5 +23,10 @@ class ObjectType < CcomEntity
                            :tag => "Undetermined",
                            :name => "Undetermined",
                            :status => "1")
+  end
+  def build_entity(builder)
+    builder.tag!("Entity", "xsi:type" => "Type") do |b|
+      build_xml(b)
+    end
   end                     
 end
