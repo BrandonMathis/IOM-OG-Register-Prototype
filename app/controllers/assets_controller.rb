@@ -8,9 +8,11 @@ class AssetsController < CcomRestController
       super @entity
     else
       @entity = Asset.find_by_guid(params[:id])
-      @entity.destroy
       respond_to do |format|
-        format.html { redirect_to(:controller => 'assets') }
+        unless @entity.nil?
+          @entity.destroy
+          format.html { redirect_to(:controller => 'assets') }
+        end
       end
     end
   end
