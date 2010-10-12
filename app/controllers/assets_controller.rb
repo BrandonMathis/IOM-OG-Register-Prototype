@@ -12,6 +12,8 @@ class AssetsController < CcomRestController
         unless @entity.nil?
           @entity.destroy
           format.html { redirect_to(:controller => 'assets') }
+        else
+          format.html { render :template => "public/404.html" }
         end
       end
     end
