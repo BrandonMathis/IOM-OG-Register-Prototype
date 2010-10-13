@@ -1,4 +1,9 @@
 class CcomRestController < ApplicationController
+  protect_from_forgery :secret => '2kdjnaLI8', :only => [:update, :delete]
+  
+  def test_client
+    render :layout => false, :template => 'ccom_rest/testclient/test_client'
+  end
   
   #GET
   def index(entities = {})
