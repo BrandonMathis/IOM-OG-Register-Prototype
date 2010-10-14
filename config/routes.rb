@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :to_entity, :as => "ToEntity"
   map.resources :from_entity, :as => "FromEntity"
   map.resources :asset_on_segment_history, :as => "AssetOnSegmentHistory"
+  map.resources :users
 
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
 

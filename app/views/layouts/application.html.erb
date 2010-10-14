@@ -46,6 +46,9 @@
 			<li><%= link_to "Create Asset", :controller => "assets", :action => "new"%></li>
             <li><%= link_to "Clear DB", delete_ccom_data_path, 
                   	:confirm => "Are you sure you want to delete all objects from the database?" %></li>
+			<% if session[:user_id] && session[:user_id] != :logged_out -%>
+				<li><%= link_to 'Logout', :controller => 'test_client', :action => 'logout' %></li>
+			<% end -%>
 			<li class="right"><a href="#inline-1" rel="prettyPhoto[inline]">What's new in <%=APP_VERSION%>?</a></li>
   		</ul>
   	</div>
