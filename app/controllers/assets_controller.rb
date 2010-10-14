@@ -25,10 +25,14 @@ class AssetsController < CcomRestController
   end
 
   def show
-    respond_to do |format|
-      format.html {}
-      format.js   { render :layout => false}
-      format.xml  { render :layout => false}
+    if request.format == :xml
+      super
+    else
+      respond_to do |format|
+        format.html {}
+        format.js   { render :layout => false}
+        format.xml  { render :layout => false}
+      end
     end
   end
   

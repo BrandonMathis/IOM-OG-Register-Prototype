@@ -9,9 +9,14 @@ class CcomRestController < ApplicationController
   end
   
   def show
+    entity = CcomEntity.find_by_guid(params[:id])
+    logger.debug("***#{entity}")
     respond_to do |format|
-      format.xml {render :xml => CcomEntity.find_by_guid(params[:id])}
-      format.html {render :xml => CcomEntity.find_by_guid(params[:id])}
+      if entity
+        format.xml {render :xml => entity.to_xml}
+      else
+        format.xml {render :xml =>CcomRest.error_xml({:method => "getCCOMEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :entity => params[:id]}), :status => 404 }
+      end
     end      
   end
   
@@ -45,7 +50,7 @@ class CcomRestController < ApplicationController
       if @entity
         format.xml {render :xml => entity_xml}
       else
-        format.xml { render :xml => CcomRest.error_xml({:method => "deleteEntity", :errorMessage => "Could not find requested CCOM Entity with the given GUID: #{params[:id]}", :entity => "COMData"}), :status => 404 }
+        format.xml { render :xml => CcomRest.error_xml({:method => "deleteEntity", :errorMessage => "Could not find requested CCOM Entity with the given GUID", :entity => params[:id]}), :status => 404 }
       end
     end      
   end

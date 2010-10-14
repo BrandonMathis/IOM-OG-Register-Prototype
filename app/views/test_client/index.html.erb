@@ -29,22 +29,9 @@
 				document.getElementById("used-url").innerHTML = "Please specify an HTTP request type";
 				return
 			}
-			var use_popup = document.getElementById("new-window").checked;
 			xmlHttp.open(req_type, url, false);
 			xmlHttp.send(body);
-			if(use_popup){
-				top.consoleRef=window.open('','myconsole',
-				  'width=1200,height=600'
-				   +',menubar=0'
-				   +',toolbar=1'
-				   +',status=0'
-				   +',scrollbars=1'
-				   +',resizable=1');
-				top.consoleRef.document.writeln(xmlHttp.responseXML);
-			}
-			else{
-				document.getElementById("response").innerHTML = xmlHttp.responseText;
-			}
+			document.getElementById("response").innerHTML = xmlHttp.responseText;
 			document.getElementById("used-url").innerHTML = "Requested: "+url+" ["+req_type+"]";
 		}
 		</script>
