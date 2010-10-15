@@ -269,6 +269,12 @@ a.button:hover {
 	padding: 1px 1px 1px 1px;
 }
 
+.entry-edge{
+	border:1px solid;
+	margin-bottom:20px;
+	padding:10px;
+}
+
 /*Searilize Asset index*/
 #show-assets .button{
 	display: inline;

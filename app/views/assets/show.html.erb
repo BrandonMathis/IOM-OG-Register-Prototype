@@ -15,12 +15,14 @@
         <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.object_type %>
     </div><% end %>
 
-    <div id="asset_datasheet">
+	<div id="asset_datasheet">
       <%= render :partial => "network_connections/datasheet", :collection => @asset.entry_edges, :locals => {:indent_level => 1 } %>
     </div>
+
 	<% if @asset.model %><div id="asset_object_model">
         <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.model %>
     </div><% end %>
+
 	<% if @asset.manufacturer %><div id="asset_object_manufacturer">
         <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.manufacturer %>
     </div><% end %>

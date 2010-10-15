@@ -3,6 +3,7 @@
  longer stored within a <source> element. Since it stands alone it is easier to understand 
  the	template generation when organized in this manner 
 -->
+<div class="entry-edge">
 <%if !datasheet.source.nil? -%>	
 	<% title = "#{datasheet.source.object_type.tag} (GUID: #{datasheet.source.object_type.g_u_i_d})" rescue nil -%>
 	<h1 <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= datasheet.source.tag %></h1>
@@ -21,10 +22,10 @@
 	  <% end -%>
 	</table>
 <% end -%>
-
+<br/>
 <%if !datasheet.target.nil? -%>
 	<% title = "#{datasheet.target.object_type.tag} (GUID: #{datasheet.target.object_type.g_u_i_d})" rescue nil -%>
-	<h2 <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= datasheet.target.tag %></h2>
+	<h1 <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= datasheet.target.tag %></h1>
 	<table class="meas_locations">
 	  <% datasheet.target.meas_locations.each do |meas_loc| -%>
 	    <% meas_loc.object_data.each_with_index do |object_datum, index| -%>
@@ -40,3 +41,4 @@
 	  <% end -%>
 	</table>
 <% end -%>
+</div>
