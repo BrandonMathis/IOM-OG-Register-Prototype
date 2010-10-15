@@ -4,7 +4,7 @@ class AdminController < ApplicationController
       if session[:user_id] != :logged_out
         authenticate_or_request_with_http_basic('Authentication required') do |username, password|
           user = User.authenticate(username, password)
-          session[:user_id] = user.id if user
+          session[:user_id] = user.user_id if user
         end
       else
         flash[:notice] = "Please log in"

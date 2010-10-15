@@ -200,6 +200,7 @@ class AssetsControllerTest < ActionController::TestCase
       should "assign a GUID to the empty GUID attr" do
         post :create, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
+        RAILS_DEFAULT_LOGGER.debug(@response.body)
         guid = @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/GUID").first.content
         assert guid =~ /(^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$|^$)/
       end          
@@ -275,5 +276,36 @@ class AssetsControllerTest < ActionController::TestCase
 		    assert @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type/Name").first.content == "Undetermined"
 		  end
 		end
+  end
+  
+  context "edited an Asset via RESTful call with XMl" do
+    setup do
+      @asset = Factory.create(:asset)
+      get :show, :id => @asset.guid, :format => 'xml'
+      @etag = @response.etag
+      @doc = Nokogiri::XML.parse(@response.body)
+      @request.env['RAW_POST_DATA'] = @asset.to_xml
+    end
+    
+    should "have etag" do
+      assert @response.etag
+    end
+    
+    should "have an asset" do
+      assert_has_xpath("/CCOMData/Entity[@*='Asset']", @doc)
+      assert_has_xpath("/CCOMData/Entity[@*='Asset']/GUID", @doc)
+    end
+    
+    should "not edit entity if etag has expired" do
+      @asset.update_attributes(:name => "changed")
+      @request.env["HTTP_IF_NONE_MATCH"] = @etag
+      post :update, :id => @asset.guid, :format => 'xml'
+      assert_response 412
+    end
+    should "update the entity if etag is same as server" do
+      @request.env["HTTP_IF_NONE_MATCH"] = @etag
+      post :update, :id => @asset.guid, :format => 'xml'
+      assert_response 201
+    end
   end
 end

@@ -4,12 +4,14 @@ class User
   field :name
   field :salt
   field :hashed_password
-  field :id => self.object_id
+  field :user_id
   
   validates_presence_of     :name
   validates_uniqueness_of   :name
   
   after_destroy :check_last
+ 
+  before_save :generate_id
  
   attr_accessor :password_confirmation
   validates_confirmation_of :password
@@ -17,10 +19,10 @@ class User
   validate :password_non_blank
   
 
-  def self.find_by_id(id)
-    user = first(:conditions => {:id => id})
-    return false if user == nil
-    user
+  def self.find_by_id(identifier)
+    first(:conditions => { :user_id => identifier })
+    #return false if user.blank?
+    #user
   end
   
   def self.find_by_name(name)
@@ -63,18 +65,19 @@ class User
   
 
 private
-
+  def generate_id
+    RAILS_DEFAULT_LOGGER.debug("GENERATING ID")
+    self.user_id = self.object_id if user_id.blank?
+    RAILS_DEFAULT_LOGGER.debug(self.user_id)
+  end
+  
   def password_non_blank
     errors.add(:password, "Missing password") if hashed_password.blank?
   end
-
-  
   
   def create_new_salt
     self.salt = self.object_id.to_s + rand.to_s
   end
-  
-  
   
   def self.encrypted_password(password, salt)
     string_to_hash = password + "wibble" + salt

@@ -1,4 +1,0 @@
-AuthName "Section Name"
-AuthType Basic
-AuthUserFile /home1/mimosaor/.htpasswd
-Require valid-user

@@ -1,7 +1,6 @@
 class CcomRestController < ApplicationController
-  protect_from_forgery :only => [:update, :delete]
+  protect_from_forgery :only => [:create, :update, :delete]
   
-  #GET
   def index(entities = {})
     @entities = entities
     @entities = CcomEntity.find(:all) if @entities.blank?
@@ -10,7 +9,7 @@ class CcomRestController < ApplicationController
   
   def show
     entity = CcomEntity.find_by_guid(params[:id])
-    logger.debug("***#{entity}")
+    response.etag = entity.last_edited
     respond_to do |format|
       if entity
         format.xml {render :xml => entity.to_xml}
@@ -20,28 +19,25 @@ class CcomRestController < ApplicationController
     end      
   end
   
-  #POST  
-  def create
-    entities = CcomData.from_xml(request.body.read)
-  rescue Exceptions::BadGuid
-    respond_to do |format|
-      format.xml { render :xml =>CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML contains an invalid value for GUID", :entity => "CCOMData"}), :status => 500 }
-    end
-  else
-    respond_to do |format|
-      if entities
-        format.xml { render :xml => CcomRest.build_entities(entities), :status => 201 }
+  def create        
+    render_this = CcomRest.construct_from_xml(request.body.read)
+    render render_this
+  end
+  
+  def update
+    if entity = CcomEntity.find_by_guid(params[:id])
+      response.etag = entity.last_edited
+      if request.fresh?(response)
+        render_this = CcomRest.construct_from_xml(request.body.read)
       else
-        format.xml { render :xml => CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML is invalid", :entity => "COMData"}), :status => 500 }
+        render_this = { :xml => CcomRest.error_xml({:method => "createEntity", :errorMessage => "Your Etag is old", :entity => "COMData"}), :status => 412 }
       end
-    end 
+    else
+      render_this = { :xml => CcomRest.error_xml({:method => "createEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :entity => params[:id]}), :status => 404}
+    end
+    render render_this
   end
   
-  #PUT
-  def edit
-  end
-  
-  #DELETE
   def destroy(entity = {})
     @entity = CcomEntity.find_by_guid(params[:id])
     entity_xml = @entity.to_xml

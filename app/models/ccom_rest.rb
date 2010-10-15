@@ -22,4 +22,16 @@ class CcomRest
       end
     end
   end
+  
+  def self.construct_from_xml(xml)
+    entities = CcomData.from_xml(xml)
+  rescue Exceptions::BadGuid
+    to_render = { :status => 500, :xml => CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML contains an invalid value for GUID", :entity => "CCOMData"})}
+  else
+    if entities.blank?
+      to_render = {:status => 500, :xml => CcomRest.error_xml({:method => "createEntity", :errorMessage => "Given XML is invalid", :entity => "CCOMData"})}
+    else
+      to_render = { :status => 201, :xml => CcomRest.build_entities(entities) }
+    end
+  end    
 end

@@ -10,11 +10,9 @@
   <%= javascript_include_tag "application/topologies" %>
   <%= javascript_include_tag "addtext" %>
   <%= javascript_include_tag "uuid" %>
-  <%= javascript_include_tag "jquery.prettyPhoto.js" %>
   <%= stylesheet_link_tag "jquery.treeview" %>
   <%= stylesheet_link_tag "ui-lightness/jquery-ui" %>
   <%= stylesheet_link_tag "topologies" %>
-  <%= stylesheet_link_tag "prettyPhoto" %>
 
   <%= yield :javascripts %>
 </head>
@@ -23,7 +21,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({
-			
+			default_height: 500
 		});
 	});
 </script>
@@ -46,14 +44,18 @@
 			<li><%= link_to "Create Asset", :controller => "assets", :action => "new"%></li>
             <li><%= link_to "Clear DB", delete_ccom_data_path, 
                   	:confirm => "Are you sure you want to delete all objects from the database?" %></li>
-			<% if session[:user_id] && session[:user_id] != :logged_out -%>
+			<li><%= link_to "Rest Test Util", :controller => 'test_client'%></li>
+			<% if User.find_by_id(session[:user_id]) -%>
 				<li><%= link_to 'Logout', :controller => 'test_client', :action => 'logout' %></li>
 			<% end -%>
 			<li class="right"><a href="#inline-1" rel="prettyPhoto[inline]">What's new in <%=APP_VERSION%>?</a></li>
   		</ul>
   	</div>
   </div>
-  <div id="inline-1" class="hide"><%=render :partial => "layouts/whats_new26"%></div>
+  <div id="inline-1" class="hide">
+	<p>This is inline content opened in prettyPhoto.</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </div>
   <div id="content">
   <%= render :partial => "shared/flash_display" %>
    	<%= yield %>
