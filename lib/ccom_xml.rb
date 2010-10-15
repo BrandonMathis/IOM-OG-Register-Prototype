@@ -1,5 +1,5 @@
 module CcomXml
-
+  
   def self.included(base)
     base.class_eval do
       include InstanceMethods

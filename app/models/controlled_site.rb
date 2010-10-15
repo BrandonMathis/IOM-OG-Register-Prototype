@@ -1,0 +1,1 @@
+class ControlledSite < Site; end

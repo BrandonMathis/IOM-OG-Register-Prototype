@@ -1,5 +1,5 @@
 class CcomRestController < ApplicationController
-  protect_from_forgery :only => [:create, :update, :delete]
+  protect_from_forgery :only => []
   
   def index(entities = {})
     @entities = entities
