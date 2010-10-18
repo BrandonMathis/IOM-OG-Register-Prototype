@@ -12,6 +12,9 @@ class CcomDataController < ApplicationController
   ensure
     redirect_to :action => "index"
   end
+  
+  def whats_new
+  end
     
   def delete_all
     Mongoid.drop_all_collections
