@@ -4,8 +4,11 @@
   	<% edit_ccom_entity.attribute_names.each do |field| -%>
       	<tr><td><%= field.to_s.camelize %></td>
 			<td> 
-				<%= f.text_field field.to_s.parameterize.underscore.to_sym, :size => '62' unless field == :last_edited || field == :status %>
-				<%= edit_ccom_entity.send(field) if field == :last_edited || field == :status %>
+				<% if edit_ccom_entity.editable_attribute_names.include?(field) -%>
+					<%= f.text_field field.to_s.parameterize.underscore.to_sym, :size => '62' %>
+				<% else -%>
+					<%= edit_ccom_entity.send(field) %>
+				<%end-%>
 			</td>
 		</tr>
   	<% end -%>

@@ -2,7 +2,7 @@ class Network < CcomObjectWithChildren
   has_many :entry_edges, :class_name => "NetworkConnection", :xml_element => "EntryEdge"
   
   def destroy
-    entry_edges.each {|edge| NetworkConnection.find_by_guid(edge.guid).destroy if edge}
+    entry_edges.each {|edge| NetworkConnection.find_by_guid(edge.guid).destroy if edge && NetworkConnection.find_by_guid(edge.guid)}
     super
   end
   

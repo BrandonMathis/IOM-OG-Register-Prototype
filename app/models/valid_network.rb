@@ -2,7 +2,7 @@ class ValidNetwork < CcomObject
   has_one :network, :class_name => "Network", :xml_element => "Network"
     
   def destroy
-    Network.find_by_guid(network.guid).destroy if network
+    Network.find_by_guid(network.guid).destroy if network && Network.find_by_guid(network.guid)
     super
   end
   

@@ -13,7 +13,7 @@ class MeasLocation < CcomObjectWithEvents
   end
   
   def destroy
-    object_data.each {|o| ObjectDatum.find_by_guid(o.guid).destroy if o}
+    object_data.each {|o| ObjectDatum.find_by_guid(o.guid).destroy if o && ObjectDatum.find_by_guid(o.guid)}
     super
   end
   

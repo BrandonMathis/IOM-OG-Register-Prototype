@@ -16,8 +16,8 @@ class NetworkConnection < CcomObject
   end
   
   def destroy
-    Segment.find_by_guid(source.guid).destroy if source
-    Segment.find_by_guid(target.guid).destroy if target
+    Segment.find_by_guid(source.guid).destroy if source && Segment.find_by_guid(source.guid)
+    Segment.find_by_guid(target.guid).destroy if target && Segment.find_by_guid(target.guid)
     successors.each {|successor| NetworkConnection.find_by_guid(successor.guid).destroy if successor}
     super
   end

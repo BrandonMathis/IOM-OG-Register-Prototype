@@ -38,7 +38,7 @@ class AssetOnSegmentHistory < CcomObject
   end
   
   def destroy
-    LoggedAsset.find_by_guid(logged_asset.guid).destroy if logged_asset
+    LoggedAsset.find_by_guid(logged_asset.guid).destroy if logged_asset && LoggedAsset.find_by_guid(logged_asset.guid)
     super
   end
   

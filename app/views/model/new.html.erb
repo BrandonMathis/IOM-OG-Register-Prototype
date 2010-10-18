@@ -1,0 +1,8 @@
+<h1> Create New Model </h1>
+<% form_for @model, :html => {:name => "create"}, :url => {:action => :create} do |f| -%>
+	<%# f.label "mew"%>
+	<%= render :partial => "ccom_entities/new_entity", :object => f %><br/>
+	<p>
+		<%=f.submit "Create"%>
+	</p>
+<% end -%>	

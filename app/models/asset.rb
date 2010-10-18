@@ -11,6 +11,9 @@ class Asset < MonitoredObject
   delegate :network, :to => :valid_network
   
   before_save :generate_name, :set_default_type
+    
+  def self.additional_fields; [:serial_number] end
+  def additional_fields; self.class.additional_fields end
   
   def default_model
     self.model ||= Model.undetermined
@@ -34,11 +37,17 @@ class Asset < MonitoredObject
   end
   
   def self.field_names
-    super + [:serial_number]
+    RAILS_DEFAULT_LOGGER.debug(additional_fields)
+    super + self.additional_fields
   end
   
   def self.attribute_names
-    super + [:serial_number]
+    RAILS_DEFAULT_LOGGER.debug(additional_fields)
+    super + additional_fields
+  end
+  
+  def editable_attribute_names
+    super + additional_fields
   end
   
   def segment
@@ -132,7 +141,7 @@ class Asset < MonitoredObject
   end
   
   def destroy
-    ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network
+    ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network && ValidNetwork.find_by_guid(valid_network.guid)
     super
   end
   

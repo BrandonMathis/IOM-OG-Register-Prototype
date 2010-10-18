@@ -8,12 +8,13 @@ class CcomEntity
   field :name
   field :last_edited
   field :status, :object_type => Integer  
+  field :created
   
   validates_format_of :g_u_i_d,
                       :with => /(^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$|^$)/,
                       :message => "is invalid"
                       
-  before_create :generate_last_edited, :generate_guid
+  before_create :generate_last_edited, :generate_guid, :generate_created
   before_save :generate_guid, :generate_last_edited
   
   def guid
@@ -25,11 +26,15 @@ class CcomEntity
   end
   
   def self.attribute_names
-    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
+    @field_attributes ||= [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :created, :status]
   end
 
   def self.field_names
-    [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :status]
+    [:g_u_i_d, :i_d_in_info_source, :tag, :name, :last_edited, :created, :status]
+  end
+  
+  def editable_attribute_names
+    [:g_u_i_d, :i_d_in_info_source, :tag, :name, :status]
   end
 
   def self.association_foreign_keys
@@ -92,5 +97,9 @@ class CcomEntity
 
   def generate_guid
     self.g_u_i_d = UUID.generate if g_u_i_d.blank?
+  end
+  
+  def generate_created
+    self.created = self.get_time
   end
 end

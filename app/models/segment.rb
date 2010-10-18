@@ -70,8 +70,8 @@ class Segment < MonitoredObject
   #end
   
   def destroy
-    ValidNetwork.find_by_guid(segment_config_network.guid).destroy if segment_config_network
-    meas_locations.each {|mloc| MeasLocation.find_by_guid(mloc.guid).destroy if mloc }
+    ValidNetwork.find_by_guid(segment_config_network.guid).destroy if segment_config_network &&ValidNetwork.find_by_guid(segment_config_network.guid)
+    meas_locations.each {|mloc| MeasLocation.find_by_guid(mloc.guid).destroy if mloc && MeasLocation.find_by_guid(mloc.guid)}
     super
   end    
   

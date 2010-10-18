@@ -3,7 +3,7 @@ class SegmentConfigNetwork < CcomObject
   
   def destroy
     super
-    Network.find_by_guid(network.guid).destroy if network
+    Network.find_by_guid(network.guid).destroy if network && Network.find_by_guid(network.guid)
   end
   
   def dup_entity(options = {})

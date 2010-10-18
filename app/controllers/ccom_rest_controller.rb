@@ -40,13 +40,13 @@ class CcomRestController < ApplicationController
   
   def destroy(entity = {})
     @entity = CcomEntity.find_by_guid(params[:id])
-    entity_xml = @entity.to_xml
-    @entity.destroy
     respond_to do |format|
       if @entity
+        entity_xml = @entity.to_xml
+        @entity.destroy
         format.xml {render :xml => entity_xml}
       else
-        format.xml { render :xml => CcomRest.error_xml({:method => "deleteEntity", :errorMessage => "Could not find requested CCOM Entity with the given GUID", :entity => params[:id]}), :status => 404 }
+        format.xml { render :xml => CcomRest.error_xml({:method => "deleteEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :entity => params[:id]}), :status => 404 }
       end
     end      
   end

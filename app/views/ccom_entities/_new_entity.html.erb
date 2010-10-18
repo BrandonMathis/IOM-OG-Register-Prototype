@@ -1,0 +1,20 @@
+<p id="new-entity-guid">
+	<%= new_entity.label :g_u_i_d, "GUID" %><br/>
+	<%= new_entity.text_field :g_u_i_d, :id=>"GUID" %>
+	<%= button_to_function "Generate GUID", "addguid()" %>
+</p>
+
+<p>
+	<%= new_entity.label :tag, "Tag" %><br/>
+	<%= new_entity.text_field :tag %>
+</p>
+
+<p>
+	<%= new_entity.label :name, "Name" %><br/>
+	<%= new_entity.text_field :name %>
+</p>
+
+<p>
+	<%= new_entity.label :i_d_in_info_source, "Native System ID" %><br/>
+	<%= new_entity.text_field :i_d_in_info_source %>
+</p>

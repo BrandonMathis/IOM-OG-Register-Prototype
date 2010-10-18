@@ -14,11 +14,12 @@ h3 {font-size: 0.8em;}
 
 p, ul, ol {margin-top: 0; line-height: 180%;}
 
-a {text-decoration: none; color: #3E3530;}
+a {text-decoration: none; color: blue;}
 
 li {list-style-type: none;}
 
 a:hover {
+	text-decoration: underline;
 }
 
 table { border: 1px solid #666666;border-collapse: collapse;padding: 5px; }
@@ -242,7 +243,6 @@ a.button {
 	color:#000;
 	text-decoration:none;
 	display:block;
-	width:578px;
 	padding: 3px;
 	border:1px solid #DDD;
 	text-align:center;

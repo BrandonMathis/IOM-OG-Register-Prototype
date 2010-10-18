@@ -67,8 +67,8 @@ class AssetsController < CcomRestController
   def new
     @asset = Asset.new
     @types = get_all_asset(:object_type)                          
-    @manufacturers = get_all_asset(:manufacturer)
-    @models = get_all_asset(:model)
+    @manufacturers = Manufacturer.find(:all)
+    @models = Model.find(:all)
     @networks = define_networks()
     respond_to do |format|
       format.html
