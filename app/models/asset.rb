@@ -10,7 +10,7 @@ class Asset < MonitoredObject
 
   delegate :network, :to => :valid_network
   
-  before_save :generate_name, :set_default_type
+  before_save :set_default_type
     
   def self.additional_fields; [:serial_number] end
   def additional_fields; self.class.additional_fields end
@@ -144,9 +144,4 @@ class Asset < MonitoredObject
     ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network && ValidNetwork.find_by_guid(valid_network.guid)
     super
   end
-  
-  private 
-    def generate_name
-      self.name = "Asset: " << self.g_u_i_d if name.blank?
-    end
 end

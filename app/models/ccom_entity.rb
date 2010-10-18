@@ -15,7 +15,7 @@ class CcomEntity
                       :message => "is invalid"
                       
   before_create :generate_last_edited, :generate_guid, :generate_created
-  before_save :generate_guid, :generate_last_edited
+  before_save :generate_guid, :generate_last_edited, :set_name_and_tag
   
   def guid
     g_u_i_d
@@ -101,5 +101,9 @@ class CcomEntity
   
   def generate_created
     self.created = self.get_time
+  end
+  
+  def set_name_and_tag
+    self.name = self.class.to_s + ": " + self.guid.to_s if name.blank?
   end
 end
