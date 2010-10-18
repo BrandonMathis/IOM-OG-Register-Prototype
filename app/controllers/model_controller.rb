@@ -16,7 +16,11 @@ class ModelController < CcomRestController
     else
       @model = Model.create(params[:model])
       respond_to do |format|
-        format.html {redirect_to new_asset_path}
+        if @model.save
+          format.html {redirect_to new_asset_path}
+        else
+          format.html {render :action=> "new"}
+        end
       end
     end
   end
