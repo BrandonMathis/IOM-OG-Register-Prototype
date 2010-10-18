@@ -16,8 +16,11 @@
     </div><% end %>
 
 	<div id="asset_datasheet">
-      <%= render :partial => "network_connections/datasheet", :collection => @asset.entry_edges, :locals => {:indent_level => 1 } %>
-    </div>
+	  <% if @asset.valid_network -%>
+	  	<%= render :partial => "ccom_entities/ccom_entity", :object => @asset.network %>
+      	<%= render :partial => "network_connections/datasheet", :collection => @asset.entry_edges, :locals => {:indent_level => 1 } %>
+      <% end -%>
+	</div>
 
 	<% if @asset.model %><div id="asset_object_model">
         <%= render :partial => "ccom_entities/ccom_entity", :object => @asset.model %>

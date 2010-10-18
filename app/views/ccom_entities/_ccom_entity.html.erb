@@ -1,3 +1,4 @@
+<div class="ccom_entity">
 <table>
   <% ccom_entity.attribute_names.each do |field| -%>
     <% unless (value = ccom_entity.send(field)).blank? %>
@@ -5,3 +6,4 @@
     <% end -%>
   <% end -%>
 </table>
+</div>

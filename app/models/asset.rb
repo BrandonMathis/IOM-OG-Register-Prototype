@@ -37,12 +37,10 @@ class Asset < MonitoredObject
   end
   
   def self.field_names
-    RAILS_DEFAULT_LOGGER.debug(additional_fields)
     super + self.additional_fields
   end
   
   def self.attribute_names
-    RAILS_DEFAULT_LOGGER.debug(additional_fields)
     super + additional_fields
   end
   

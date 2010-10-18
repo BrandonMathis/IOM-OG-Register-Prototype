@@ -25,7 +25,7 @@
 <br/>
 <%if !datasheet.target.nil? -%>
 	<% title = "#{datasheet.target.object_type.tag} (GUID: #{datasheet.target.object_type.g_u_i_d})" rescue nil -%>
-	<h1 <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= datasheet.target.tag %></h1>
+	<h2 <% unless title.blank? -%> title="<%= title %>" <% end -%>><%= datasheet.target.tag %></h2>
 	<table class="meas_locations">
 	  <% datasheet.target.meas_locations.each do |meas_loc| -%>
 	    <% meas_loc.object_data.each_with_index do |object_datum, index| -%>

@@ -38,7 +38,6 @@ class UsersController < AdminController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-    logger.debug("***#{@user}")
     respond_to do |format|
       if @user.save
         flash[:notice] = "User #{@user.name} was successfully created."

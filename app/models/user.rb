@@ -66,9 +66,7 @@ class User
 
 private
   def generate_id
-    RAILS_DEFAULT_LOGGER.debug("GENERATING ID")
     self.user_id = self.object_id if user_id.blank?
-    RAILS_DEFAULT_LOGGER.debug(self.user_id)
   end
   
   def password_non_blank

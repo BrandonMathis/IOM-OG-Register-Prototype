@@ -4,6 +4,12 @@ class TestClientController < AdminController
     render :layout => false
   end
   
+  def execute_request
+    Net::HTTP.start(params[:url]) do |http|
+      http.post(params[:body])
+    end
+  end
+  
   def login
     if request.post?
       user = User.authenticate(params[:name], params[:password])
