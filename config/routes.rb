@@ -22,11 +22,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :from_entity, :as => "FromEntity"
   map.resources :asset_on_segment_history, :as => "AssetOnSegmentHistory"
   map.resources :users
-
+  
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
-
+  
+  map.resources :test_client
   map.root :controller => "ccom_data"
 end
