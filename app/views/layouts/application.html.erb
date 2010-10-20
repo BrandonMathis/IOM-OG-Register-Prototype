@@ -44,7 +44,7 @@
 			<li><%= link_to "Create Asset", :controller => "assets", :action => "new"%></li>
             <li><%= link_to "Clear DB", delete_ccom_data_path, 
                   	:confirm => "Are you sure you want to delete all objects from the database?" %></li>
-			<li><%= link_to "Rest Test Util", :controller => 'test_client'%></li>
+			<li><%= link_to "Rest Test Util", 'http://severe-journey-99.heroku.com/'%></li>
 			<% if User.find_by_id(session[:user_id]) -%>
 				<li><%= link_to 'Logout', :controller => 'test_client', :action => 'logout' %></li>
 			<% end -%>
