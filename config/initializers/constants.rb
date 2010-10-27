@@ -5,3 +5,10 @@ POSTBACK_PORT = "4567"
 POSTBACK_PATH = "/CCOMData/ActualEvent"
 POSTBACK_URI = "http://#{POSTBACK_HOST}:#{POSTBACK_PORT}#{POSTBACK_PATH}"
 APP_VERSION = "2.7.3"
+
+File.open(File.join(RAILS_ROOT, 'config/database.mongoid.yml'), 'r') do |f|
+  @settings = YAML.load(f)[RAILS_ENV]
+end
+
+MONGO_DATABASE = @settings["database"]
+MONGO_HOST = @settings["host"]
