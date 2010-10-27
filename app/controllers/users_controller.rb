@@ -1,4 +1,5 @@
-class UsersController < AdminController
+class UsersController < ReqAuthorizationController
+  
   # GET /users
   # GET /users.xml
   def index

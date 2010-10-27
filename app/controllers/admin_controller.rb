@@ -1,15 +1,20 @@
-class AdminController < ApplicationController  
-  def authorize
-    unless User.find_by_id(session[:user_id])
-      if session[:user_id] != :logged_out
-        authenticate_or_request_with_http_basic('Authentication required') do |username, password|
-          user = User.authenticate(username, password)
-          session[:user_id] = user.user_id if user
-        end
+class AdminController < ReqAuthorizationController  
+  def login
+    if request.post?
+      user = User.authenticate(params[:name], params[:password])
+      if user
+        session[:user_id] = user.user_id
+        flash[:notice] = "Successfully logged in"
+        render :template => "ccom_data/index"
       else
-        flash[:notice] = "Please log in"
-        redirect_to :controller => 'test_client', :action => 'login'
+        flash.now[:notice] = "Invalid user/password combination"
       end
     end
+  end
+  
+  def logout
+    session[:user_id] = :logged_out
+    flash[:notice] = "Logged out"
+    redirect_to(:action => "login")
   end
 end
