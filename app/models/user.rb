@@ -1,5 +1,6 @@
 class User
   include Mongoid::Document
+  Mongoid.database = Mongo::Connection.new("localhost").db("User")
   
   field :name
   field :salt
