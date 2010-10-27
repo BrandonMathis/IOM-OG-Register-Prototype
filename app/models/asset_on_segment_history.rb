@@ -10,13 +10,12 @@ class AssetOnSegmentHistory < CcomObject
   
   before_create :generate_guid
   
-  def self.field_names
-    super + [:start, :end]
-  end
-  
-  def self.attribute_names
-    super + [:start, :end]
-  end
+  def self.additional_fields; [:start, :end] end
+  def additional_fields; self.class.additional_fields end
+  def self.attribute_names; super + additional_fields end
+  def self.field_names; super + additional_fields end
+  def editable_attribute_names; super + additional_fields end
+ 
   
   def install(a)
     time = self.get_time
@@ -30,6 +29,7 @@ class AssetOnSegmentHistory < CcomObject
     self.update_attributes(:logged_asset => LoggedAsset.create(
                                                     :g_u_i_d => a.g_u_i_d, 
                                                     :tag => a.tag,
+                                                    :name => a.name,
                                                     :i_d_in_info_source => a.i_d_in_info_source,
                                                     :last_edited => a.last_edited,
                                                     :status => "1"))

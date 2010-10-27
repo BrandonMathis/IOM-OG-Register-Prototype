@@ -14,6 +14,10 @@ class Asset < MonitoredObject
     
   def self.additional_fields; [:serial_number] end
   def additional_fields; self.class.additional_fields end
+  def self.attribute_names; super + additional_fields end
+  def self.field_names; super + additional_fields end
+  def editable_attribute_names; super + additional_fields end
+  
   
   def default_model
     self.model ||= Model.undetermined
@@ -34,18 +38,6 @@ class Asset < MonitoredObject
       uninstalled << asset if asset.asset_on_segment_history.nil? || !asset.asset_on_segment_history.end.nil?
     end
     return uninstalled
-  end
-  
-  def self.field_names
-    super + self.additional_fields
-  end
-  
-  def self.attribute_names
-    super + additional_fields
-  end
-  
-  def editable_attribute_names
-    super + additional_fields
   end
   
   def segment

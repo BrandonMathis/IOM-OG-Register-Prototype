@@ -38,12 +38,16 @@ class EnterpriseTest < ActiveSupport::TestCase
     end
     should "copy all attributes" do
       @ent1.field_names.each do |field|
-        assert_equal @ent1.send("#{field}"), @ent2.send("#{field}") unless field == :last_edited
+        if @ent1.editable_attribute_names.include?(field)
+          assert_equal @ent1.send("#{field}"), @ent2.send("#{field}")
+        end
       end
     end
     should "copy all fields for the controlled site" do
       @ent1.controlled_site.field_names.each do |field|
-        assert_equal @ent1.controlled_site.send("#{field}"), @ent2.controlled_site.send("#{field}") unless field == :last_edited
+        if @ent1.editable_attribute_names.include?(field)
+          assert_equal @ent1.controlled_site.send("#{field}"), @ent2.controlled_site.send("#{field}")
+        end
       end
     end
     context "with new guids" do

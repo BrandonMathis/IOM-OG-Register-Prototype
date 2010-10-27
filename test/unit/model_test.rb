@@ -33,7 +33,9 @@ class ModelTest < ActiveSupport::TestCase
     end
     should "copy all attributes" do
       @model1.field_names.each do |field|
-        assert_equal @model1.send("#{field}"), @model2.send("#{field}") unless field == :last_edited
+        if @model1.editable_attribute_names.include?(field)
+          assert_equal @model1.send("#{field}"), @model2.send("#{field}")
+        end
       end
     end
     should "copy the model's type" do

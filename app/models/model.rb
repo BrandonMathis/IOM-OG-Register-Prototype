@@ -6,16 +6,15 @@ class Model < CcomEntity
   field :product_family_member_revision
   field :part_number
   
+  def self.additional_fields; [:product_family, :product_family_member, :product_family_member_revision, :part_number] end
+  def additional_fields; self.class.additional_fields end
+  def self.attribute_names; super + additional_fields end
+  def self.field_names; super + additional_fields end
+  def editable_attribute_names; super + additional_fields end
+  
+  
   def field_names
     self.class.field_names
-  end
-  
-  def self.field_names
-    super + [:product_family, :product_family_member, :product_family_member_revision, :part_number]
-  end
-  
-  def self.attribute_names
-    super + [:product_family, :product_family_member, :product_family_member_revision, :part_number]
   end
   
   def dup_entity(options = {})

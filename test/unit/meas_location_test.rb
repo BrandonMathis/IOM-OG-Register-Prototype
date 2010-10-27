@@ -60,17 +60,23 @@ class MeasLocationTest < ActiveSupport::TestCase
     end
     should "copy all attributes" do
       @meas_loc1.field_names.each do |field|
-        assert_equal @meas_loc1.send("#{field}"), @meas_loc2.send("#{field}") unless field == :last_edited
+        if @meas_loc1.editable_attribute_names.include?(field)
+          assert_equal @meas_loc1.send("#{field}"), @meas_loc2.send("#{field}")
+        end
       end
     end
     should "copy the default engineering unit type" do
       @meas_loc1.default_eng_unit_type.field_names.each do |field|
-        assert_equal @meas_loc1.default_eng_unit_type.send("#{field}"), @meas_loc2.default_eng_unit_type.send("#{field}") unless field == :last_edited
+        if @meas_loc1.editable_attribute_names.include?(field)
+          assert_equal @meas_loc1.default_eng_unit_type.send("#{field}"), @meas_loc2.default_eng_unit_type.send("#{field}")
+        end
       end
     end
     should "copy the object data" do
       @meas_loc1.object_data.first.field_names.each do |field|
-        assert_equal @meas_loc1.object_data.first.send("#{field}"), @meas_loc2.object_data.first.send("#{field}") unless field == :last_edited
+        if @meas_loc1.editable_attribute_names.include?(field)
+          assert_equal @meas_loc1.object_data.first.send("#{field}"), @meas_loc2.object_data.first.send("#{field}")
+        end
       end
     end
     context "with new guids" do

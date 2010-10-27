@@ -138,12 +138,16 @@ class SegmentTest < ActiveSupport::TestCase
         end
         
         should "keep a history of that asset being installed then uninstalled" do
+          RAILS_DEFAULT_LOGGER.debug("#{@asset.to_xml}")
+          RAILS_DEFAULT_LOGGER.debug("#{@hist.to_xml}")
           assert_not_nil @hist.logged_asset
           assert_equal @hist.logged_asset.g_u_i_d, @asset.g_u_i_d
           @asset.attribute_names.each do |field|
             unless (value = @asset.send(field)).blank?
               unless (value2 = @hist.logged_asset.send(field)).blank?
-                assert_equal value, value2 unless field == :last_edited
+                if @asset.editable_attribute_names.include?(field)
+                  assert_equal value, value2 unless field == :last_edited
+                end
               end
             end
           end 
