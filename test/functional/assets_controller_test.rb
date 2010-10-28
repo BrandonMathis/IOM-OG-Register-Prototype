@@ -57,6 +57,15 @@ class AssetsControllerTest < ActionController::TestCase
         post :create, :asset => {:g_u_i_d => @asset_guid, :manufacturer => manufacturer.guid}
         assert_equal Asset.find_by_guid(@asset_guid).manufacturer, manufacturer
       end
+      context "with a bad GUID" do
+        setup do
+          @guid = UUID.generate
+          get :show, :id => @guid
+        end
+        should "give 404 error" do
+          assert_response 404
+        end
+      end
     end
 
     should "should show asset" do
@@ -80,6 +89,32 @@ class AssetsControllerTest < ActionController::TestCase
         delete :destroy, :id => @asset.g_u_i_d
       end
       assert_redirected_to assets_path
+    end
+  end
+  
+  context "Getting XML" do
+    context "of all Assets" do
+      setup do
+        get :index, :format => 'xml'
+        @doc = Nokogiri::XML.parse(@response.body)
+      end
+      should "give blank if there are no Assets" do
+        assert_equal @doc.mimosa_xpath("/CCOMData/*").count, 0
+      end
+    end
+    context "of a single Asset" do
+      context "with a bad UUID" do
+        setup do
+          @guid = UUID.generate
+          get :show, :id => @guid, :format => 'xml'
+          @doc = Nokogiri::XML.parse(@response.body)
+        end
+        should "raise an XML error" do
+          assert_equal "Could not find requested CCOM Entity with given GUID", @doc.xpath("/CCOMError/errorMessage").first.content
+          assert_equal @doc.xpath("/CCOMError/method").first.content, "getCCOMEntity"
+          assert_equal @doc.xpath("/CCOMError/arguments/GUID").first.content, @guid 
+        end
+      end
     end
   end
   
@@ -187,7 +222,6 @@ class AssetsControllerTest < ActionController::TestCase
       should "assign a GUID to the empty GUID attr" do
         post :create, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
-        RAILS_DEFAULT_LOGGER.debug(@response.body)
         guid = @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/GUID").first.content
         assert guid =~ /(^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$|^$)/
       end          

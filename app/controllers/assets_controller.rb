@@ -13,7 +13,7 @@ class AssetsController < CcomRestController
           @entity.destroy
           format.html { redirect_to(:controller => 'assets') }
         else
-          format.html { render :template => "public/404.html" }
+          format.html { render :template => "public/404.html", :layout => false, :status => 404}
         end
       end
     end
@@ -29,9 +29,13 @@ class AssetsController < CcomRestController
       super
     else
       respond_to do |format|
-        format.html {}
-        format.js   { render :layout => false}
-        format.xml  { render :layout => false}
+        if @asset
+          format.html {}
+          format.js   { render :layout => false}
+          format.xml  { render :layout => false}
+        else
+          format.html { render :template => "public/404.html", :layout => false, :status => 404 }
+        end
       end
     end
   end

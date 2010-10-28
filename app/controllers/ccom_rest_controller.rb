@@ -2,19 +2,20 @@ class CcomRestController < ApplicationController
   protect_from_forgery :only => []
   
   def index(entities = {})
+    logger.debug(self.class)
     @entities = entities
-    @entities = CcomEntity.find(:all) if @entities.blank?
+    @entities = CcomEntity.find(:all) if self.class.to_s == "CcomRestController" #called by root controller
     render :xml => CcomRest.build_entities(@entities)
   end
   
   def show
     entity = CcomEntity.find_by_guid(params[:id])
-    response.etag = entity.last_edited
     respond_to do |format|
       if entity
+        response.etag = entity.last_edited
         format.xml {render :xml => entity.to_xml}
       else
-        format.xml {render :xml =>CcomRest.error_xml({:method => "getCCOMEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :entity => params[:id]}), :status => 404 }
+        format.xml {render :xml =>CcomRest.error_xml({:method => "getCCOMEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :guid => params[:id]}), :status => 404 }
       end
     end      
   end

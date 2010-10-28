@@ -138,8 +138,6 @@ class SegmentTest < ActiveSupport::TestCase
         end
         
         should "keep a history of that asset being installed then uninstalled" do
-          RAILS_DEFAULT_LOGGER.debug("#{@asset.to_xml}")
-          RAILS_DEFAULT_LOGGER.debug("#{@hist.to_xml}")
           assert_not_nil @hist.logged_asset
           assert_equal @hist.logged_asset.g_u_i_d, @asset.g_u_i_d
           @asset.attribute_names.each do |field|
