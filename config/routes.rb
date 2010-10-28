@@ -18,8 +18,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :enterprise, :as => "Enterprise"
   map.resources :network_connection, :as => "EntryEdge"
   map.resources :successor, :as => "Successor"
-  map.resources :to_entity, :as => "ToEntity"
-  map.resources :from_entity, :as => "FromEntity"
   map.resources :asset_on_segment_history, :as => "AssetOnSegmentHistory"
   map.resources :users
   
