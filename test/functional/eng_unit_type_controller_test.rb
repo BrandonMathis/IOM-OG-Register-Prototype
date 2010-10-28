@@ -7,7 +7,7 @@ class EngUnitTypeControllerTest < ActionController::TestCase
     end
     
     should 'delete the unit_type' do
-      assert_difference('CcomEntity.count', -1) do
+      assert_difference('EngUnitType.count', -1) do
         delete :destroy, :id => @unit_type.guid, :format => 'xml'
       end
     end

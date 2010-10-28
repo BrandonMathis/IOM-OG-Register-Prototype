@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class SuccessorTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  should "be valid from factory" do
+    assert_valid Factory.create(:successor)
   end
 end

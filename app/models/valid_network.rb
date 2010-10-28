@@ -7,6 +7,7 @@ class ValidNetwork < CcomObject
   end
   
   def build_xml(builder)
+    super
     builder.Network{|b| network.build_xml(b) } if network
   end
   
@@ -16,5 +17,4 @@ class ValidNetwork < CcomObject
     entity.save
     return entity    
   end
-  
 end

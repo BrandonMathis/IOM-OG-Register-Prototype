@@ -7,7 +7,7 @@ class EnterpriseControllerTest < ActionController::TestCase
     end
     
     should 'delete the enterprise' do
-      assert_difference('CcomEntity.count', -1) do
+      assert_difference('Enterprise.count', -1) do
         delete :destroy, :id => @enterprise.guid, :format => 'xml'
       end
     end

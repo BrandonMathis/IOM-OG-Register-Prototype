@@ -52,6 +52,13 @@ Factory.define(:network_connection) do |f|
   f.sequence(:order) { |i| i }
 end
 
+Factory.define(:successor) do |f|
+  ccom_entity_fields(f)
+  f.association :source, :factory => :segment
+  f.association :target, :factory => :segment
+  f.sequence(:order) { |i| i }
+end
+
 Factory.define(:network) do |f|
   ccom_entity_fields(f)
   f.sequence(:name) { |i| "Network #{i}" }
