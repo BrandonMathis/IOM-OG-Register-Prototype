@@ -47,7 +47,7 @@ class CcomRestController < ApplicationController
         @entity.destroy
         format.xml {render :xml => entity_xml}
       else
-        format.xml { render :xml => CcomRest.error_xml({:method => "deleteEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :entity => params[:id]}), :status => 404 }
+        format.xml { render :xml => CcomRest.error_xml({:method => "deleteEntity", :errorMessage => "Could not find requested CCOM Entity with given GUID", :guid => params[:id]}), :status => 404 }
       end
     end      
   end
