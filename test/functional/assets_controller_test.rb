@@ -110,9 +110,9 @@ class AssetsControllerTest < ActionController::TestCase
           @doc = Nokogiri::XML.parse(@response.body)
         end
         should "raise an XML error" do
-          assert_equal "Could not find requested CCOM Entity with given GUID", @doc.xpath("/CCOMError/errorMessage").first.content
-          assert_equal @doc.xpath("/CCOMError/method").first.content, "getCCOMEntity"
-          assert_equal @doc.xpath("/CCOMError/arguments/GUID").first.content, @guid 
+          assert_equal @doc.xpath("/APIError/ErrorMessage").first.content, "Could not find requested CCOM Entity with given GUID"
+          assert_equal @doc.xpath("/APIError/HTTPMethod").first.content, "GET"
+          assert_equal @doc.xpath("/APIError/ErrorCode").first.content, "Mimosa3" 
         end
       end
     end
@@ -264,8 +264,8 @@ class AssetsControllerTest < ActionController::TestCase
       should "generate an exception" do
         post :create, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
-        assert_equal "Given XML contains an invalid value for GUID", @doc.xpath("/CCOMError/errorMessage").first.content
-        assert_equal "createEntity", @doc.xpath("/CCOMError/method").first.content
+        assert_equal "Given XML contains an invalid value for GUID", @doc.xpath("/APIError/ErrorMessage").first.content
+        assert_equal "POST", @doc.xpath("/APIError/HTTPMethod").first.content
       end
     end
     context "using bad XML with no type" do
@@ -356,8 +356,8 @@ class AssetsControllerTest < ActionController::TestCase
       should 'give an error when GUID doesnt exsist' do
         delete :destroy, :id => @asset.g_u_i_d, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
-        assert_equal "Could not find requested CCOM Entity with given GUID", @doc.xpath("/CCOMError/errorMessage").first.content
-        assert_equal "deleteEntity", @doc.xpath("/CCOMError/method").first.content
+        assert_equal "Could not find requested CCOM Entity with given GUID", @doc.xpath("/APIError/ErrorMessage").first.content
+        assert_equal "DELETE", @doc.xpath("/APIError/HTTPMethod").first.content
       end
     end
   end      

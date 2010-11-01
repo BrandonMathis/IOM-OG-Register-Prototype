@@ -27,9 +27,10 @@ class ValidNetworkControllerTest < ActionController::TestCase
       should 'give an error when GUID doesnt exsist' do
         delete :destroy, :id => @valid_network.guid, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
-        assert_equal @doc.xpath("/CCOMError/errorMessage").first.content, "Could not find requested CCOM Entity with given GUID"
-        assert_equal @doc.xpath("/CCOMError/method").first.content, "deleteEntity"
-        assert_equal @doc.xpath("/CCOMError/arguments/GUID").first.content, @valid_network.guid
+        assert_equal "Could not find requested CCOM Entity with given GUID", @doc.xpath("/APIError/ErrorMessage").first.content
+        assert_equal "DELETE", @doc.xpath("/APIError/HTTPMethod").first.content
+        assert_equal "404", @doc.xpath("/APIError/HTTPError").first.content
+        assert_equal "Mimosa3", @doc.xpath("/APIError/ErrorCode").first.content
       end
     end
   end
