@@ -41,6 +41,7 @@ class UsersController < ReqAuthorizationController
     @user = User.new(params[:user])
     respond_to do |format|
       if @user.save
+        logger.debug("Done")
         flash[:notice] = "User #{@user.name} was successfully created."
         format.html { redirect_to(:action=>'index') }
         format.xml  { render :xml => @user, :status => :created,

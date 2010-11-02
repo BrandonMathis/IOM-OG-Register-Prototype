@@ -67,7 +67,7 @@ class User
 
 private
   def generate_id
-    self.user_id = self.object_id if user_id.blank?
+    self.user_id = self.id if user_id.blank?
   end
   
   def password_non_blank
