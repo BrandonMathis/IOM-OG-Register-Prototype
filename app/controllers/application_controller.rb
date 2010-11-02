@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
         end
       else
         flash[:notice] = "Please log in"
-        redirect_to :controller => 'users', :action => 'login'
+        redirect_to :controller => 'admin', :action => 'login'
       end
     end
   end
