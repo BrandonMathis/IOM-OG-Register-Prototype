@@ -60,12 +60,12 @@
 </div>  
 <div id="footer">
 	<p>
-		<% if User.find_by_id(session[:user_id]) -%>
+		<%# if User.find_by_id(session[:user_id]) -%>
 		<style type="text/css">
 		 #footer a {color: white;}
-		</style
+		</style>
 			<%= link_to 'Users', :controller => 'users' %>
-		<% end -%>|
+		<%# end -%>|
 		Copyright &copy; Assetricity, 2010
 	</p>
 </div>

@@ -51,4 +51,7 @@ class CcomRestController < ApplicationController
       end
     end      
   end
+  protected
+  def authorize
+  end
 end

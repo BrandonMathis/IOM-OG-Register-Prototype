@@ -21,4 +21,8 @@ class CcomDataController < ApplicationController
     flash[:notice] = "Deleted all collections for database #{Mongoid.database.name}"
     redirect_to :action => :index
   end
+  
+  protected
+  def authorize
+  end
 end
