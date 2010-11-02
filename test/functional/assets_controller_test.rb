@@ -110,6 +110,7 @@ class AssetsControllerTest < ActionController::TestCase
           @doc = Nokogiri::XML.parse(@response.body)
         end
         should "raise an XML error" do
+          assert @doc.xpath("/APIError/URL").first.content
           assert_equal @doc.xpath("/APIError/ErrorMessage").first.content, "Could not find requested CCOM Entity with given GUID"
           assert_equal @doc.xpath("/APIError/HTTPMethod").first.content, "GET"
           assert_equal @doc.xpath("/APIError/ErrorCode").first.content, "Mimosa3" 
@@ -264,6 +265,7 @@ class AssetsControllerTest < ActionController::TestCase
       should "generate an exception" do
         post :create, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
+        assert @doc.xpath("/APIError/URL").first.content
         assert_equal "Given XML contains an invalid value for GUID", @doc.xpath("/APIError/ErrorMessage").first.content
         assert_equal "POST", @doc.xpath("/APIError/HTTPMethod").first.content
       end
@@ -356,8 +358,9 @@ class AssetsControllerTest < ActionController::TestCase
       should 'give an error when GUID doesnt exsist' do
         delete :destroy, :id => @asset.g_u_i_d, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
-        assert_equal "Could not find requested CCOM Entity with given GUID", @doc.xpath("/APIError/ErrorMessage").first.content
-        assert_equal "DELETE", @doc.xpath("/APIError/HTTPMethod").first.content
+        assert @doc.xpath("/APIError/URL").first.content
+        assert_equal @doc.xpath("/APIError/ErrorMessage").first.content, "Could not find requested CCOM Entity with given GUID"
+        assert_equal @doc.xpath("/APIError/HTTPMethod").first.content, "DELETE"
       end
     end
   end      

@@ -27,6 +27,7 @@ class CcomRestControllerTest < ActionController::TestCase
       should 'give an error when GUID doesnt exsist' do
         delete :destroy, :id => @entity.g_u_i_d, :format => 'xml'
         @doc = Nokogiri::XML.parse(@response.body)
+        assert @doc.xpath("/APIError/URL").first.content
         assert_equal @doc.xpath("/APIError/ErrorMessage").first.content, "Could not find requested CCOM Entity with given GUID"
         assert_equal @doc.xpath("/APIError/HTTPMethod").first.content, "DELETE"
       end

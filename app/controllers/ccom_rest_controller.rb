@@ -15,7 +15,7 @@ class CcomRestController < ApplicationController
         response.etag = entity.last_edited
         format.xml {render :xml => entity.to_xml}
       else
-        format.xml {render :xml =>CcomRest.error_xml({:http_code => "404", :method => "GET", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_404}), :status => 404 }
+        format.xml {render :xml =>CcomRest.error_xml({:url => request.url, :http_code => "404", :method => "GET", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_404}), :status => 404 }
       end
     end      
   end
@@ -31,10 +31,10 @@ class CcomRestController < ApplicationController
       if request.fresh?(response)
         render_this = CcomRest.construct_from_xml(request.body.read)
       else
-        render_this = { :xml => CcomRest.error_xml({:http_code => "412", :client_etag =>response.etag, :server_etag => request.if_none_match, :method => "PUT", :error_code => "Mimosa1", :error_message => CcomRest::MIMOSA1_412}), :status => 412 }
+        render_this = { :xml => CcomRest.error_xml({:url => request.url, :http_code => "412", :client_etag =>response.etag, :server_etag => request.if_none_match, :method => "PUT", :error_code => "Mimosa1", :error_message => CcomRest::MIMOSA1_412}), :status => 412 }
       end
     else
-      render_this = { :xml => CcomRest.error_xml({:http_code => "404", :method => "PUT", :error_code => "Mimosa1", :error_message => CcomRest::MIMOSA1_404}), :status => 404}
+      render_this = { :xml => CcomRest.error_xml({:url => request.url, :http_code => "404", :method => "PUT", :error_code => "Mimosa1", :error_message => CcomRest::MIMOSA1_404}), :status => 404}
     end
     render render_this
   end
@@ -47,7 +47,7 @@ class CcomRestController < ApplicationController
         @entity.destroy
         format.xml {render :xml => entity_xml}
       else
-        format.xml { render :xml => CcomRest.error_xml({:http_code => "404", :method => "DELETE", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_404}), :status => 404 }
+        format.xml { render :xml => CcomRest.error_xml({:url => request.url, :http_code => "404", :method => "DELETE", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_404}), :status => 404 }
       end
     end      
   end
