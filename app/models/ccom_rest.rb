@@ -7,6 +7,7 @@ class CcomRest
   MIMOSA2_400 = "Given Query has improper syntax"
   MIMOSA3_400 = "Given XML contains an invalid value for GUID"
   MIMOSA4_400 = "Given XML is invalid"
+  MIMOSA5_400 = "GUID in give XML already exsists in database. GUID: "
   
   MIMOSA1_412 = "Given ETag is not longer valid"
   
@@ -37,15 +38,19 @@ class CcomRest
     end
   end
   
-  def self.construct_from_xml(xml)
-    entities = CcomData.from_xml(xml)
-  rescue Exceptions::BadGuid
-    to_render = { :status => 400, :xml => CcomRest.error_xml({:http_code => "400", :method => "POST", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_400})}
-  else
-    if entities.blank?
-      to_render = { :status => 400, :xml => CcomRest.error_xml({:http_code => "400", :method => "POST", :error_code => "Mimosa4", :error_message => CcomRest::MIMOSA4_400})}
+  def self.construct_from_xml(request)
+    begin
+      entities = CcomData.from_xml(request.body.read)
+    rescue Exceptions::BadGuid
+      to_render = { :status => 400, :xml => CcomRest.error_xml({:url => request.url, :http_code => "400", :method => "POST", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_400})}
+    rescue Exceptions::GuidExsists => msg
+      to_render = { :status => 400, :xml => CcomRest.error_xml({:url => request.url, :http_code => "400", :method => "POST", :error_code => "Mimosa5", :error_message => CcomRest::MIMOSA5_400 + msg.message})}
     else
-      to_render = { :status => 201, :xml => CcomRest.build_entities(entities) }
+      if entities.blank?
+        to_render = { :status => 400, :xml => CcomRest.error_xml({:http_code => "400", :method => "POST", :error_code => "Mimosa4", :error_message => CcomRest::MIMOSA4_400})}
+      else
+        to_render = { :status => 201, :xml => CcomRest.build_entities(entities) }
+      end
     end
-  end    
+  end
 end

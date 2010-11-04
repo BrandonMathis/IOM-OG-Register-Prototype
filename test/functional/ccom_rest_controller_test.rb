@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class CcomRestControllerTest < ActionController::TestCase
-  
+  #--
+  # Get Entity Test
+  #--
   context "Getting XML" do
     context "of all Entities with empty database" do
       setup do
@@ -59,7 +61,9 @@ class CcomRestControllerTest < ActionController::TestCase
       end
     end
   end
-  
+  #--
+  # Create Entity Test
+  #--
   context "creating an Entity via RESTful call with XML" do
     setup do
       @guid1 = 'C18340CE-23D3-4B69-A7D4-6BC5378BA0D2'
@@ -110,6 +114,29 @@ class CcomRestControllerTest < ActionController::TestCase
         assert_has_xpath("/CCOMData/Entity[@*='Segment']/Type/GUID", @doc)
         assert_has_xpath("/CCOMData/Entity[@*='Segment']/Type/Tag", @doc)
       end
+    end
+    context "using GUID that already exsists in database" do
+      setup do
+        @request.env['RAW_POST_DATA'] = '
+        <?xml version="1.0" encoding="UTF-8"?>
+    		<CCOMData xmlns="http://www.mimosa.org/osa-eai/v3-2/xml/CCOM-ML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    		<Entity xsi:type="Segment">
+    		        <GUID>'+@guid1+'</GUID>
+    		        <IDInInfoSource>0000083500000001.25</IDInInfoSource>
+    		        <Tag>A Sample Segment</Tag>
+    		        <Name>Sample Segment</Name>
+    		        <Status>1</Status>
+    		</Entity>
+    		</CCOMData>'
+  		  post :create, :format => 'xml'
+  		  post :create, :format => 'xml'
+  		  @doc = Nokogiri::XML.parse(@response.body)
+  		end
+  		should "give error Mimosa5 XML" do
+		    assert @doc.xpath("/APIError/URL").first.content
+        assert_equal @doc.xpath("/APIError/ErrorMessage").first.content, "GUID in give XML already exsists in database. GUID: "+@guid1
+        assert_equal @doc.xpath("/APIError/HTTPMethod").first.content, "POST"
+		  end
     end
     context "using blank GUID" do
       setup do
@@ -194,7 +221,49 @@ class CcomRestControllerTest < ActionController::TestCase
 		  end
 		end
   end
-  
+  #--
+  # Edit Entity Test
+  #--
+  context "edited an Asset via RESTful call with XMl" do
+    setup do
+      @model = Factory.create(:model)
+      get :show, :id => @model.guid, :format => 'xml' #Initial query for ETag
+      @etag = @response.etag
+      @doc = Nokogiri::XML.parse(@response.body)
+      @request.env['RAW_POST_DATA'] = @model.to_xml
+    end
+    
+    should "have etag" do
+      assert @response.etag
+    end
+    
+    should "return model XML with query for ETag" do
+      assert_has_xpath("/CCOMData/Entity[@*='Model']", @doc)
+      assert_has_xpath("/CCOMData/Entity[@*='Model']/GUID", @doc)
+    end
+    context "with old eTag" do
+      setup do
+        @model.update_attributes(:name => "changed")
+        @request.env["HTTP_IF_NONE_MATCH"] = @etag
+      end
+      should "not edit entity if etag has expired" do
+        post :update, :id => @model.guid, :format => 'xml'
+        assert_response 412
+      end
+    end
+    context "with fresh eTag" do
+      setup do
+        @request.env["HTTP_IF_NONE_MATCH"] = @etag
+      end
+      should "update the entity if etag is same as server" do
+        post :update, :id => @model.guid, :format => 'xml'
+        assert_response 201
+      end
+    end
+  end
+  #--
+  # Delete Entity Test
+  #--
   context "Deleting a CCOMEntity via RESTful call" do
     setup do
       @entity = Factory.create(:ccom_entity)

@@ -21,7 +21,7 @@ class CcomRestController < ApplicationController
   end
   
   def create        
-    render_this = CcomRest.construct_from_xml(request.body.read)
+    render_this = CcomRest.construct_from_xml(request)
     render render_this
   end
   

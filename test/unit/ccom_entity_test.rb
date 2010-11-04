@@ -66,10 +66,14 @@ class CcomEntityTest < ActiveSupport::TestCase
     setup do
       @entity = Factory.create(:ccom_entity)
       @xml = @entity.to_xml
-      @parsed_entity = CcomEntity.from_xml(@xml)
     end
-    should "be the same document" do
-      assert_equal @entity, @parsed_entity
+    #should "be the same document" do
+    #  assert_equal @entity, @parsed_entity
+    #end
+    should "raise an exception" do
+      assert_raises Exceptions::GuidExsists do
+        @parsed_entity = CcomEntity.from_xml(@xml)
+      end
     end
   end
 
