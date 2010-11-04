@@ -11,7 +11,7 @@ class CcomRest
   
   MIMOSA1_412 = "Given ETag is not longer valid"
   
-  def self.error_xml(xml = {})
+  def self.error_xml(xml)
     opts = { :indent => 2 }
     builder = Builder::XmlMarkup.new(opts)
     builder.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
@@ -40,7 +40,8 @@ class CcomRest
   
   def self.construct_from_xml(request)
     begin
-      entities = CcomData.from_xml(request.body.read)
+      entities = CcomData.from_xml(request.body.read) if request.post?
+      entities = CcomData.from_xml(request.body.read, {:edit => true}) if request.put?
     rescue Exceptions::BadGuid
       to_render = { :status => 400, :xml => CcomRest.error_xml({:url => request.url, :http_code => "400", :method => "POST", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_400})}
     rescue Exceptions::GuidExsists => msg

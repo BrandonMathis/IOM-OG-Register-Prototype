@@ -29,7 +29,7 @@ class CcomRestController < ApplicationController
     if entity = CcomEntity.find_by_guid(params[:id])
       response.etag = entity.last_edited
       if request.fresh?(response)
-        render_this = CcomRest.construct_from_xml(request.body.read)
+        render_this = CcomRest.construct_from_xml(request)
       else
         render_this = { :xml => CcomRest.error_xml({:url => request.url, :http_code => "412", :client_etag =>response.etag, :server_etag => request.if_none_match, :method => "PUT", :error_code => "Mimosa1", :error_message => CcomRest::MIMOSA1_412}), :status => 412 }
       end

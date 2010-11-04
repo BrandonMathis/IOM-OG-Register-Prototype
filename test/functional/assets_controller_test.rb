@@ -322,12 +322,12 @@ class AssetsControllerTest < ActionController::TestCase
     should "not edit entity if etag has expired" do
       @asset.update_attributes(:name => "changed")
       @request.env["HTTP_IF_NONE_MATCH"] = @etag
-      post :update, :id => @asset.guid, :format => 'xml'
+      put :update, :id => @asset.guid, :format => 'xml'
       assert_response 412
     end
     should "update the entity if etag is same as server" do
       @request.env["HTTP_IF_NONE_MATCH"] = @etag
-      post :update, :id => @asset.guid, :format => 'xml'
+      put :update, :id => @asset.guid, :format => 'xml'
       assert_response 201
     end
   end

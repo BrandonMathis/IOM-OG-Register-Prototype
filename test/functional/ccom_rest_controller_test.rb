@@ -37,7 +37,6 @@ class CcomRestControllerTest < ActionController::TestCase
           @model = Factory.create(:model)
           get :show, :id => @model.guid, :format => 'xml'
           @doc = Nokogiri::XML.parse(@response.body)
-          RAILS_DEFAULT_LOGGER.debug(@doc)
         end
         should "return the single entity" do
           assert_equal @model.guid, @doc.mimosa_xpath("/CCOMData/Entity[@*='Model']/GUID").first.content
@@ -134,8 +133,8 @@ class CcomRestControllerTest < ActionController::TestCase
   		end
   		should "give error Mimosa5 XML" do
 		    assert @doc.xpath("/APIError/URL").first.content
-        assert_equal @doc.xpath("/APIError/ErrorMessage").first.content, "GUID in give XML already exsists in database. GUID: "+@guid1
-        assert_equal @doc.xpath("/APIError/HTTPMethod").first.content, "POST"
+        assert_equal "GUID in give XML already exsists in database. GUID: "+@guid1,  @doc.xpath("/APIError/ErrorMessage").first.content
+        assert_equal "POST", @doc.xpath("/APIError/HTTPMethod").first.content
 		  end
     end
     context "using blank GUID" do
@@ -247,7 +246,7 @@ class CcomRestControllerTest < ActionController::TestCase
         @request.env["HTTP_IF_NONE_MATCH"] = @etag
       end
       should "not edit entity if etag has expired" do
-        post :update, :id => @model.guid, :format => 'xml'
+        put :update, :id => @model.guid, :format => 'xml'
         assert_response 412
       end
     end
@@ -256,7 +255,7 @@ class CcomRestControllerTest < ActionController::TestCase
         @request.env["HTTP_IF_NONE_MATCH"] = @etag
       end
       should "update the entity if etag is same as server" do
-        post :update, :id => @model.guid, :format => 'xml'
+        put :update, :id => @model.guid, :format => 'xml'
         assert_response 201
       end
     end

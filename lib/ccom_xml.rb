@@ -8,15 +8,15 @@ module CcomXml
   end
 
   module ClassMethods
-    def from_xml(xml)
+    def from_xml(xml, options = { })
       doc = Nokogiri::XML.parse(xml)
       entity_node = doc.mimosa_xpath("/CCOMData/Entity[@*='#{xml_entity_name}']").first
       xml = doc.mimosa_xpath("/CCOMData")
       entity_guid = entity_node.mimosa_xpath("./GUID").first.content
-      raise Exceptions::GuidExsists.new(entity_guid) if CcomEntity.find_by_guid(entity_guid)
+      raise Exceptions::GuidExsists.new(entity_guid) if CcomEntity.find_by_guid(entity_guid) && !options[:edit]
       parse_xml(entity_node)
     end
-
+    
     def parse_xml(entity_node)
       attributes = { }
       self.field_names.each do |attr|
