@@ -10,5 +10,6 @@ File.open(File.join(RAILS_ROOT, 'config/database.mongoid.yml'), 'r') do |f|
   @settings = YAML.load(f)[RAILS_ENV]
 end
 
-MONGO_DATABASE = @settings["database"]
+CCOM_DATABASE = @settings["ccom_database"]
+SANDBOX_DATABASE = @settings["sandbox_database"]
 MONGO_HOST = @settings["host"]

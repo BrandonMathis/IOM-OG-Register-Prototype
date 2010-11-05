@@ -1,11 +1,13 @@
 class User
   include Mongoid::Document
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db("User")
+  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(SANDBOX_DATABASE)
   
   field :name
   field :salt
   field :hashed_password
   field :user_id
+  
+  #belongs_to_many :database
   
   validates_presence_of     :name
   validates_uniqueness_of   :name

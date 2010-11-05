@@ -1,6 +1,6 @@
 class CcomEntity
   include Mongoid::Document
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(MONGO_DATABASE)
+  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
   include CcomXml
   
   field :g_u_i_d           
