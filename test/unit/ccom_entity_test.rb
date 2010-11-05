@@ -9,6 +9,17 @@ class CcomEntityTest < ActiveSupport::TestCase
   should "allow setting utc last updated" do
     assert_valid Factory.create(:ccom_entity, :last_edited => Time.now.utc)
   end
+  
+  should "not modify the created time" do
+    asset = Factory.create(:asset)
+    t = asset.created
+    asset.update_attributes(:name => "name")
+    asset.update_attributes(:tag => "tag")
+    asset.name = "name2"
+    asset.tag = "tag2"
+    
+    assert_equal t, asset.created
+  end    
 
   context "a new ccom entity with a blank guid" do
     setup { @ccom_entity = Factory.build(:ccom_entity, :g_u_i_d => nil) }
@@ -53,7 +64,6 @@ class CcomEntityTest < ActiveSupport::TestCase
       xpath = "/CCOMData/Entity[@*='CCOMEntity']/IDInInfoSource"
       node_set = @doc.xpath(xpath.to_mimosa, mimosa_xmlns)
       assert_not_nil node_set.first, "#{xpath}\n#{@xml.inspect}\n#{@doc.inspect}"
-#      assert_equal @ccom_entity.id_in_source, 
     end
 
     should "not include status code when it's blank" do

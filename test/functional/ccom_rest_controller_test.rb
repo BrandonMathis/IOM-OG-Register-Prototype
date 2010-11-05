@@ -131,11 +131,15 @@ class CcomRestControllerTest < ActionController::TestCase
   		  post :create, :format => 'xml'
   		  @doc = Nokogiri::XML.parse(@response.body)
   		end
-  		should "give error Mimosa5 XML" do
+  		should "give error XML" do
 		    assert @doc.xpath("/APIError/URL").first.content
-        assert_equal "GUID in give XML already exsists in database. GUID: "+@guid1,  @doc.xpath("/APIError/ErrorMessage").first.content
+        assert_equal "Conflict in CCOM Entities for GUID: "+@guid1,  @doc.xpath("/APIError/ErrorMessage").first.content
         assert_equal "POST", @doc.xpath("/APIError/HTTPMethod").first.content
+        assert_equal "Mimosa1", @doc.xpath("/APIError/ErrorCode").first.content
 		  end
+		  should "return 409 status" do
+		    assert_response 409
+	    end
     end
     context "using blank GUID" do
       setup do
