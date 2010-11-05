@@ -5,11 +5,11 @@ class CcomDataController < ApplicationController
   
   def create
     begin    
-      CcomData.from_xml(params[:file].read)
+      CcomData.from_xml(params[:file].read, :edit => true)
     rescue Exceptions::BadGuid => a
       flash[:error] = "Sorry, but a bad GUID was detected in your XML"
-    rescue Exceptions::GuidExsists => msg
-      flash[:error] = "GUID in give XML already exsists in database. GUID:  #{msg.message}"
+    #rescue Exceptions::GuidExsists => msg
+    #  flash[:error] = "GUID in give XML already exsists in database. GUID:  #{msg.message}"
     else
       flash[:notice] = "Upload completed."
     ensure
