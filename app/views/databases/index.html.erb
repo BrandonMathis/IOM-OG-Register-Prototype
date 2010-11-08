@@ -2,17 +2,26 @@
 
 <table>
   <tr>
+	<th> Name </th>
+	<th> Created </th>
   </tr>
 
 <% @databases.each do |database| %>
   <tr>
+	<td><%= database.name.titleize %></td>
+	<td><%= database.created_date.titleize %></td>
     <td><%= link_to 'Show', database %></td>
     <td><%= link_to 'Edit', edit_database_path(database) %></td>
     <td><%= link_to 'Destroy', database, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
-</table>
+<%if @databases.blank?-%>
+  <tr>
+	<td colspan = "2">There are currently no databases</td>
+  </tr>
+<%end-%>
 
+</table>
 <br />
 
 <%= link_to 'New database', new_database_path %>
