@@ -1,3 +1,16 @@
+<p>
+	<b>Name:</b>
+	<%=h @database.name %>
+</p>
 
+<p>
+	<b>Created:</b>
+	<%=h @database.created_date %>
+</p>
+
+<p>
+	<b>Created by user:</b>
+	<%= link_to @database.created_by.name,  @database.created_by %>
+</p>
 <%= link_to 'Edit', edit_database_path(@database) %> |
 <%= link_to 'Back', databases_path %>

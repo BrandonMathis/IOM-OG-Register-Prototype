@@ -1,12 +1,11 @@
-class DatabasesController < ApplicationController
+class DatabasesController < ReqAuthorizationController
   # GET /databases
   # GET /databases.xml
   def index
-    @databases = Database.all
+    @databases = Database.find(:all)
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @databases }
+      format.html
     end
   end
 
@@ -41,6 +40,7 @@ class DatabasesController < ApplicationController
   # POST /databases.xml
   def create
     @database = Database.new(params[:database])
+    @database.created_by = User.find_by_id(params[:database][:user_id])
 
     respond_to do |format|
       if @database.save

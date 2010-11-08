@@ -1,7 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  
   map.resources :databases
-
-
   map.resources :topologies
   map.resources :segments, :as => "Segment"
   map.resources :assets, :as => "Asset"

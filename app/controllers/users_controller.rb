@@ -6,7 +6,7 @@ class UsersController < ReqAuthorizationController
     @users = User.find(:all)
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
     end
   end
 
