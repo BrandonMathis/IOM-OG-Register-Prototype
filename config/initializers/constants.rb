@@ -11,5 +11,5 @@ File.open(File.join(RAILS_ROOT, 'config/database.mongoid.yml'), 'r') do |f|
 end
 
 CCOM_DATABASE = @settings["ccom_database"]
-SANDBOX_DATABASE = @settings["sandbox_database"]
+SANDBOX_DATABASE = User.find_by_id(session[:user_id]).database if User.find_by_id(session[:user_id])
 MONGO_HOST = @settings["host"]

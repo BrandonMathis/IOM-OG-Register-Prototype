@@ -7,8 +7,8 @@ class User
   field :hashed_password
   field :user_id
   
-  #belongs_to_many :database
-  
+  belongs_to :database
+    
   validates_presence_of     :name
   validates_uniqueness_of   :name
   

@@ -4,14 +4,11 @@ defaults: &defaults
 development:
   <<: *defaults
   ccom_database: mimosa_dev
-  sandbox_database: sandbox_dev
 
 test:
   <<: *defaults
   ccom_database: mimosa_test
-  sandbox_database: sandbox_test
 
 production:
   <<: *defaults
   ccom_database: mimosa_production
-  sandbox_database: sandbox_production
