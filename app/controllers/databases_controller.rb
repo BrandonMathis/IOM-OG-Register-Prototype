@@ -24,6 +24,7 @@ class DatabasesController < ReqAuthorizationController
   # GET /databases/new.xml
   def new
     @database = Database.new
+    @users = User.find(:all)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,6 +35,7 @@ class DatabasesController < ReqAuthorizationController
   # GET /databases/1/edit
   def edit
     @database = Database.find(params[:id])
+    @users = User.find(:all)
   end
 
   # POST /databases
@@ -41,7 +43,7 @@ class DatabasesController < ReqAuthorizationController
   def create
     @database = Database.new(params[:database])
     @database.created_by = User.find_by_id(params[:database][:user_id])
-
+    params[:users].each { |id| @database.users << User.find_by_id(id) }
     respond_to do |format|
       if @database.save
         flash[:notice] = 'Database was successfully created.'

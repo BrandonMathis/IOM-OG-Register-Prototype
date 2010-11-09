@@ -6,5 +6,8 @@ class Database
   field :created_date
   has_one :created_by, :class => "User"
   
-  has_many_related :users
+  has_many :users
+  
+  validates_presence_of     :name
+  validates_uniqueness_of   :name
 end

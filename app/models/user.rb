@@ -7,7 +7,7 @@ class User
   field :hashed_password
   field :user_id
   
-  belongs_to_many :database
+  has_many_related :databases
   has_one :working_db, :class => :database
     
   validates_presence_of     :name

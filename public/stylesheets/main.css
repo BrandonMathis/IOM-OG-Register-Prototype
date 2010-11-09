@@ -22,11 +22,13 @@ a:hover {
 	text-decoration: underline;
 }
 
-table { border: 1px solid #666666;border-collapse: collapse;padding: 5px; }
+.ccom_entity table { border: 1px solid #666666;border-collapse: collapse;padding: 5px; }
 
-td { border: 1px solid #666666;padding: 5px; }
+.ccom_entity td { border: 1px solid #666666;padding: 5px; }
 
-th { border: 1px solid #666666;padding: 5px; }
+.ccom_entity th { border: 1px solid #666666;padding: 5px; }
+td { padding: 5px;}
+th { padding: 5px;}
 
 .right {
 	float: right;
@@ -286,7 +288,7 @@ a.button:hover {
 }
 
 /*Searilize Asset index*/
-#show-assets .button{
+a.button{
 	display: inline;
 }
 

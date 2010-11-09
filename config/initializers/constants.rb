@@ -11,5 +11,5 @@ File.open(File.join(RAILS_ROOT, 'config/database.mongoid.yml'), 'r') do |f|
 end
 
 CCOM_DATABASE = @settings["ccom_database"]
-ROOT_DATABASE = @settings["root_db"]
+ROOT_DATABASE = @settings["root_database"]
 MONGO_HOST = @settings["host"]
