@@ -6,25 +6,21 @@ class User
   field :salt
   field :hashed_password
   field :user_id
+  field :databases, :type => Array, :default => []
   
-  field :databases, :type => Array
-  
-  #has_many :databases, :class => :string
-  has_one :working_db, :class => :database
-  
-    
-  validates_presence_of     :name
-  validates_uniqueness_of   :name
+  has_one :working_db, :class => :database  
   
   after_destroy :check_last
- 
   before_save :generate_id
  
   attr_accessor :password_confirmation
   validates_confirmation_of :password
-
   validate :password_non_blank
-
+  validates_presence_of     :name
+  validates_uniqueness_of   :name
+  
+  #def databases; databases || [] end
+  
   def self.find_by_id(identifier)
     first(:conditions => { :user_id => identifier })
   end
@@ -46,10 +42,6 @@ class User
     end
     user
   end  
-  
-  def add_database(string)
-    databases << string
-  end
   
   # 'password' is a virtual attribute
   

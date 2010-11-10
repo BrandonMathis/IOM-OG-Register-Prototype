@@ -5,7 +5,7 @@ class Database
   field :name
   field :created_date
   
-  field :users, :type => Array
+  field :users, :type => Array, :default => []
   
   has_one :created_by, :class => "User"
       
@@ -14,14 +14,15 @@ class Database
   validates_uniqueness_of   :name
   
   def destroy; delete end
+  #def users; users || [] end
   
   def self.find_by_id(identifier)
     first(:conditions => { :_id => identifier })
   end
   
   def add_user(user)
-    self.users = (self.users || []) + [user.user_id]
-    user.databases = (user.databases || []) + [self._id]
+    self.users = users + [user.user_id]
+    user.databases = user.databases + [self._id]
     self.save
     user.save
   end
@@ -33,7 +34,6 @@ class Database
   
   def delete
     self.users.each do |id|
-      RAILS_DEFAULT_LOGGER.debug("IN")
       user = User.find_by_id(id)
       user.databases.delete(self._id)
       user.save
