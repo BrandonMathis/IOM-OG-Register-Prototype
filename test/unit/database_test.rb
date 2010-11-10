@@ -33,8 +33,11 @@ class DatabaseTest < ActiveSupport::TestCase
         @id = @database._id
         @database.delete
       end
+      should "delete the database" do
+        assert_nil Database.find_by_id(@id)
+      end
       should "delete the database from the user's list of databases" do
-        assert !@user.databases.include?(@id)
+        assert !User.find_by_id(@user.user_id).databases.include?(@id)
       end
     end
   end

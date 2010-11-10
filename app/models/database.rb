@@ -33,7 +33,10 @@ class Database
   
   def delete
     self.users.each do |id|
-      User.find_by_id(id).databases.delete(self._id)
+      RAILS_DEFAULT_LOGGER.debug("IN")
+      user = User.find_by_id(id)
+      user.databases.delete(self._id)
+      user.save
      end
     super
   end
