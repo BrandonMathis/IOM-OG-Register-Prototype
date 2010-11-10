@@ -1,5 +1,6 @@
 Factory.sequence(:i_d_in_info_source) { |i| "#{i}" }
 Factory.sequence(:user_name) { |i| "User#{i}" }
+Factory.sequence(:database_name) { |i| "Database#{i}" }
 
 def ccom_entity_fields(factory)
   factory.i_d_in_info_source { Factory.next :i_d_in_info_source }
@@ -9,6 +10,11 @@ Factory.define(:user) do |f|
   f.name { Factory.next :user_name }
   f.password_confirmation "test"
   f.password  "test"
+end
+
+Factory.define(:database) do |f|
+  f.name { Factory.next :database_name }
+  f.created_date Time.now
 end
 
 Factory.define(:ccom_entity) do |f|

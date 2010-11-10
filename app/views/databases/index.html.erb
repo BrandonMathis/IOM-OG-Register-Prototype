@@ -9,7 +9,7 @@
 <% @databases.each do |database| %>
   <tr>
 	<td><%= database.name.titleize %></td>
-	<td><%= database.created_date.titleize %></td>
+	<td><%=	 database.created_date.titleize %></td>
     <td class="index">
 		<div class="buttons">
 	  		<%= link_to "View", database_url(database),

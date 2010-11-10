@@ -1,17 +1,31 @@
-<p>
-  <b>Name:</b>
-  <%=h @user.name %>
-</p>
+<table>
+<th> Basic Info</th> <th>Databases</th>
+<tr>
+	<td>
+		<p>
+		  <b>Name:</b>
+		  <%=h @user.name %>
+		</p>
 
-<p>
-  <b>Hashed password:</b>
-  <%=h @user.hashed_password %>
-</p>
+		<p>
+		  <b>Hashed password:</b>
+		  <%=h @user.hashed_password %>
+		</p>
 
-<p>
-  <b>Salt:</b>
-  <%=h @user.salt %>
-</p>
+		<p>
+		  <b>Salt:</b>
+		  <%=h @user.salt %>
+		</p>
+	</td>
+	<td>
+		<%@databases.each do |database|-%>
+			<p>
+				<%database.name%>
+			</p>
+		<%end-%>
+	</td>
+<tr>
+</table>
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

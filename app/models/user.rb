@@ -7,8 +7,11 @@ class User
   field :hashed_password
   field :user_id
   
-  has_many_related :databases
+  field :databases, :type => Array
+  
+  #has_many :databases, :class => :string
   has_one :working_db, :class => :database
+  
     
   validates_presence_of     :name
   validates_uniqueness_of   :name
@@ -21,12 +24,9 @@ class User
   validates_confirmation_of :password
 
   validate :password_non_blank
-  
 
   def self.find_by_id(identifier)
     first(:conditions => { :user_id => identifier })
-    #return false if user.blank?
-    #user
   end
   
   def self.find_by_name(name)
@@ -45,8 +45,11 @@ class User
       user.save
     end
     user
-  end
+  end  
   
+  def add_database(string)
+    databases << string
+  end
   
   # 'password' is a virtual attribute
   
