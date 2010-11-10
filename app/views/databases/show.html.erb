@@ -5,10 +5,10 @@
 
 <p>
 	<b>Attached Users:</b>
-	<% @database.users.each do |user| -%>
-		<%= user.name %>
+	<% @users.each do |user| -%>
+		<%= link_to user.name, user %>
 	<% end -%>
-	<%="none" if @database.users.blank?%>
+	<%="none" if @users.blank?%>
 
 <p>
 	<b>Created:</b>

@@ -19,10 +19,6 @@ class Asset < MonitoredObject
   def editable_attribute_names; super + additional_fields end
   
   
-  def default_model
-    self.model ||= Model.undetermined
-  end
-  
   def set_default_type
     self.object_type ||= ObjectType.undetermined
   end

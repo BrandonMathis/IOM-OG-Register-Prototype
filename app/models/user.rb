@@ -19,7 +19,11 @@ class User
   validates_presence_of     :name
   validates_uniqueness_of   :name
   
-  #def databases; databases || [] end
+  before_save :set_defaults
+  
+  def set_defaults
+    self.databases ||= []
+  end
   
   def self.find_by_id(identifier)
     first(:conditions => { :user_id => identifier })

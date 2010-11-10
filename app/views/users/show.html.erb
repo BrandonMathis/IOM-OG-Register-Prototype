@@ -1,7 +1,9 @@
+<div id="user_info">
+<h1><%=@user.name.titleize%></h1>
 <table>
-<th> Basic Info</th> <th>Databases</th>
+<th> Basic Info</th> <th>Access to <%=@databases.count%> Databases</th>
 <tr>
-	<td>
+	<td class="basic_info">
 		<p>
 		  <b>Name:</b>
 		  <%=h @user.name %>
@@ -17,16 +19,17 @@
 		  <%=h @user.salt %>
 		</p>
 	</td>
-	<td>
+	<td class="databases">
 		<%@databases.each do |database|-%>
 			<p>
-				<%database.name%>
+				<%=database.name.titleize%>
 			</p>
 		<%end-%>
 	</td>
-<tr>
+</tr>
 </table>
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', user_path %>
+</div>
