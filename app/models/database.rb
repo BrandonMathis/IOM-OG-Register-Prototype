@@ -33,14 +33,8 @@ class Database
   end
   
   def empty_users
-    RAILS_DEFAULT_LOGGER.debug(self.users.count)
-    self.users.each do |id|
-      user = User.find_by_id(id)
-      self.users.delete(user.user_id)
-      user.databases.delete(self._id)
-      RAILS_DEFAULT_LOGGER.debug("Removed #{id}")
-    end
-    RAILS_DEFAULT_LOGGER.debug("***#{self.users}")
+    user_list = Array.new(self.users)
+    user_list.each { |id| remove_user User.find_by_id(id) }
   end
   
   def remove_user(user)

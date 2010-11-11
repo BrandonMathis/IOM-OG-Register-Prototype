@@ -1,4 +1,10 @@
-class CcomData  
+class CcomData
+  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
+  
+  def self.drop_all_collections
+    Mongoid.drop_all_collections
+  end
+  
   def self.from_xml(xml, options = { })
     entities = []
     doc = Nokogiri::XML.parse(xml)
