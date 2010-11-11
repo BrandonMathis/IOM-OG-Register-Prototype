@@ -1,6 +1,5 @@
 class CcomDataController < ApplicationController
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
-  
+    
   def index
   end
   
