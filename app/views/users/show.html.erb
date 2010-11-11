@@ -1,18 +1,35 @@
-<p>
-  <b>Name:</b>
-  <%=h @user.name %>
-</p>
+<div id="user_info">
+<h1><%=@user.name.titleize%></h1>
+<table>
+<th> Basic Info</th> <th>Access to <%=@databases.count%> Databases</th>
+<tr>
+	<td class="basic_info">
+		<p>
+		  <b>Name:</b>
+		  <%=h @user.name %>
+		</p>
 
-<p>
-  <b>Hashed password:</b>
-  <%=h @user.hashed_password %>
-</p>
+		<p>
+		  <b>Hashed password:</b>
+		  <%=h @user.hashed_password %>
+		</p>
 
-<p>
-  <b>Salt:</b>
-  <%=h @user.salt %>
-</p>
+		<p>
+		  <b>Salt:</b>
+		  <%=h @user.salt %>
+		</p>
+	</td>
+	<td class="databases">
+		<%@databases.each do |database|-%>
+			<p>
+				<%=database.name.titleize%>
+			</p>
+		<%end-%>
+	</td>
+</tr>
+</table>
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', user_path %>
+</div>

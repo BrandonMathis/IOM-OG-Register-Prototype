@@ -3,15 +3,15 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  root_database: root_db_dev
   ccom_database: mimosa_dev
-  root_db: root_development
 
 test:
   <<: *defaults
+  root_database: root_db_test
   ccom_database: mimosa_test
-  root_db: root_test
 
 production:
   <<: *defaults
+  root_database: root_db_production
   ccom_database: mimosa_production
-  root_db: root_production

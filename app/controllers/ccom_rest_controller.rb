@@ -2,7 +2,6 @@ class CcomRestController < ApplicationController
   protect_from_forgery :only => []
   
   def index(entities = {})
-    logger.debug(self.class)
     @entities = entities
     @entities = CcomEntity.find(:all) if self.class.to_s == "CcomRestController" #called by root controller
     render :xml => CcomRest.build_entities(@entities)

@@ -4,6 +4,13 @@
 </p>
 
 <p>
+	<b>Attached Users:</b>
+	<% @users.each do |user| -%>
+		<%= link_to user.name, user %>
+	<% end -%>
+	<%="none" if @users.blank?%>
+
+<p>
 	<b>Created:</b>
 	<%=h @database.created_date %>
 </p>

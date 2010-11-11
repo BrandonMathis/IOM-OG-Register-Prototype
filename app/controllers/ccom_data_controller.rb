@@ -1,5 +1,6 @@
 class CcomDataController < ApplicationController
   Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
+  
   def index
   end
   
@@ -19,7 +20,7 @@ class CcomDataController < ApplicationController
   end
     
   def delete_all
-    Mongoid.drop_all_collections
+    CcomData.drop_all_collections
     flash[:notice] = "Deleted all collections for database #{Mongoid.database.name}"
     redirect_to :action => :index
   end

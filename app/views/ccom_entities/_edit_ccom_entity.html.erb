@@ -1,6 +1,7 @@
+<div class = "ccom_entity">
 <%form_for(@asset) do |f| -%>
 	<%= f.error_messages %>
-	<table>
+	<table id="ccom-entity">
   	<% edit_ccom_entity.attribute_names.each do |field| -%>
       	<tr><td><%= field.to_s.camelize %></td>
 			<td> 
@@ -15,3 +16,4 @@
 	</table>
 	<%= f.submit "Update" -%>
 <% end -%>
+</div>

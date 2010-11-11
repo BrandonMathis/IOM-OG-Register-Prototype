@@ -4,6 +4,7 @@ class UsersControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   context "After login" do
     setup do
+      user = Factory.create(:user)
       session[:user_id] = User.find(:all).first.user_id
     end
     
@@ -46,7 +47,6 @@ class UsersControllerTest < ActionController::TestCase
       assert_difference('User.count', -1) do
         delete :destroy, :id => User.find(:all).first.id
       end
-
       assert_redirected_to users_url
     end
   end

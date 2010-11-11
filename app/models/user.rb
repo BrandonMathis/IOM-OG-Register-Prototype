@@ -1,31 +1,32 @@
 class User
   include Mongoid::Document
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(SANDBOX_DATABASE)
+  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
   
   field :name
   field :salt
   field :hashed_password
   field :user_id
+  field :databases, :type => Array, :default => []
   
-  belongs_to :database
-    
-  validates_presence_of     :name
-  validates_uniqueness_of   :name
+  has_one :working_db, :class => :database  
   
   after_destroy :check_last
- 
   before_save :generate_id
  
   attr_accessor :password_confirmation
   validates_confirmation_of :password
-
   validate :password_non_blank
+  validates_presence_of     :name
+  validates_uniqueness_of   :name
   
-
+  before_save :set_defaults
+  
+  def set_defaults
+    self.databases ||= []
+  end
+  
   def self.find_by_id(identifier)
     first(:conditions => { :user_id => identifier })
-    #return false if user.blank?
-    #user
   end
   
   def self.find_by_name(name)
@@ -44,8 +45,7 @@ class User
       user.save
     end
     user
-  end
-  
+  end  
   
   # 'password' is a virtual attribute
   

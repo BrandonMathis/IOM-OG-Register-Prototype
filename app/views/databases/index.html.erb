@@ -9,10 +9,19 @@
 <% @databases.each do |database| %>
   <tr>
 	<td><%= database.name.titleize %></td>
-	<td><%= database.created_date.titleize %></td>
-    <td><%= link_to 'Show', database %></td>
-    <td><%= link_to 'Edit', edit_database_path(database) %></td>
-    <td><%= link_to 'Destroy', database, :confirm => 'Are you sure?', :method => :delete %></td>
+	<td><%=	 database.created_date.titleize %></td>
+    <td class="index">
+		<div class="buttons">
+	  		<%= link_to "View", database_url(database),
+	  			:class => "button" %>
+	  		<%= link_to "Edit", edit_database_path(database),
+	  			:class => "button" %>
+	   		<%= link_to "Delete", database,
+	  			:confirm => 'Are you sure?',
+	  			:method => :delete,
+	  			:class => "button" %>
+	    </div>
+	</td>
   </tr>
 <% end %>
 <%if @databases.blank?-%>
@@ -24,4 +33,5 @@
 </table>
 <br />
 
-<%= link_to 'New database', new_database_path %>
+<%= link_to 'New database', new_database_path %><br/><br/>
+<%= link_to "Dump All Databases", :controller => "admin", :action => "dump_all_databases"%>

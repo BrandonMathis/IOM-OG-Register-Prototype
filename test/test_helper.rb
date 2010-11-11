@@ -35,7 +35,7 @@ class ActiveSupport::TestCase
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
     Mongoid.drop_all_collections
     # then the Sandbox test Database
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(SANDBOX_DATABASE)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
     Mongoid.drop_all_collections
   end
 

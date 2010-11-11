@@ -2,11 +2,21 @@
 
 <% form_for(@database) do |f| %>
   <%= f.error_messages %>
-	<p>
+	<table>
+		<th> Name </th> <th> Users </th>
+	<tr><td>
 		<%=f.label :name%>
 		<%=f.text_field :name%>
-	</p>
-	
+	</td>
+	<td>
+		<%@users.each do |user|-%>
+			<div class ="user-option">
+			<%= check_box_tag 'users[]', user.user_id, @database.users.include?(user.user_id)%>
+			<%=user.name.humanize%><br/>
+			</div>
+		<%end-%>
+	</td>
+	</table>	
 	<p>
 		<%=f.hidden_field :user_id, :value => session[:user_id]%>
 	</p>

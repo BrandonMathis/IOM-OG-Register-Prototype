@@ -14,7 +14,8 @@ class UsersController < ReqAuthorizationController
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
-
+    @databases = @user.databases.collect {|id| Database.find_by_id(id) }
+    
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -41,7 +42,6 @@ class UsersController < ReqAuthorizationController
     @user = User.new(params[:user])
     respond_to do |format|
       if @user.save
-        logger.debug("Done")
         flash[:notice] = "User #{@user.name} was successfully created."
         format.html { redirect_to(:action=>'index') }
         format.xml  { render :xml => @user, :status => :created,

@@ -1,7 +1,14 @@
 <h1>Editing database</h1>
-
+<br/>
 <% form_for(@database) do |f| %>
   <%= f.error_messages %>
+	
+	<%@users.each do |user|-%>
+		<div class ="user-option">
+		<%= check_box_tag 'users[]', user.user_id, @database.users.include?(user.user_id)%>
+		<%=user.name.humanize%><br/>
+		</div>
+	<%end-%>
 
   <p>
     <%= f.submit 'Update' %>
