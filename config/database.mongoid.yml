@@ -4,11 +4,14 @@ defaults: &defaults
 development:
   <<: *defaults
   ccom_database: mimosa_dev
+  root_db: root_development
 
 test:
   <<: *defaults
   ccom_database: mimosa_test
+  root_db: root_test
 
 production:
   <<: *defaults
   ccom_database: mimosa_production
+  root_db: root_production
