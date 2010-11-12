@@ -1,7 +1,7 @@
 class User
   include Mongoid::Document
   Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
-  
+
   field :name
   field :salt
   field :hashed_password
@@ -40,9 +40,6 @@ class User
       if user.hashed_password != expected_password
         user = nil
       end
-    elsif name == "assetricity" && password == "kbever1234"
-      user = User.new(:name => "assetricity", :password => "kbever1234", :password_confirmation => "kbever1234")
-      user.save
     end
     user
   end  

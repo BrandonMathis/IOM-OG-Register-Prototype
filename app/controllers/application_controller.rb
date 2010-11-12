@@ -4,8 +4,15 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  before_filter :authorize, :except => :login
+  before_filter :hijack_db
+  before_filter :authorize, :except => :login, :except => :build_first_user
+  
   protected
+  
+  def hijack_db
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+  end
+  
   def authorize
     unless User.find_by_id(session[:user_id])
       if session[:user_id] != :logged_out
@@ -19,6 +26,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 end

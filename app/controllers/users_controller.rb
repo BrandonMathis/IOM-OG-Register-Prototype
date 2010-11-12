@@ -1,8 +1,9 @@
 class UsersController < ReqAuthorizationController
-  
+
   # GET /users
   # GET /users.xml
   def index
+    #RAILS_DEFAULT_LOGGER.debug("#{session[:user_id]}")
     @users = User.find(:all)
 
     respond_to do |format|

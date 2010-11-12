@@ -1,4 +1,14 @@
 class AdminController < ReqAuthorizationController  
+  #before_filter :build_first_user
+  
+  def build_first_user
+    if User.find(:all).blank?
+      User.create(:name => "assetricity", :password => "kbever1234", :password_confirmation => "kbever1234")
+    end
+    flash[:notice] = "Built initial user #{User.find(:all).first.name}"
+    redirect_to(:controller => "ccom_data", :action => "index")
+  end
+  
   def login
     if request.post?
       user = User.authenticate(params[:name], params[:password])
