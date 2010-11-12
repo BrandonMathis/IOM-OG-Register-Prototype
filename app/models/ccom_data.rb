@@ -1,12 +1,10 @@
 class CcomData
   
   def self.drop_all_collections
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
     Mongoid.drop_all_collections
   end
   
   def self.from_xml(xml, options = { })
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
     entities = []
     doc = Nokogiri::XML.parse(xml)
     doc.mimosa_xpath("/CCOMData").children.reject { |c| c.blank? }.each do |entity_node|
