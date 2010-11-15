@@ -47,8 +47,8 @@ class Database
   def delete
     self.users.each do |id|
       user = User.find_by_id(id)
-      user.databases.delete(self._id)
-      user.save
+      user.databases.delete(self._id) unless user.nil?
+      user.save unless user.nil?
      end
     super
   end

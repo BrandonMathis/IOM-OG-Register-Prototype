@@ -20,6 +20,17 @@ class User
   
   before_save :set_defaults
   
+  def destroy; delete end
+  
+  def delete
+    self.databases.each do |db_id|
+      db = Database.find_by_id(db_id)
+      db.users.delete(self.user_id) unless db.nil?
+      db.save unless db.nil?
+    end
+    super
+  end
+  
   def set_defaults; self.databases ||= [] end
   
   def self.none_exsist?
