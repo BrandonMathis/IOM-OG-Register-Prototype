@@ -9,7 +9,7 @@ class User
   
   has_one :working_db, :class => :database  
   
-  after_destroy :check_last
+  before_destroy :check_last
   before_save :generate_id
  
   attr_accessor :password_confirmation
@@ -20,16 +20,30 @@ class User
   
   before_save :set_defaults
   
-  def set_defaults
-    self.databases ||= []
+  def set_defaults; self.databases ||= [] end
+  
+  def self.none_exsist?
+    current_database = Mongoid.database.name
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    x = User.find(:all).blank?
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    return x
   end
   
   def self.find_by_id(identifier)
-    first(:conditions => { :user_id => identifier })
+    current_database = Mongoid.database.name
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    user = first(:conditions => { :user_id => identifier })
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    return user
   end
   
   def self.find_by_name(name)
-    first(:conditions => {:name => name})
+    current_database = Mongoid.database.name
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    user = first(:conditions => {:name => name})
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    return user
   end
   
   def self.authenticate(name, password)
@@ -57,7 +71,7 @@ class User
   end
   
   def check_last
-    if User.find(:all).count.zero?
+    if User.find(:all).count == 1
       raise "Can't delete last user"
     end
   end     
