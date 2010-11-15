@@ -111,7 +111,7 @@ class AssetsController < CcomRestController
       ref_valid_network = ValidNetwork.find_by_guid(passed_values[:valid_network])
       valid_network = ref_valid_network.nil? ? nil : ref_valid_network.dup_entity(:gen_new_guids => true)
       @asset.update_attributes( :valid_network => valid_network)
-    
+
       respond_to do |format|
         if @asset.save
           flash[:notice] = "Asset was saved into database at #{@asset.last_edited}"

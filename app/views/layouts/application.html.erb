@@ -60,13 +60,18 @@
 </div>  
 <div id="footer">
 	<p>
-		<% if User.find_by_id(session[:user_id]) -%>
 		<style type="text/css">
 		 #footer a {color: white;}
 		</style>
+		<% if User.find_by_id(session[:user_id]) -%>
 			<%= link_to 'Users', :controller => 'users' %> |
 			<%= link_to 'Databases', :controller => 'databases' %>
-		|<% end -%>
+		<% elsif User.none_exsist? -%>
+			<%= link_to 'Create First User', :controller => 'admin', :action => 'build_first_user'%>
+		<% else -%>
+			<%= link_to 'Login', :controller => 'users' %>
+		<% end -%>|
+		
 		Copyright &copy; Assetricity, 2010
 	</p>
 </div>

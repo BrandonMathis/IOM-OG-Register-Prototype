@@ -1,5 +1,4 @@
 class CcomData
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
   
   def self.drop_all_collections
     Mongoid.drop_all_collections

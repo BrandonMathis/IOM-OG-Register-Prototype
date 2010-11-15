@@ -1,5 +1,9 @@
 class CcomDataController < ApplicationController
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
+  before_filter :hijack_db
+  
+  def hijack_db
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
+  end
   
   def index
   end

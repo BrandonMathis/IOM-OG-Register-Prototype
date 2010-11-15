@@ -1,5 +1,10 @@
 class CcomRestController < ApplicationController
+  
   protect_from_forgery :only => []
+  
+  def hijack_db
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(CCOM_DATABASE)
+  end
   
   def index(entities = {})
     @entities = entities

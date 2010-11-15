@@ -25,7 +25,6 @@ class AssetsControllerTest < ActionController::TestCase
       end
       
       should "should create an asset" do
-        RAILS_DEFAULT_LOGGER.debug("***#{Mongoid.database.name}")
         assert_difference('Asset.count') do
           post :create, :asset => { }
         end
