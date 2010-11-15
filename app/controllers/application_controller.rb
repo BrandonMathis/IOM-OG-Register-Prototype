@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :hijack_db
-  before_filter :authorize, :except => :login, :except => :build_first_user
+  before_filter :authorize, :except => [:login, :build_first_user]
   
   protected
   
