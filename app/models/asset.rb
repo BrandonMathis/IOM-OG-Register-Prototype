@@ -12,20 +12,26 @@ class Asset < MonitoredObject
   
   before_save :set_default_type
     
+  # Defines that a serial_number field must exsit for an Asset  
   def self.additional_fields; [:serial_number] end
+  
+  # Gives all aditional fiels for and instance of Asset
   def additional_fields; self.class.additional_fields end
+  
+  # Give all default and additional attributes for Asset
   def self.attribute_names; super + additional_fields end
+  
+  # Give all default and additional fields for the Asset table in the database
   def self.field_names; super + additional_fields end
+  
+  # Give list of editable attributes
   def editable_attribute_names; super + additional_fields end
   
   
-  def set_default_type
-    self.object_type ||= ObjectType.undetermined
-  end
-  
-  # KeysetTS
-  # Will query and give an array of all uninstalled assets based on if the asset has a
-  # history or if it has a history with a set end time
+  # Will query and give an array of all assets not installed on a segment
+  #
+  # This is based on if the asset has an attached AssetOnSegmentHistory
+  # or if it has a history with a set end time
   def self.uninstalled
     assets = Asset.all()
     uninstalled = Array.new()
@@ -37,7 +43,7 @@ class Asset < MonitoredObject
   end
   
   def segment
-    return asset_on_segment_history.segment
+    return asset_on_segment_history.segment rescue nil
   end
   
   def entry_edge=(object)
@@ -129,5 +135,10 @@ class Asset < MonitoredObject
   def destroy
     ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network && ValidNetwork.find_by_guid(valid_network.guid)
     super
+  end
+  
+  private
+  def set_default_type
+    self.object_type ||= ObjectType.undetermined
   end
 end
