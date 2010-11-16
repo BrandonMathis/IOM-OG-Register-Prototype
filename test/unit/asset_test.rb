@@ -19,6 +19,12 @@ class AssetTest < ActiveSupport::TestCase
     should "have a last edited time" do
       assert_not_nil @asset.last_edited
     end
+    
+    should "now allow non arrays assigned to entry_edges" do
+      @edge1 = Factory.create(:network_connection)
+      @edge2 = Factory.create(:network_connection)
+      assert @asset.entry_edges = [@edge1]
+    end
   end
   
   should "support a serial number" do

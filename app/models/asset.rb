@@ -27,8 +27,7 @@ class Asset < MonitoredObject
   # Give list of editable attributes
   def editable_attribute_names; super + additional_fields end
   
-  
-  # Will query and give an array of all assets not installed on a segment
+  # Will query and give an array of all assets not installed on a Segment
   #
   # This is based on if the asset has an attached AssetOnSegmentHistory
   # or if it has a history with a set end time
@@ -37,40 +36,52 @@ class Asset < MonitoredObject
     uninstalled = Array.new()
     assets.each do |a|
       asset = Asset.find_by_guid(a.g_u_i_d)
-      uninstalled << asset if asset.asset_on_segment_history.nil? || !asset.asset_on_segment_history.end.nil?
+      uninstalled << asset if asset.asset_on_segment_history.nil? || asset.asset_on_segment_history.end
     end
     return uninstalled
   end
   
+  # Gives the segment this Asset is installed on. Returns nil
+  # if this Asset is not installed on a Segment
   def segment
     return asset_on_segment_history.segment rescue nil
   end
   
+  # Set the value of the entry edges to a single edge for an asset
   def entry_edge=(object)
     self.entry_edges.clear
     self.entry_edges << object
   end
 
+  # Get the first entry edge related to an asset
   def entry_edge
     self.entry_edges.first
   end
-
+  
+  # Set an array of edges for an asset
   def entry_edges=(array)
     ensure_network
     self.network.entry_edges = array
   end
-
+  
+  # Get array of entry_edges associated to an asset
   def entry_edges
     ensure_network
     self.network.entry_edges
   end
-
+  
+  # Ensure that the asset has a ValidNetwork related to it.
+  #
+  # <tt>Will build a valid network if there is none</tt>
   def ensure_valid_network
     if valid_network.nil?
       self.build_valid_network(:tag => "#{self.tag} Asset Config Network")
     end
   end
-
+  
+  # Ensure that the asset has a network related to it (within the ValidNetwork)
+  #
+  # <tt>Will build a network if there is none</tt>
   def ensure_network
     ensure_valid_network
     if network.nil?
@@ -78,10 +89,11 @@ class Asset < MonitoredObject
     end
   end
     
-  # Custom actions to be executes when value for asset_on_segment_history (AOSH) is changed
+  # Custom actions to be executed when the asset's AssetOnSegmentHistory (AOSH) is changed
   # However, this method of modifying the AOSH is undersired. If an uninstall or install is
   # to be performed it should be done so using mongoid to update the segment's installed asset
-  #   - Segment.update_attributes(:install_asset_id => @asset.g_u_i_d)
+  #   # this calls the Segment's install_asset_id method 
+  #   Segment.update_attributes(:install_asset_id => @asset.g_u_i_d) 
   def asset_on_segment_history_with_mystuff=(asset_on_segment_history_to_assign)
     self.asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
     self.asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
@@ -90,10 +102,11 @@ class Asset < MonitoredObject
 
   alias_method_chain :asset_on_segment_history=, :mystuff
   
-  # Generate a remove event if the AOSH has a not nil value that is changed
+  # Generate a remove event if the AssetOnSegmentHistory a value that is changed 
+  # (AssetOnSegmentHistory is not nill)
   #
-  # Generate an install event if the AOSH is nil and is assigned a value unless that
-  # value is null
+  # Generate an install event if the asset's AssetOnSegmentHistory is nil and
+  # assigned a value unless that value is nill
   def asset_on_segment_history_with_observer=(asset_on_segment_history_to_assign)
     if self.asset_on_segment_history
       AssetObserver.remove(self, self.asset_on_segment_history)
@@ -104,7 +117,7 @@ class Asset < MonitoredObject
     # self.asset_on_segment_history_without_observer=(asset_on_segment_history_to_assign)
   end
   
-  # Set the AOSH_id to nil if we are trying to set the AOSH to nil
+  # Set's the asset's AssetOnSegmentHistory to nill
   def asset_on_segment_history_with_blanking=(asset_on_segment_history_to_assign)
     if asset_on_segment_history_to_assign.nil?
       self.asset_on_segment_history_id = nil
@@ -112,15 +125,15 @@ class Asset < MonitoredObject
     # self.asset_on_segment_history_without_blanking=(asset_on_segment_history_to_assign)
   end
 
+  # XML builder for an asset (called from to_xml)
   def build_xml(builder)
     super(builder)
-    #builder.tag!(:serialNumber, self.serial_number) unless self.serial_number.blank?
     builder.ValidNetwork { |b| valid_network.build_xml(b) } if valid_network
     builder.Model { |b| model.build_xml(b) } if model
     builder.Manufacturer { |b| manufacturer.build_xml(b) } if manufacturer
   end
 
-  
+  # Will duplicated the asset and all related entities
   def dup_entity (options ={})
     entity = super(options)
     entity.update_attributes(:serial_number => self.send(:serial_number))
@@ -132,6 +145,7 @@ class Asset < MonitoredObject
     return entity
   end
   
+  # Will destroy the asset and all related entities
   def destroy
     ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network && ValidNetwork.find_by_guid(valid_network.guid)
     super
