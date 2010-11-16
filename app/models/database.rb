@@ -6,7 +6,7 @@ class Database
   field :created_date
   field :users, :type => Array, :default => []
   
-  has_one :created_by, :class => "User"
+  has_one :created_by, :class_name => "User"
       
   validates_presence_of     :name
   validates_presence_of     :created_date
@@ -51,5 +51,9 @@ class Database
       user.save unless user.nil?
      end
     super
+  end
+  
+  def ==(object)
+    self._id == object._id rescue false
   end
 end
