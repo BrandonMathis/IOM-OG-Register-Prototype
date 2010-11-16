@@ -59,7 +59,6 @@ class User
   
   def working_db_id=(db_id)
     database = Database.find_by_id(db_id)
-    RAILS_DEFAULT_LOGGER.debug(database.created_by)
     self.working_db = database
     self.save
   end

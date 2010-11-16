@@ -4,7 +4,6 @@ class CcomRestController < ApplicationController
   
   def hijack_db
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ActiveRegistry.find_database session[:user_id])
-    logger.debug("^^^#{Mongoid.database.name}")
   end
   
   def index(entities = {})

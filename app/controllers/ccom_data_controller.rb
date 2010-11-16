@@ -6,7 +6,6 @@ class CcomDataController < ApplicationController
   end
   
   def index
-    logger.debug("^^^#{Mongoid.database.name}")
   end
   
   def create
