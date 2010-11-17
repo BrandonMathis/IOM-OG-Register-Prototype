@@ -7,7 +7,6 @@ module ActiveRegistry
     else
       database = CCOM_DATABASE
     end
-    RAILS_DEFAULT_LOGGER.debug("***#{database}")
-    return database
+    return CCOM_DATABASE
   end
 end
