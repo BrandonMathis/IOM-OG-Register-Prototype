@@ -6,10 +6,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :hijack_db
   before_filter :authorize, :except => [:login, :build_first_user]
+  #after_filter :print
   
   protected
+  def print
+    Mongoid.database.connection.database_info.each {|db| logger.debug(db)}
+  end
   
   def hijack_db
+    Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
   end
   

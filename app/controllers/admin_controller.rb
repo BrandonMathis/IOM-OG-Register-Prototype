@@ -30,6 +30,7 @@ class AdminController < ReqAuthorizationController
   
   def dump_all_databases
     previous_db = Mongoid.database.name
+    Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
     Mongoid.database.collection("databases").drop
     User.find(:all).each {|x| x.databases = []; x.save }

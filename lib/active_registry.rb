@@ -7,6 +7,6 @@ module ActiveRegistry
     else
       database = CCOM_DATABASE
     end
-    return CCOM_DATABASE
+    return database
   end
 end

@@ -3,7 +3,12 @@ class CcomRestController < ApplicationController
   protect_from_forgery :only => []
   
   def hijack_db
+    #Mongoid.database.connection.database_info.each {|db| logger.debug(db)}
+    Mongoid.database.connection.close
+    #Mongoid.database.connection.database_info.each {|db| logger.debug(db)}
+    #logger.debug(Mongoid.database.connection.connected?)
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ActiveRegistry.find_database session[:user_id])
+    #Mongoid.database.connection.database_info.each {|db| logger.debug(db)}
   end
   
   def index(entities = {})
