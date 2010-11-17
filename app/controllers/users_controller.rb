@@ -34,6 +34,7 @@ class UsersController < ReqAuthorizationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+     @databases = @user.databases.collect {|id| Database.find_by_id(id) }
   end
 
   # POST /users
@@ -58,7 +59,7 @@ class UsersController < ReqAuthorizationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
-
+    
     respond_to do |format|
       if @user.update_attributes(params[:user])
         flash[:notice] = "User #{@user.name} was successfully updated."

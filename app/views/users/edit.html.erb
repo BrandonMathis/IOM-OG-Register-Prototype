@@ -2,22 +2,36 @@
 
 <% form_for(@user) do |f| %>
   <%= f.error_messages %>
-
-  <p>
-    <%= f.label :name %>:
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :password, 'Password' %>:
-    <%= f.password_field :password, :size => 40 %>
-  </p>
-  <p>
-    <%= f.label :password_confirmation, 'Confirm' %>:
-    <%= f.password_field :password_confirmation, :size => 40 %>
-  </p>
-  <p>
-    <%= f.submit "Update" %>
-  </p>
+	<table>
+	<th> Basic Info</th> <th>Access to <%=@databases.count%> Databases</th>
+	<tr>
+		<td class="basic_info">
+  			<p>
+			    <%= f.label :name %>:
+			    <%= f.text_field :name %>
+			  </p>
+			  <p>
+			    <%= f.label :password, 'Password' %>:
+			    <%= f.password_field :password, :size => 40 %>
+			  </p>
+			  <p>
+			    <%= f.label :password_confirmation, 'Confirm' %>:
+			    <%= f.password_field :password_confirmation, :size => 40 %>
+			  </p>
+			  <p>
+			    <%= f.submit "Update" %>
+			  </p>
+		</td>
+		<td class="databases">
+			<%@databases.each do |database|-%>
+				<div class ="database-option">
+					<%= radio_button_tag 'user[working_db_id]', database._id, @user.working_db == database %>
+					<%=database.name.titleize%><br/>
+				</div>
+			<%end-%>
+		</td>
+	</tr>
+	</table>
 <% end %>
 
 <%= link_to 'Show', @user %> |

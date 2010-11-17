@@ -57,6 +57,12 @@ class User
     return user
   end
   
+  def working_db_id=(db_id)
+    database = Database.find_by_id(db_id)
+    self.working_db = database
+    self.save
+  end
+  
   def self.authenticate(name, password)
     user = self.find_by_name(name)
     if user
