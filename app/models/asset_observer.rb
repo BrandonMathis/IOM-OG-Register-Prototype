@@ -1,4 +1,3 @@
-require 'asset'
 require 'net/http'
 
 class AssetObserver
