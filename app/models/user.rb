@@ -7,7 +7,7 @@ class User
   field :user_id
   field :databases, :type => Array, :default => []
   
-  has_one :working_db, :class => :database  
+  has_one :working_db, :class_name => "Database"  
   
   before_destroy :check_last
   before_save :generate_id
