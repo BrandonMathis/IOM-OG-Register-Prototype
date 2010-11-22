@@ -21,7 +21,7 @@ class CcomEntity
     g_u_i_d
   end
   
-  def get_time
+  def self.get_time
     Time.now.strftime("%Y-%m-%dT%H:%M:%S.#{Time.now.usec}")
   end
   
@@ -90,7 +90,7 @@ class CcomEntity
   end
   
   def generate_last_edited
-    self.last_edited = self.get_time
+    self.last_edited = CcomEntity.get_time
   end
   
   private
@@ -100,7 +100,7 @@ class CcomEntity
   end
   
   def generate_created
-    self.created = self.get_time
+    self.created = CcomEntity.get_time
   end
   
   def set_name_and_tag
