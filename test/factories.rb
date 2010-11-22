@@ -6,6 +6,10 @@ def ccom_entity_fields(factory)
   factory.i_d_in_info_source { Factory.next :i_d_in_info_source }
 end
 
+Factory.define(:notification) do |f|
+  f.message "This is a notification"
+end
+
 Factory.define(:user) do |f|
   f.name { Factory.next :user_name }
   f.password_confirmation "test"

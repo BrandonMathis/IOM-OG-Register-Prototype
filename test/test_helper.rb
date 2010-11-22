@@ -9,6 +9,11 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
+  def assert_not_valid(object, msg="Object is valid when it should be invalid")
+    assert(!object.valid?, msg)
+  end
+  alias :assert_invalid :assert_not_valid
+  
   def mimosa_xmlns
     { "mimosa" => MIMOSA_XMLNS }
   end

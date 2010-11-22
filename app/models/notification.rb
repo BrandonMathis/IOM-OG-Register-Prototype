@@ -2,7 +2,7 @@ class Notification
   include Mongoid::Document
   
   field :message
-  field :level
+  field :level, :type => Integer
   field :time
   field :ip
   field :type
@@ -12,11 +12,9 @@ class Notification
   
   before_save :define_time, :define_user
   
-  def level=(num)
-    raise Exceptions::UnknownLevel if (1..3).include? num
-  end
+  validate :is_valid_level
   
-  def level
+  def status
     return "Normal" if level == 1
     return "High" if level == 2
     return "Critical" if level == 3
@@ -24,10 +22,15 @@ class Notification
   
   protected
   def define_time
-    
+    self.time = CcomEntity.get_time
   end
   
   def define_user
+    self.user = User.find_by_id(session[:user_id]) rescue nil
   end
     
+  def is_valid_level
+    self.level ||= 1
+    errors.add(:level, "Undefined level was given") unless (1..3).include? level
+  end
 end
