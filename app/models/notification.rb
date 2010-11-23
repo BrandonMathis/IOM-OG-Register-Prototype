@@ -6,13 +6,25 @@ class Notification
   field :time
   field :ip
   field :operation
+  field :database
   
-  has_one :user
-  has_one :database
+  has_one :about_user, :class_name => "User"
   
-  before_save :define_time, :define_user
+  before_save :define_time
   
   validate :is_valid_level
+  
+  def self.create(args = {})
+    current_database = Mongoid.database.name
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    super args
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+  end
+  
+  def get_user_name
+    return "Anonymous" unless about_user
+    about_user.name
+  end
   
   def status
     return "Normal" if level == 1
@@ -22,11 +34,7 @@ class Notification
   
   protected
   def define_time
-    self.time = CcomEntity.get_time
-  end
-  
-  def define_user
-    self.user = User.find_by_id(session[:user_id]) rescue nil
+    self.time = Time.now.strftime("%m/%d/%Y - %H:%M:%S")
   end
     
   def is_valid_level

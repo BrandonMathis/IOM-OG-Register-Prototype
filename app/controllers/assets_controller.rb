@@ -91,6 +91,12 @@ class AssetsController < CcomRestController
     if request.format == :xml
       super
     else
+      Notification.create(
+                :message => "Created an Asset using the Create Asset Form", 
+                :operation => "Create", 
+                :about_user => User.find_by_id(session[:user_id]), 
+                :database => ActiveRegistry.find_database(session[:user_id])
+      )
       passed_values = params[:asset]
       @asset = Asset.create(
                         :g_u_i_d => passed_values[:g_u_i_d],

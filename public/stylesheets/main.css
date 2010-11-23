@@ -298,10 +298,19 @@ a.button{
 }
 .buttons{
 	float: right;
+	width: 145px;
 }
 
 /*Active Registry Watchdog*/
-#watchdog td{
-	padding-left: 15px;
-	padding-right: 15px;
+#watchdog table{
+	border: solid 2px #184980;
+}
+
+#watchdog th{
+	color: white;
+	background-color:#184980;
+}
+
+#watchdog tr.odd{
+	background-color: #A4CFDD;
 }

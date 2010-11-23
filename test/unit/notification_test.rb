@@ -16,7 +16,7 @@ class NotificationTest < ActiveSupport::TestCase
     end
     
     should "have nothing as the user" do
-      assert_nil @notification.user
+      assert_nil @notification.about_user
     end
     
     should "have normal as the default level" do
@@ -30,6 +30,17 @@ class NotificationTest < ActiveSupport::TestCase
       
       should "not be valid" do
         assert_not_valid @notification
+      end
+    end
+    context "with a user" do
+      setup do
+        @user = Factory.create(:user)
+        @notification2 = Factory.create(:notification, :about_user => @user)
+      end
+      
+      should "have a user associated with it" do
+        assert_not_nil @notification2.about_user
+        assert_equal @user.name, @notification2.get_user_name
       end
     end
   end

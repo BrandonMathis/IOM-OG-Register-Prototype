@@ -5,19 +5,16 @@
 		<th>Status</th>
 		<th>Date</th>
 		<th>Message</th>
-		<th>User</th>
-		<th>Database</th>
 		<th>Operation</th>
+		<th>Administrate</th>
 	</tr>
 
 <% @notifications.each do |notification| %>
   	<tr class="<%=cycle('odd', 'even')%>">
-		<td><%=notification.status %></td>
-		<td><%=notification.time %></td>
-		<td><%=notification.message %></td>
-		<td><%=link_to notification.user.name, notification.user if notification.user %></td>
-		<td><%=link_to notification.database.name, notification.database if notification.database %></td>
-		<td><%=notification.operation %></td>
+		<td><%= notification.status %></td>
+		<td><%= notification.time %></td>
+		<td><%= notification.message %></td>
+		<td><%= notification.operation %></td>
 		<td>
 			<div class="buttons">
 		  		<%= link_to "View", notification,
@@ -29,7 +26,7 @@
 		  			:method => :delete,
 		  			:class => "button" %>
 		    </div>
-		<td>
+		</td>
 	  </tr>
 <% end %>
 </table>
