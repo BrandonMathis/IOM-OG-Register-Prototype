@@ -299,3 +299,9 @@ a.button{
 .buttons{
 	float: right;
 }
+
+/*Active Registry Watchdog*/
+#watchdog td{
+	padding-left: 15px;
+	padding-right: 15px;
+}

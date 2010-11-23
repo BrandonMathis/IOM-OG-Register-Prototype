@@ -1,17 +1,39 @@
 <h1>Listing notifications</h1>
-
+<div id="watchdog">
 <table>
-  <tr>
-  </tr>
+	<tr>
+		<th>Status</th>
+		<th>Date</th>
+		<th>Message</th>
+		<th>User</th>
+		<th>Database</th>
+		<th>Operation</th>
+	</tr>
 
-<% @notifications.each do |notifications| %>
-  <tr>
-    <td><%= link_to 'Show', notifications %></td>
-    <td><%= link_to 'Edit', edit_notification_path(notifications) %></td>
-    <td><%= link_to 'Destroy', notifications, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% @notifications.each do |notification| %>
+  	<tr class="<%=cycle('odd', 'even')%>">
+		<td><%=notification.status %></td>
+		<td><%=notification.time %></td>
+		<td><%=notification.message %></td>
+		<td><%=link_to notification.user.name, notification.user if notification.user %></td>
+		<td><%=link_to notification.database.name, notification.database if notification.database %></td>
+		<td><%=notification.operation %></td>
+		<td>
+			<div class="buttons">
+		  		<%= link_to "View", notification,
+		  			:class => "button" %>
+		  		<%= link_to "Edit", edit_notification_path(notification),
+		  			:class => "button" %>
+		   		<%= link_to "Delete", notification,
+		  			:confirm => 'Are you sure?',
+		  			:method => :delete,
+		  			:class => "button" %>
+		    </div>
+		<td>
+	  </tr>
 <% end %>
 </table>
+</div>
 
 <br />
 

@@ -5,7 +5,7 @@ class Notification
   field :level, :type => Integer
   field :time
   field :ip
-  field :type
+  field :operation
   
   has_one :user
   has_one :database
