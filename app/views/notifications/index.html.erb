@@ -7,7 +7,7 @@
 <% @notifications.each do |notifications| %>
   <tr>
     <td><%= link_to 'Show', notifications %></td>
-    <td><%= link_to 'Edit', edit_notifications_path(notifications) %></td>
+    <td><%= link_to 'Edit', edit_notification_path(notifications) %></td>
     <td><%= link_to 'Destroy', notifications, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
@@ -15,4 +15,4 @@
 
 <br />
 
-<%= link_to 'New notifications', new_notifications_path %>
+<%= link_to 'New notifications', new_notification_path %>

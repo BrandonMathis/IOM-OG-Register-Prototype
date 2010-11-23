@@ -2,7 +2,7 @@ class NotificationsController < ReqAuthorizationController
   # GET /notifications
   # GET /notifications.xml
   def index
-    @notifications = Notifications.all
+    @notifications = Notification.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +13,7 @@ class NotificationsController < ReqAuthorizationController
   # GET /notifications/1
   # GET /notifications/1.xml
   def show
-    @notifications = Notifications.find(params[:id])
+    @notifications = Notification.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,28 +24,28 @@ class NotificationsController < ReqAuthorizationController
   # GET /notifications/new
   # GET /notifications/new.xml
   def new
-    @notifications = Notifications.new
+    @notification = Notification.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @notifications }
+      format.xml  { render :xml => @notification }
     end
   end
 
   # GET /notifications/1/edit
   def edit
-    @notifications = Notifications.find(params[:id])
+    @notifications = Notification.find(params[:id])
   end
 
   # POST /notifications
   # POST /notifications.xml
   def create
-    @notifications = Notifications.new(params[:notifications])
+    @notifications = Notification.new(params[:notifications])
 
     respond_to do |format|
       if @notifications.save
-        flash[:notice] = 'Notifications was successfully created.'
-        format.html { redirect_to(@notifications) }
+        flash[:notice] = 'Notification was successfully created.'
+        format.html { redirect_to notifications_path }
         format.xml  { render :xml => @notifications, :status => :created, :location => @notifications }
       else
         format.html { render :action => "new" }
@@ -57,11 +57,11 @@ class NotificationsController < ReqAuthorizationController
   # PUT /notifications/1
   # PUT /notifications/1.xml
   def update
-    @notifications = Notifications.find(params[:id])
+    @notifications = Notification.find(params[:id])
 
     respond_to do |format|
       if @notifications.update_attributes(params[:notifications])
-        flash[:notice] = 'Notifications was successfully updated.'
+        flash[:notice] = 'Notification was successfully updated.'
         format.html { redirect_to(@notifications) }
         format.xml  { head :ok }
       else
@@ -74,7 +74,7 @@ class NotificationsController < ReqAuthorizationController
   # DELETE /notifications/1
   # DELETE /notifications/1.xml
   def destroy
-    @notifications = Notifications.find(params[:id])
+    @notifications = Notification.find(params[:id])
     @notifications.destroy
 
     respond_to do |format|
