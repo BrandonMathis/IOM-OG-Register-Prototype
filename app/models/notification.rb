@@ -14,6 +14,10 @@ class Notification
   
   validate :is_valid_level
   
+  def attributes
+    [:status, :time, :user_name, :database, :message, :operation]
+  end
+  
   def self.create(args = {})
     current_database = Mongoid.database.name
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
@@ -21,7 +25,7 @@ class Notification
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
   end
   
-  def get_user_name
+  def user_name
     return "Anonymous" unless about_user
     about_user.name
   end

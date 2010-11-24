@@ -13,11 +13,11 @@ class NotificationsController < ReqAuthorizationController
   # GET /notifications/1
   # GET /notifications/1.xml
   def show
-    @notifications = Notification.find(params[:id])
+    @notification = Notification.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @notifications }
+      format.xml  { render :xml => @notification }
     end
   end
 

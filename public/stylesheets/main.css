@@ -303,6 +303,7 @@ a.button{
 
 /*Active Registry Watchdog*/
 #watchdog table{
+	width: 900px;
 	border: solid 2px #184980;
 }
 
