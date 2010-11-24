@@ -4,7 +4,7 @@ class Notification
   field :message
   field :level, :type => Integer
   field :time
-  field :ip
+  field :ip_address
   field :operation
   field :database
   
@@ -15,7 +15,7 @@ class Notification
   validate :is_valid_level
   
   def attributes
-    [:status, :time, :user_name, :database, :message, :operation]
+    [:status, :ip_address, :time, :user_name, :database, :message, :operation]
   end
   
   def self.create(args = {})

@@ -16,6 +16,7 @@ class AdminController < ReqAuthorizationController
         session[:user_id] = user.user_id
         Notification.create(
                   :message => "User #{user.name} has logged in", 
+                  :ip_address => request.remote_ip,
                   :operation => "User Login", 
                   :about_user => User.find_by_id(session[:user_id]), 
                   :database => ActiveRegistry.find_database(session[:user_id])
@@ -31,6 +32,7 @@ class AdminController < ReqAuthorizationController
   def logout
     Notification.create(
               :message => "User #{User.find_by_id(session[:user_id]).name} has logged out", 
+              :ip_address => request.remote_ip,
               :operation => "User Logout", 
               :about_user => User.find_by_id(session[:user_id]), 
               :database => ActiveRegistry.find_database(session[:user_id])
@@ -43,6 +45,7 @@ class AdminController < ReqAuthorizationController
   def dump_all_databases
     Notification.create(
               :message => "Record of all databases has been cleared", 
+              :ip_address => request.remote_ip,
               :operation => "dump all databases", 
               :about_user => User.find_by_id(session[:user_id]), 
               :database => ActiveRegistry.find_database(session[:user_id])

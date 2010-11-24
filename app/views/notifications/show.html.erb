@@ -2,7 +2,7 @@
 	<table>
 		<% @notification.attributes.each do |attr| -%>
 			<tr>
-				<th><%= attr.to_s.humanize %></th>
+				<th><%= attr.to_s.titleize %></th>
 				<td><%= @notification.send("#{attr}") %></td>
 			</tr>
 		<% end -%>
