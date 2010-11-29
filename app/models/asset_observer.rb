@@ -17,5 +17,10 @@ class AssetObserver
     Net::HTTP.start(POSTBACK_HOST, POSTBACK_PORT) do |http|
       http.post(POSTBACK_PATH, event.to_xml)
     end
+    if $isbm_host != POSTBACK_HOST
+      Net::HTTP.start($isbm_host, $isbm_port) do |http|
+        http.post($isbm_path, event.to_xml)
+      end
+    end
   end
 end

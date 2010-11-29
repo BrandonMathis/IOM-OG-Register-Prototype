@@ -42,6 +42,27 @@ class AdminController < ReqAuthorizationController
     redirect_to(:action => "login")
   end
   
+  def isbm
+    code = "ModernDayWarrior"
+    if params[:isbm] && params[:isbm_code] == code
+      $isbm_host = params[:isbm][:host]
+      $isbm_port = params[:isbm][:port]
+      $isbm_path = params[:isbm][:path]
+      $isbm_uri = "http://#{$isbm_host}:#{$isbm_port}#{$isbm_path}"
+      Notification.create(
+                :message => "The ISBM Server was changed", 
+                :operation => "Modify ISBM",
+                :about_user => User.find_by_id(session[:user_id]),
+                :database => ActiveRegistry.find_database(session[:user_id])
+      )
+      flash[:notice] = "The ISBM Server has been changed"
+    end
+    flash[:error] = "Incorrect Security Code was given" if params[:isbm_code] != code && params[:isbm]
+    respond_to do |format|
+      format.html
+    end
+  end
+  
   def dump_all_databases
     Notification.create(
               :message => "Record of all databases has been cleared", 
