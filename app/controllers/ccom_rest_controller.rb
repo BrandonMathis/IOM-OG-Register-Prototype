@@ -9,7 +9,7 @@ class CcomRestController < ApplicationController
   
   def index(entities = {})
     Notification.create(
-              :message => "Access index view via REST for #{entities.first.class.to_s}", 
+              :message => "Access index view via REST for #{entities.first.class.to_s} via REST", 
               :ip_address => request.remote_ip,
               :operation => "Get", 
               :about_user => User.find_by_id(session[:user_id]), 
@@ -22,15 +22,15 @@ class CcomRestController < ApplicationController
   
   def show
     entity = CcomEntity.find_by_guid(params[:id])
-    Notification.create(
-              :message => "Access single view via REST for #{entity.class.to_s} <br/> #{params[:id]}", 
-              :ip_address => request.remote_ip,
-              :operation => "Get", 
-              :about_user => User.find_by_id(session[:user_id]), 
-              :database => ActiveRegistry.find_database(session[:user_id])
-    )
     respond_to do |format|
       if entity
+        Notification.create(
+                  :message => "Access single view via REST for #{entity.class.to_s} via REST <br/> #{params[:id]}", 
+                  :ip_address => request.remote_ip,
+                  :operation => "Get", 
+                  :about_user => User.find_by_id(session[:user_id]), 
+                  :database => ActiveRegistry.find_database(session[:user_id])
+        )
         response.etag = entity.last_edited
         format.xml {render :xml => entity.to_xml}
       else
@@ -56,6 +56,13 @@ class CcomRestController < ApplicationController
       response.etag = entity.last_edited
       if request.fresh?(response)
         render_this = CcomRest.construct_from_xml(request)
+        Notification.create(
+                  :message => "Edited #{self.class.to_s} entity via REST <br/> #{params[:id]}", 
+                  :ip_address => request.remote_ip,
+                  :operation => "Update", 
+                  :about_user => User.find_by_id(session[:user_id]), 
+                  :database => ActiveRegistry.find_database(session[:user_id])
+        )
       else
         render_this = { :xml => CcomRest.error_xml({:url => request.url, :http_code => "412", :client_etag =>response.etag, :server_etag => request.if_none_match, :method => "PUT", :error_code => "Mimosa1", :error_message => CcomRest::MIMOSA1_412}), :status => 412 }
       end
@@ -71,6 +78,13 @@ class CcomRestController < ApplicationController
       if @entity
         entity_xml = @entity.to_xml
         @entity.destroy
+        Notification.create(
+                  :message => "Deleted #{self.class.to_s} entity via REST <br/> #{params[:id]}", 
+                  :ip_address => request.remote_ip,
+                  :operation => "Destroy", 
+                  :about_user => User.find_by_id(session[:user_id]), 
+                  :database => ActiveRegistry.find_database(session[:user_id])
+        )
         format.xml {render :xml => entity_xml}
       else
         format.xml { render :xml => CcomRest.error_xml({:url => request.url, :http_code => "404", :method => "DELETE", :error_code => "Mimosa3", :error_message => CcomRest::MIMOSA3_404}), :status => 404 }
