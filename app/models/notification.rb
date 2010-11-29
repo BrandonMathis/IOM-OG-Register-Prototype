@@ -7,6 +7,7 @@ class Notification
   field :ip_address
   field :operation
   field :database
+  field :ccom_entity
   
   has_one :about_user, :class_name => "User"
   

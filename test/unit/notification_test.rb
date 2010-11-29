@@ -40,7 +40,7 @@ class NotificationTest < ActiveSupport::TestCase
       
       should "have a user associated with it" do
         assert_not_nil @notification2.about_user
-        assert_equal @user.name, @notification2.get_user_name
+        assert_equal @user.name, @notification2.user_name
       end
     end
   end

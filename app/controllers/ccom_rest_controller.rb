@@ -8,6 +8,13 @@ class CcomRestController < ApplicationController
   end
   
   def index(entities = {})
+    Notification.create(
+              :message => "Access index view via REST for #{entities.first.class.to_s}", 
+              :ip_address => request.remote_ip,
+              :operation => "Get", 
+              :about_user => User.find_by_id(session[:user_id]), 
+              :database => ActiveRegistry.find_database(session[:user_id])
+    )
     @entities = entities
     @entities = CcomEntity.find(:all) if self.class.to_s == "CcomRestController" #called by root controller
     render :xml => CcomRest.build_entities(@entities)
@@ -15,6 +22,13 @@ class CcomRestController < ApplicationController
   
   def show
     entity = CcomEntity.find_by_guid(params[:id])
+    Notification.create(
+              :message => "Access single view via REST for #{entity.class.to_s} <br/> #{params[:id]}", 
+              :ip_address => request.remote_ip,
+              :operation => "Get", 
+              :about_user => User.find_by_id(session[:user_id]), 
+              :database => ActiveRegistry.find_database(session[:user_id])
+    )
     respond_to do |format|
       if entity
         response.etag = entity.last_edited
@@ -25,7 +39,14 @@ class CcomRestController < ApplicationController
     end      
   end
   
-  def create        
+  def create
+    Notification.create(
+              :message => "Created #{self.class.to_s} entity via REST", 
+              :ip_address => request.remote_ip,
+              :operation => "Create", 
+              :about_user => User.find_by_id(session[:user_id]), 
+              :database => ActiveRegistry.find_database(session[:user_id])
+    )        
     render_this = CcomRest.construct_from_xml(request)
     render render_this
   end
@@ -44,7 +65,7 @@ class CcomRestController < ApplicationController
     render render_this
   end
   
-  def destroy(entity = {})
+  def destroy
     @entity = CcomEntity.find_by_guid(params[:id])
     respond_to do |format|
       if @entity
