@@ -16,7 +16,15 @@ p, ul, ol {margin-top: 0; line-height: 180%;}
 
 a {text-decoration: none; color: blue;}
 
-li {list-style-type: none;}
+ol{
+	list-style-type:decimal;
+}
+
+ul{
+	list-style-type: disc;
+}
+
+#topology li {list-style-type: none;}
 
 a:hover {
 	text-decoration: underline;
@@ -298,4 +306,20 @@ a.button{
 }
 .buttons{
 	float: right;
+	width: 145px;
+}
+
+/*Active Registry Watchdog*/
+#watchdog table{
+	width: 900px;
+	border: solid 2px #184980;
+}
+
+#watchdog th{
+	color: white;
+	background-color:#184980;
+}
+
+#watchdog tr.odd{
+	background-color: #A4CFDD;
 }

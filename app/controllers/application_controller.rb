@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
   before_filter :hijack_db
   before_filter :authorize, :except => [:login, :build_first_user]
   
-  protected
-  
+  protected  
   def hijack_db
+    Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
   end
   

@@ -3,11 +3,18 @@ class AssetsController < CcomRestController
   before_filter :load_asset
 
   def destroy
-    @entity = Asset.find_by_guid(params[:id])
     if request.format == :xml
-      super @entity
+      super
     else
       @entity = Asset.find_by_guid(params[:id])
+      Notification.create(
+                :message => "Deletion of Asset  via HTML CRUD utility", 
+                :ip_address => request.remote_ip,
+                :operation => "Delete",
+                :ccom_entity => @entity.guid,
+                :about_user => User.find_by_id(session[:user_id]), 
+                :database => ActiveRegistry.find_database(session[:user_id])
+      )
       respond_to do |format|
         unless @entity.nil?
           @entity.destroy
@@ -49,6 +56,14 @@ class AssetsController < CcomRestController
       super
     else
       @asset = Asset.find_by_guid(params[:id])
+      Notification.create(
+                :message => "Update of Asset via ", 
+                :ip_address => request.remote_ip,
+                :operation => "dump all databases",
+                :ccom_entity => @asset.guid,
+                :about_user => User.find_by_id(session[:user_id]), 
+                :database => ActiveRegistry.find_database(session[:user_id])
+      )
       respond_to do |format|
         if @asset.update_attributes(params[:asset])
           flash[:notice] = "Product was successfully updated at #{@asset.last_edited}"
@@ -93,15 +108,21 @@ class AssetsController < CcomRestController
     else
       passed_values = params[:asset]
       @asset = Asset.create(
-                        :g_u_i_d => passed_values[:g_u_i_d],
-                        :tag => passed_values[:tag],
-                        :name => passed_values[:name],
-                        :i_d_in_info_source => passed_values[:i_d_in_info_source],
-                        :status => "1",
-                        :model => Model.find_by_guid(passed_values[:model]),
-                        :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
-                        :serial_number => passed_values[:serial_number])
-                      
+                :g_u_i_d => passed_values[:g_u_i_d],
+                :tag => passed_values[:tag],
+                :name => passed_values[:name],
+                :i_d_in_info_source => passed_values[:i_d_in_info_source],
+                :status => "1",
+                :model => Model.find_by_guid(passed_values[:model]),
+                :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
+                :serial_number => passed_values[:serial_number])
+      Notification.create(
+                :message => "Created an Asset using the Create Asset Form", 
+                :operation => "Create",
+                :ccom_entity => @asset.guid,
+                :about_user => User.find_by_id(session[:user_id]),
+                :database => ActiveRegistry.find_database(session[:user_id])
+      )            
       if object_type = ObjectType.find_by_guid(passed_values[:object_type])
         @asset.update_attributes(:object_type => object_type)
       else

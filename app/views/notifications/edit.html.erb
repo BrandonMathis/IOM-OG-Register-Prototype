@@ -1,0 +1,12 @@
+<h1>Editing notifications</h1>
+
+<% form_for(@notifications) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @notifications %> |
+<%= link_to 'Back', notifications_path %>

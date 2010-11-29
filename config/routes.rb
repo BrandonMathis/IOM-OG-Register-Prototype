@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :successor, :as => "Successor"
   map.resources :asset_on_segment_history, :as => "AssetOnSegmentHistory"
   map.resources :users
+  map.resources :notifications
   
   map.delete_ccom_data 'db/clear', :controller => "ccom_data", :action => "delete_all"
 

@@ -1,0 +1,9 @@
+<h1> Current ISBM Server </h1>
+This will Modify the ISBM for <b>EVERYONE</b>
+<%= form_tag '/admin/isbm'  %>
+<p> Host: <%= text_field_tag 'isbm[host]', $isbm_host %> </p>
+<p> Port: <%= text_field_tag 'isbm[port]', $isbm_port %> </p>
+<p> Path: <%= text_field_tag 'isbm[path]', $isbm_path %> </p>
+<p> Security Code: <%= password_field_tag 'isbm_code' %> </p>
+
+<%= submit_tag 'Change ISBM',  :confirm => "Are you sure you want to modify the ISBM server?" %>

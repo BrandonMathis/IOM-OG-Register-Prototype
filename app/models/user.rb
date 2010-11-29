@@ -7,7 +7,7 @@ class User
   field :user_id
   field :databases, :type => Array, :default => []
   
-  has_one :working_db, :class => :database  
+  has_one :working_db, :class_name => "Database"  
   
   before_destroy :check_last
   before_save :generate_id
@@ -35,6 +35,7 @@ class User
   
   def self.none_exsist?
     current_database = Mongoid.database.name
+    Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
     x = User.find(:all).blank?
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
@@ -43,6 +44,7 @@ class User
   
   def self.find_by_id(identifier)
     current_database = Mongoid.database.name
+    Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
     user = first(:conditions => { :user_id => identifier })
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
@@ -51,6 +53,7 @@ class User
   
   def self.find_by_name(name)
     current_database = Mongoid.database.name
+    Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
     user = first(:conditions => {:name => name})
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)

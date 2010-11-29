@@ -1,5 +1,6 @@
 class Database
   include Mongoid::Document
+  Mongoid.database.connection.close
   Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
   
   field :name
@@ -47,8 +48,10 @@ class Database
   def delete
     self.users.each do |id|
       user = User.find_by_id(id)
-      user.databases.delete(self._id) unless user.nil?
-      user.save unless user.nil?
+      next if user.nil?
+      user.databases.delete(self._id)
+      user.working_db_id = nil if user.working_db == self
+      user.save
      end
     super
   end

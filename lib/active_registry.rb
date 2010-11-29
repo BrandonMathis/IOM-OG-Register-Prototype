@@ -1,12 +1,7 @@
 module ActiveRegistry
   def self.find_database(user_id)
-    if user = User.find_by_id(user_id)
-      database = user.working_db.name + "_dev"  if RAILS_ENV == 'development'
-      database = user.working_db.name + "_prod" if RAILS_ENV == 'production'
-      database = user.working_db.name + "_test" if RAILS_ENV == 'test'
-    else
-      database = CCOM_DATABASE
-    end
-    return CCOM_DATABASE
+    user = User.find_by_id(user_id)
+    database = user.working_db.name + "_" + RAILS_ENV if user && user.working_db
+    return database || CCOM_DATABASE
   end
 end

@@ -13,7 +13,6 @@
   <%= stylesheet_link_tag "jquery.treeview" %>
   <%= stylesheet_link_tag "ui-lightness/jquery-ui" %>
   <%= stylesheet_link_tag "topologies" %>
-
   <%= yield :javascripts %>
 
 </head>
@@ -65,7 +64,9 @@
 		</style>
 		<% if User.find_by_id(session[:user_id]) -%>
 			<%= link_to 'Users', :controller => 'users' %> |
-			<%= link_to 'Databases', :controller => 'databases' %>
+			<%= link_to 'Databases', :controller => 'databases' %> |
+			<%= link_to 'Notifications', :controller => 'notifications' %> |
+			<%= link_to 'ISBM', :controller => 'admin', :action => 'isbm' %>
 		<% elsif User.none_exsist? -%>
 			<%= link_to 'Create First User', :controller => 'admin', :action => 'build_first_user'%>
 		<% else -%>
