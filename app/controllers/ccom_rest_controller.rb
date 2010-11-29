@@ -5,9 +5,11 @@ class CcomRestController < ApplicationController
   def hijack_db
     Mongoid.database.connection.close
     Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ActiveRegistry.find_database session[:user_id])
+    logger.error("***#{Mongoid.database.name}")
   end
   
   def index(entities = {})
+    logger.error("Finding")
     Notification.create(
               :message => "Access index view via REST for #{entities.first.class.to_s} via REST", 
               :ip_address => request.remote_ip,

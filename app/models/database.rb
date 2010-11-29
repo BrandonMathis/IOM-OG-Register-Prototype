@@ -1,7 +1,5 @@
 class Database
   include Mongoid::Document
-  Mongoid.database.connection.close
-  Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
   
   field :name
   field :created_date
