@@ -1,5 +1,7 @@
-<ul>
-<% @topologies.each do |topology| -%>
-  <li><%= link_to topology.tag, topology_url(topology) %></li>
-<% end -%>
-</ul>
+<div id="topology">
+	<ul>
+		<% @topologies.each do |topology| -%>
+		  <li><%= link_to topology.tag, topology_url(topology) %></li>
+		<% end -%>
+	</ul>
+</div>
