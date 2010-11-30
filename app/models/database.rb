@@ -11,6 +11,10 @@ class Database
   validates_presence_of     :created_date
   validates_uniqueness_of   :name
   
+  validates_format_of :name,
+                      :with => /^[A-Za-z\d_]+$/,
+                      :message => "cannot have any spaces"
+  
   before_save :set_defaults
   
   def set_defaults
