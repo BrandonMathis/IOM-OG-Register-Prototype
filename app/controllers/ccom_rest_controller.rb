@@ -8,6 +8,7 @@ class CcomRestController < ApplicationController
   end
   
   def index(entities = {})
+    logger.error("Finding")
     Notification.create(
               :message => "Access index view via REST for #{entities.first.class.to_s} via REST", 
               :ip_address => request.remote_ip,
