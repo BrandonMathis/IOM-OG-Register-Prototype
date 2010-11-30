@@ -57,7 +57,7 @@ class AssetsController < CcomRestController
     else
       @asset = Asset.find_by_guid(params[:id])
       Notification.create(
-                :message => "Update of Asset via ", 
+                :message => "Update of Asset via HTML CRUD utility", 
                 :ip_address => request.remote_ip,
                 :operation => "dump all databases",
                 :ccom_entity => @asset.guid,
@@ -117,7 +117,7 @@ class AssetsController < CcomRestController
                 :manufacturer => Manufacturer.find_by_guid(passed_values[:manufacturer]),
                 :serial_number => passed_values[:serial_number])
       Notification.create(
-                :message => "Created an Asset using the Create Asset Form", 
+                :message => "Created an Asset via HTML CRUD utility (create Asset form)", 
                 :operation => "Create",
                 :ccom_entity => @asset.guid,
                 :about_user => User.find_by_id(session[:user_id]),
