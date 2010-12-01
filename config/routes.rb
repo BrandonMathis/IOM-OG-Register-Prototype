@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :network_connection, :as => "EntryEdge"
   map.resources :successor, :as => "Successor"
   map.resources :asset_on_segment_history, :as => "AssetOnSegmentHistory"
+  map.resources :actual_event, :as => "ActualEvent"
   map.resources :users
   map.resources :notifications
   

@@ -1,6 +1,11 @@
 require 'net/http'
 
 class AssetObserver
+  
+  # Will fire off a Mimosa CCOM Install Event XML via HTTP POST
+  # Using the data of the asset and generated AssetOnSegmentHistory
+  #
+  # The Event is created and logged in the Active Registry
   def self.install(asset, hist)
     if e = ActualEvent.create(:monitored_object => asset, :hist => hist, :object_type => ObjectType.install_event)
       publish(e)
