@@ -23,10 +23,14 @@
 			  </p>
 		</td>
 		<td class="databases">
+			<div class ="database-option">
+				<%= radio_button_tag 'user[working_db_id]', nil, @user.working_db.nil? %>
+				<label>Default CCOM Database</label>
+			</div>
 			<%@databases.each do |database|-%>
 				<div class ="database-option">
 					<%= radio_button_tag 'user[working_db_id]', database._id, @user.working_db == database %>
-					<%=database.name.titleize%><br/>
+					<%= label_tag database.name.titleize%>
 				</div>
 			<%end-%>
 		</td>
