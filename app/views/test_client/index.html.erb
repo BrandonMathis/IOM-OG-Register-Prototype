@@ -10,30 +10,68 @@
 		
 		
 		function postValue(url, body){
+			/**
+			 * Alert client if the url is not value. Then clear the responce block
+			 */
 			if (url.length==0 || !isUrl(url)){ 
 			  document.getElementById("response").innerHTML="";
 			  document.getElementById("used-url").innerHTML = "Please use a valid URL";
 			  return;
 			}
+			
+			/**
+			 * Setup the XHR API utility for basic or IE 5/6 browsers
+			 */
 			if (window.XMLHttpRequest){
 			  xmlHttp=new XMLHttpRequest();
 			}
 			else{ 	// for older IE 5/6
 			  xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
 			}
+			
+			/**
+			 * Determine the kind of request we want to make GET, PUT, POST, DELETE
+			 */
 			for(var i=0; i < document.request.kind.length; i++){
 				if(document.request.kind[i].checked){
 					var req_type = document.request.kind[i].value
 				}
 			}
+			
+			/**
+			 * Alert client if no request type was given
+			 */
 			if(req_type == null){
 				document.getElementById("used-url").innerHTML = "Please specify an HTTP request type";
 				return
 			}
+			
+			/**
+			 * Setup basics for request. (url and request type)
+			 */
 			xmlHttp.open(req_type, url, false);
+			
+			/**
+			 * Set an eTag for PUT requests
+			 */
+			if(req_type == "PUT"){
+				
+				var etag = document.getElementById("etag").value
+				xmlHttp.setRequestHeader("If-None-Match", etag)
+				req_type += " with etag"
+			}
+			
+			/**
+			 * Make the request with XML body given
+			 */
 			xmlHttp.send(body);
-			document.getElementById("response").innerHTML = xmlHttp.responseText;
+			
+			/**
+			 * Extract information from the response vital for the user
+			 */
+			document.getElementById("response").value = xmlHttp.responseText;
 			document.getElementById("used-url").innerHTML = "Requested: "+url+" ["+req_type+"]";
+			document.getElementById("etag").value = xmlHttp.getResponseHeader("Etag");
 		}
 		</script>
 	</head>
@@ -48,6 +86,7 @@
 						<input type="radio" name="kind" value="GET"> GET
 						<input type="radio" name="kind" value="POST"> POST
 						<input type="radio" name="kind" value="DELETE"> DELETE
+						<input type="radio" name="kind" value="PUT"> PUT (edit)
 						<button type="button" onclick="postValue(document.getElementById('url').value, document.getElementById('req-body').value)">Submit</button>
 						<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>" />
 					</form>
@@ -55,6 +94,7 @@
 				</td>
 			</tr>
 			<tr><td colspan="2"><span id="used-url">&nbsp;</span></td></tr>
+			<tr><td colspan="2">eTag: <input id="etag" type="text" size=60></td></tr>
 			<tr>
 				<td>
 					Request body<br/><textarea id="req-body" cols=57 rows=35></textarea>
