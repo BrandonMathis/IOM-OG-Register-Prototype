@@ -20,8 +20,10 @@ class User
   
   before_save :set_defaults
   
+  # Gives destroy the same functionality as delete
   def destroy; delete end
   
+  # Deletes the user and the connections it may have to any dbs
   def delete
     self.databases.each do |db_id|
       db = Database.find_by_id(db_id)
@@ -31,8 +33,7 @@ class User
     super
   end
   
-  def set_defaults; self.databases ||= [] end
-  
+  # Returns true if there are no users defined in the root database
   def self.none_exsist?
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
@@ -42,6 +43,7 @@ class User
     return x
   end
   
+  # Returnes the User found that has the given identifier
   def self.find_by_id(identifier)
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
@@ -51,6 +53,7 @@ class User
     return user
   end
   
+  # Returnes the first User found that has the given name
   def self.find_by_name(name)
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
@@ -60,12 +63,14 @@ class User
     return user
   end
   
+  # Will give the ID of the user's working database
   def working_db_id=(db_id)
     database = Database.find_by_id(db_id)
     self.working_db = database
     self.save
   end
   
+  # Return true if the given username and password are a pair
   def self.authenticate(name, password)
     user = self.find_by_name(name)
     if user
@@ -78,26 +83,28 @@ class User
   end  
   
   # 'password' is a virtual attribute
-  
   def password
     @password
   end
   
+  # Salt's and encrypts the given password
   def password=(pwd)
     @password = pwd
     return if pwd.blank?
     create_new_salt
     self.hashed_password = User.encrypted_password(self.password, self.salt)
-  end
+  end    
   
+  protected
   def check_last
     if User.find(:all).count == 1
       raise "Can't delete last user"
     end
-  end     
+  end
   
-
-private
+  def set_defaults; self.databases ||= [] end
+  
+  private
   def generate_id
     self.user_id = self.id if user_id.blank?
   end
