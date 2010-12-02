@@ -1,9 +1,14 @@
 class CcomData
   
+  # Will clear all collections from the current CCOM Mongo database
   def self.drop_all_collections
     Mongoid.drop_all_collections
   end
   
+  # Will parse a given XML and enter all CCOM Entities into
+  # the CCOM Database. XML is given in basic textual form
+  # and must validate against the CCOM XML Schema to be properly
+  # parsed into the database
   def self.from_xml(xml, options = { })
     entities = []
     doc = Nokogiri::XML.parse(xml)

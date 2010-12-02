@@ -2,6 +2,7 @@ class CcomObject < CcomEntity
   has_one :object_type, :xml_element => "Type"
   before_save :generate_last_edited
 
+  # Will duplicated the CcomObject and all related entities
   def dup_entity (options = {})
     entity = super(options) 
     entity.update_attributes(:g_u_i_d => UUID.generate) if options[:gen_new_guids]
@@ -10,6 +11,7 @@ class CcomObject < CcomEntity
     return entity
   end
   
+  # XML builder for CcomObject (called from to_xml)
   def build_xml(builder)
     super(builder)
     builder.Type { |b| self.object_type.build_xml(b) } if object_type

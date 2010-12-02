@@ -12,6 +12,17 @@ class CcomRest
   
   MIMOSA1_412 = "Given ETag is not longer valid"
   
+  # Will build a REST error XML based off a give hash of information
+  #
+  # <tt>
+  # :method - the HTTP method that was executed (GET, POST, PUT, DELETE)
+  # :http_code - the HTTP error code (404, 500 ect)
+  # :client_etag - The value given in If-None-Match header
+  # :server_etag - The eTag stored for the value the client tried to edit
+  # :error_code - A MIMOSA standard error code (Mimosa1, Mimosa2, Mimosa3 ect)
+  # :error_message - Human readable error message
+  # :error_text - Basic stack trace or something similar
+  # </tt>
   def self.error_xml(xml)
     opts = { :indent => 2 }
     builder = Builder::XmlMarkup.new(opts)
@@ -28,6 +39,7 @@ class CcomRest
     end
   end
   
+  # Will build the XML for an given array of CcomEntity(s)
   def self.build_entities(entities)
     opts = { :indent => 2 }
     builder = Builder::XmlMarkup.new(opts)
@@ -39,6 +51,14 @@ class CcomRest
     end
   end
   
+  # Will take in a request and parse the body for XML that can be used
+  # to add CcomEntity(s) to the database
+  #
+  # Will raise error if a bad GUID is found or if a GUID is found that 
+  # already exsists in the database
+  #
+  # Returns a renderable hash of elements including the XML used to build
+  # the entities and proper status codes.
   def self.construct_from_xml(request)
     begin
       method = request.method.to_s.upcase

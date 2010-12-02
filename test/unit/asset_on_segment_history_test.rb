@@ -20,6 +20,14 @@ class AssetOnSegmentHistoryTest < ActiveSupport::TestCase
     should "properly store the correct asset" do
       assert @hist.assets.include? @asset
     end
+    should "have a start and end attribute" do
+      assert AssetOnSegmentHistory.attribute_names.include?(:start)
+      assert AssetOnSegmentHistory.attribute_names.include?(:end)
+    end
+    should "have a start and end field" do
+      assert AssetOnSegmentHistory.field_names.include?(:start)
+      assert AssetOnSegmentHistory.field_names.include?(:end)
+    end
   end
   
   context "recording an install event" do

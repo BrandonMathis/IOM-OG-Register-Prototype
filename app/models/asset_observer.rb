@@ -3,7 +3,7 @@ require 'net/http'
 class AssetObserver
   
   # Will fire off a Mimosa CCOM Install Event XML via HTTP POST
-  # Using the data of the asset and generated AssetOnSegmentHistory
+  # using the data of the asset and generated AssetOnSegmentHistory
   #
   # The Event is created and logged in the Active Registry
   def self.install(asset, hist)
@@ -11,13 +11,17 @@ class AssetObserver
       publish(e)
     end
   end
-
+  # Will fire off a Mimosa CCOM Removed Event XML via HTTP POST
+  # using the data of the asset and generated AssetOnSegmentHistory
+  # 
+  # The Event is created and logged in the Active Registry 
   def self.remove(asset, hist)
     if e = ActualEvent.create(:monitored_object => asset, :hist => hist, :object_type => ObjectType.remove_event)
       publish(e)
     end
   end
 
+  protected
   def self.publish(event)
     Net::HTTP.start(POSTBACK_HOST, POSTBACK_PORT) do |http|
       http.post(POSTBACK_PATH, event.to_xml)
