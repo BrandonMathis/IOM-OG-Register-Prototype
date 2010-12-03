@@ -88,8 +88,6 @@ class User
   end
   
   # Salt's and encrypts the given password
-  # 
-  # Returns false if the password is blank
   def password=(pwd)
     @password = pwd
     return if pwd.blank?
