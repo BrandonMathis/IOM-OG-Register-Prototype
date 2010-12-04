@@ -24,6 +24,10 @@ class User
   def destroy; delete end
   
   # Deletes the user and the connections it may have to any dbs
+  #
+  # Databases are search for any references there may be to this user
+  # that reference is then remove by deleting the user_id out of the
+  # 'users' array
   def delete
     self.databases.each do |db_id|
       db = Database.find_by_id(db_id)
@@ -43,7 +47,7 @@ class User
     return x
   end
   
-  # Returnes the User found that has the given identifier
+  # Returns the User found that has the given identifier in the root database
   def self.find_by_id(identifier)
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
@@ -53,7 +57,7 @@ class User
     return user
   end
   
-  # Returnes the first User found that has the given name
+  # Returns the first User found that has the given name in the root database
   def self.find_by_name(name)
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
@@ -63,7 +67,7 @@ class User
     return user
   end
   
-  # Will give the ID of the user's working database
+  # Set the working database as the database with the given _id
   def working_db_id=(db_id)
     database = Database.find_by_id(db_id)
     self.working_db = database

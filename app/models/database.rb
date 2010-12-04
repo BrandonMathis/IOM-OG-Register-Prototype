@@ -19,7 +19,7 @@ class Database
   validates_uniqueness_of   :name
   
   validates_format_of :name,
-                      :with => /^[A-Za-z\d_]+$/,
+                      :with => /^[A-Za-z\d_]+$/,    # Names are alphanumeric and contian no whitespace
                       :message => "cannot have any spaces"
   
   before_save :set_defaults
@@ -32,7 +32,10 @@ class Database
     first(:conditions => { :_id => identifier })
   end
   
-  # Attach a user to an instance of Database  
+  # Attach a user to an instance of Database 
+  #
+  # Saves the user's user_id to an array held in the 'users' field
+  # then saves this databases _id to an array held by the user
   def add_user(user)
     return false if self.users.include? user.user_id
     self.users = (users || []) + [user.user_id] 
@@ -41,13 +44,19 @@ class Database
     self.save
   end
   
-  # Clear all users from an instance of Database
+  # Clear all users from an instance of Database 
+  # 
+  # Remove each user from the users array and this databases ID from
+  # that user's databses array
   def empty_users
     user_list = Array.new(self.users)
     user_list.each { |id| remove_user User.find_by_id(id) }
   end
   
   # Unattach a user from an instance of Database
+  #
+  # Delete the given users user_id out of the users list then 
+  # remove this databases' _id from that user's databasese list
   def remove_user(user)
     self.users.delete(user.user_id)
     user.databases.delete(self._id)
