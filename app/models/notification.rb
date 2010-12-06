@@ -29,9 +29,9 @@ class Notification
   # Will create a Notification in the root database using a hash of values
   def self.create(args = {})
     current_database = Mongoid.database.name
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST, nil, :slave_ok => true).db(ROOT_DATABASE)
     super args
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST, nil, :slave_ok => true).db(current_database)
   end
   
   # Gives the name of the user and instance of Notification is about or Anonymous

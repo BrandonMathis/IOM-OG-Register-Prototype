@@ -73,11 +73,11 @@ class AdminController < ReqAuthorizationController
     )
     previous_db = Mongoid.database.name
     Mongoid.database.connection.close
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(ROOT_DATABASE)
     Mongoid.database.collection("databases").drop
     User.find(:all).each {|x| x.databases = []; x.save }
     flash[:notice] = "All references to exsisting databases have been cleared from the root database"
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(previous_db)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(previous_db)
     redirect_to :controller => 'databases', :action => 'index'
   end
 end
