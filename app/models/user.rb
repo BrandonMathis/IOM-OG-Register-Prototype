@@ -41,9 +41,9 @@ class User
   def self.none_exsist?
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(ROOT_DATABASE)
     x = User.find(:all).blank?
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(current_database)
     return x
   end
   
@@ -51,9 +51,9 @@ class User
   def self.find_by_id(identifier)
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(ROOT_DATABASE)
     user = first(:conditions => { :user_id => identifier })
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(current_database)
     return user
   end
   
@@ -61,9 +61,9 @@ class User
   def self.find_by_name(name)
     current_database = Mongoid.database.name
     Mongoid.database.connection.close
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ROOT_DATABASE)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(ROOT_DATABASE)
     user = first(:conditions => {:name => name})
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(current_database)
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(current_database)
     return user
   end
   

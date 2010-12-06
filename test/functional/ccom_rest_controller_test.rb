@@ -11,7 +11,7 @@ class CcomRestControllerTest < ActionController::TestCase
         @doc = Nokogiri::XML.parse(@response.body)
       end
       should "give blank" do
-        assert_equal @doc.mimosa_xpath("/CCOMData/*").count, 0
+        assert_equal @doc.mimosa_xpath("/CCOMData/*").size, 0
       end
     end
     context "of all Entities with a database containing 3 entities" do
@@ -23,7 +23,7 @@ class CcomRestControllerTest < ActionController::TestCase
         @doc = Nokogiri::XML.parse(@response.body)
       end
       should "get three seperate entities" do
-        assert_equal 3, @doc.mimosa_xpath("/CCOMData/*").count
+        assert_equal 3, @doc.mimosa_xpath("/CCOMData/*").size
       end
       should "get an asset, segment and model" do
         assert_has_xpath("/CCOMData/Entity[@*='Manufacturer']", @doc)
