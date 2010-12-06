@@ -10,13 +10,23 @@ class AssetOnSegmentHistory < CcomObject
   
   before_create :generate_guid
   
+  # Defines that a start and end field must exsit for an AssetOnSegmentHistory  
   def self.additional_fields; [:start, :end] end
+  
+  # Gives all aditional fields for and instance of AssetOnSegmentHistory
   def additional_fields; self.class.additional_fields end
+  
+  # Give all default and additional attributes for AssetOnSegmentHistory
   def self.attribute_names; super + additional_fields end
+  
+  # Give all default and additional fields for the Asset table in the database
   def self.field_names; super + additional_fields end
+  
+  # Give list of editable attributes
   def editable_attribute_names; super + additional_fields end
  
-  
+  # Will modify this history to reflect the installation of an Asset
+  # onto a Segment related to this history
   def install(a)
     time = CcomEntity.get_time
     self.update_attributes(:start => time)
@@ -24,6 +34,8 @@ class AssetOnSegmentHistory < CcomObject
     self.save
   end
   
+  # Will modify this history to reflect the removal of an Asset
+  # from the Segment related to this history
   def uninstall(a)
     time = CcomEntity.get_time
     self.update_attributes(:logged_asset => LoggedAsset.create(
@@ -37,11 +49,13 @@ class AssetOnSegmentHistory < CcomObject
     self.save
   end
   
+  # Will destroy the AssetOnSegmentHistory and all related entities
   def destroy
     LoggedAsset.find_by_guid(logged_asset.guid).destroy if logged_asset && LoggedAsset.find_by_guid(logged_asset.guid)
     super
   end
   
+  # Will duplicate the AssetOnSegmentHistory all all related entities
   def dup_entity (options = {})
     entity = super(options)
     entity.update_attributes(:start => self.send(:start))
@@ -53,6 +67,7 @@ class AssetOnSegmentHistory < CcomObject
     return entity
   end
   
+  # XML builder for the AssetOnSegmentHistory
   def build_xml(builder)
     super(builder)
     builder.Asset {|b| self.logged_asset.build_xml(b)} if logged_asset && assets.blank?

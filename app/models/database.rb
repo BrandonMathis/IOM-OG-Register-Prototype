@@ -1,3 +1,10 @@
+# A Database defines a Mimosa CCOM Database that can have
+# users attached to is. These databases are treated as 
+# seperate sandboxes for the users as to keep a user' data
+# free of interference from the actions of other users using
+# other sandboxes. The name of the database defines the name
+# of the Mongo database and is the key to keeping these dbs
+# seperate from one another
 class Database
   include Mongoid::Document
   
@@ -12,21 +19,23 @@ class Database
   validates_uniqueness_of   :name
   
   validates_format_of :name,
-                      :with => /^[A-Za-z\d_]+$/,
+                      :with => /^[A-Za-z\d_]+$/,    # Names are alphanumeric and contian no whitespace
                       :message => "cannot have any spaces"
   
   before_save :set_defaults
   
-  def set_defaults
-    self.users ||= []
-  end
-  
+  # Directs destroy to the same functionality as delete
   def destroy; delete end
   
+  # Gives the first occurance of a Database with the given _id
   def self.find_by_id(identifier)
     first(:conditions => { :_id => identifier })
   end
   
+  # Attach a user to an instance of Database 
+  #
+  # Saves the user's user_id to an array held in the 'users' field
+  # then saves this databases _id to an array held by the user
   def add_user(user)
     return false if self.users.include? user.user_id
     self.users = (users || []) + [user.user_id] 
@@ -35,11 +44,19 @@ class Database
     self.save
   end
   
+  # Clear all users from an instance of Database 
+  # 
+  # Remove each user from the users array and this databases ID from
+  # that user's databses array
   def empty_users
     user_list = Array.new(self.users)
     user_list.each { |id| remove_user User.find_by_id(id) }
   end
   
+  # Unattach a user from an instance of Database
+  #
+  # Delete the given users user_id out of the users list then 
+  # remove this databases' _id from that user's databasese list
   def remove_user(user)
     self.users.delete(user.user_id)
     user.databases.delete(self._id)
@@ -47,6 +64,13 @@ class Database
     user.save
   end
   
+  # Delete an instance of Database
+  # 
+  # <tt>
+  # Must first unnattach all users from the database
+  # and then make sure that no users are using the deleted
+  # database as a working database
+  # </tt>
   def delete
     self.users.each do |id|
       user = User.find_by_id(id)
@@ -58,7 +82,13 @@ class Database
     super
   end
   
+  # Comparing two Databases will compare the databases _id
   def ==(object)
     self._id == object._id rescue false
+  end
+  
+  protected
+  def set_defaults
+    self.users ||= []
   end
 end

@@ -3,7 +3,7 @@ class CcomDataController < ApplicationController
   
   def hijack_db
     Mongoid.database.connection.close
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ActiveRegistry.find_database session[:user_id])
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(ActiveRegistry.find_database session[:user_id])
   end
   
   def index
@@ -15,6 +15,12 @@ class CcomDataController < ApplicationController
     else
       begin
         CcomData.from_xml(params[:file].read, :edit => true) if params[:file]
+        Notification.create(
+                  :message => "Uploaded an XML document of entities to the database", 
+                  :operation => "Create",
+                  :about_user => User.find_by_id(session[:user_id]),
+                  :database => ActiveRegistry.find_database(session[:user_id])
+        )
       rescue Exceptions::BadGuid => a
         flash[:error] = "Sorry, but a bad GUID was detected in your XML"
       else
@@ -29,6 +35,12 @@ class CcomDataController < ApplicationController
     
   def delete_all
     CcomData.drop_all_collections
+    Notification.create(
+              :message => "Destroyed all CCOM Entities via Clear DB util", 
+              :operation => "Destroyed",
+              :about_user => User.find_by_id(session[:user_id]),
+              :database => ActiveRegistry.find_database(session[:user_id])
+    )
     flash[:notice] = "Deleted all collections for database #{Mongoid.database.name}"
     redirect_to :action => :index
   end

@@ -15,7 +15,7 @@ class Asset < MonitoredObject
   # Defines that a serial_number field must exsit for an Asset  
   def self.additional_fields; [:serial_number] end
   
-  # Gives all aditional fiels for and instance of Asset
+  # Gives all aditional fields for and instance of Asset
   def additional_fields; self.class.additional_fields end
   
   # Give all default and additional attributes for Asset
@@ -125,7 +125,7 @@ class Asset < MonitoredObject
     # self.asset_on_segment_history_without_blanking=(asset_on_segment_history_to_assign)
   end
 
-  # XML builder for an asset (called from to_xml)
+  # XML builder for an Asset (called from to_xml)
   def build_xml(builder)
     super(builder)
     builder.ValidNetwork { |b| valid_network.build_xml(b) } if valid_network
@@ -133,7 +133,7 @@ class Asset < MonitoredObject
     builder.Manufacturer { |b| manufacturer.build_xml(b) } if manufacturer
   end
 
-  # Will duplicated the asset and all related entities
+  # Will duplicated the Asset and all related entities
   def dup_entity (options ={})
     entity = super(options)
     entity.update_attributes(:serial_number => self.send(:serial_number))
@@ -145,7 +145,7 @@ class Asset < MonitoredObject
     return entity
   end
   
-  # Will destroy the asset and all related entities
+  # Will destroy the Asset and all related entities
   def destroy
     ValidNetwork.find_by_guid(valid_network.guid).destroy if valid_network && ValidNetwork.find_by_guid(valid_network.guid)
     super

@@ -4,7 +4,7 @@ class CcomRestController < ApplicationController
   
   def hijack_db
     Mongoid.database.connection.close
-    Mongoid.database = Mongo::Connection.new(MONGO_HOST).db(ActiveRegistry.find_database session[:user_id])
+    Mongoid.database = Mongo::Connection.new(MONGO_HOST,nil, :slave_ok => true).db(ActiveRegistry.find_database session[:user_id])
   end
   
   def index(entities = {})

@@ -34,7 +34,7 @@ class UsersController < ReqAuthorizationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-     @databases = @user.databases.collect {|id| Database.find_by_id(id) }
+    @databases = @user.databases.collect {|id| Database.find_by_id(id) }
   end
 
   # POST /users

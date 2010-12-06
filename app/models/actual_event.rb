@@ -1,6 +1,6 @@
 class ActualEvent < CcomObjectWithEventsAndAuditing
   belongs_to_related :hist, :class_name => "AssetOnSegmentHistory"
-  belongs_to_related :monitored_object
+  belongs_to_related :monitored_object, :class_name => "Asset"
 
   # Build a Standard Tag, Status and last_edited time for our Event
   # the GUID is automatically generated at save time

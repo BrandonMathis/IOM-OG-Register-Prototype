@@ -5,16 +5,16 @@ class NetworkConnection < CcomObject
   
   field :order
   
+  # Gives the CCOM XML name for NetworkConnection
   def self.xml_entity_name; "EntryEdge" end
   
-  def self.field_names
-    super + [:order]
-  end
+  # Defines that order is added to NetworkConnection fields
+  def self.field_names; super + [:order] end
   
-  def self.attribute_names
-    super + [:order]
-  end
+  # Defines that order is added to NetworkConnection attributes
+  def self.attribute_names; super + [:order] end
   
+  # Will destroy the NetworkConnection and all related entities
   def destroy
     Segment.find_by_guid(source.guid).destroy if source && Segment.find_by_guid(source.guid)
     Segment.find_by_guid(target.guid).destroy if target && Segment.find_by_guid(target.guid)
@@ -22,6 +22,7 @@ class NetworkConnection < CcomObject
     super
   end
   
+  # Will duplicated NetworkConnection and all related entities
   def dup_entity(options = {})
     entity = super(options)
     entity.source = self.source.dup_entity(options) if source
@@ -31,7 +32,7 @@ class NetworkConnection < CcomObject
     return entity
   end
   
-  
+  # XML builder for NetworkConnection (called by to_xml)
   def build_xml(builder)
     super(builder)
     builder.tag!("FromEntity", "xsi:type" => self.source.class.to_s) {|b| source.build_xml(b)} if source

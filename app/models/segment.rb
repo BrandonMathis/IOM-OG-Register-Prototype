@@ -11,7 +11,6 @@ class Segment < MonitoredObject
 
   before_save :save_assets
   attr_accessor :assets_to_save
-  def assets_to_save; @assets_to_save ||= []; end
 
   def install_asset_id; nil; end
 
@@ -64,12 +63,14 @@ class Segment < MonitoredObject
     end
   end
   
+  # Will destroy the Segment and all related entities
   def destroy
     ValidNetwork.find_by_guid(segment_config_network.guid).destroy if segment_config_network &&ValidNetwork.find_by_guid(segment_config_network.guid)
     meas_locations.each {|mloc| MeasLocation.find_by_guid(mloc.guid).destroy if mloc && MeasLocation.find_by_guid(mloc.guid)}
     super
   end    
-  
+
+  # Will duplicated the Segment and all related entities
   def dup_entity(options = {})
     entity = super(options)
     entity.segment_config_network = self.segment_config_network if segment_config_network
@@ -80,6 +81,7 @@ class Segment < MonitoredObject
     return entity
   end
   
+  # XML builder for the Segment
   def build_xml(builder)
     super(builder)
     builder.ValidNetwork {|b| segment_config_network.build_xml(b) } if segment_config_network
@@ -94,7 +96,8 @@ class Segment < MonitoredObject
   end
 
   protected
-
+  def assets_to_save; @assets_to_save ||= []; end
+  
   def save_assets
     assets_to_save.each { |a| a.save }
     assets_to_save = []

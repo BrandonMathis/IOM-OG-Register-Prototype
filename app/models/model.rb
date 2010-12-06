@@ -6,17 +6,23 @@ class Model < CcomEntity
   field :product_family_member_revision
   field :part_number
   
+  # Defines that product_family, product_family_member, product_family_member_revision, and part_number
+  # fields must exsit for a Mode  
   def self.additional_fields; [:product_family, :product_family_member, :product_family_member_revision, :part_number] end
+  
+  # Gives all aditional fields for and instance of Model
   def additional_fields; self.class.additional_fields end
+  
+  # Give all default and additional attributes for Model
   def self.attribute_names; super + additional_fields end
+  
+  # Give all default and additional fields for the Model table in the database
   def self.field_names; super + additional_fields end
+
+  # Give list of editable attributes
   def editable_attribute_names; super + additional_fields end
-  
-  
-  def field_names
-    self.class.field_names
-  end
-  
+
+  # Will duplicated the Model and all related entities
   def dup_entity(options = {})
     entity = super(options)
     entity.update_attributes(:product_family => product_family) if product_family

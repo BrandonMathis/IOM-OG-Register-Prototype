@@ -99,7 +99,7 @@ class AssetsControllerTest < ActionController::TestCase
         @doc = Nokogiri::XML.parse(@response.body)
       end
       should "give blank if there are no Assets" do
-        assert_equal @doc.mimosa_xpath("/CCOMData/*").count, 0
+        assert_equal @doc.mimosa_xpath("/CCOMData/*").size, 0
       end
     end
     context "of a single Asset" do
@@ -295,7 +295,7 @@ class AssetsControllerTest < ActionController::TestCase
 		    post :create, :format => 'xml'
 		    @doc = Nokogiri::XML.parse(@response.body)
 		    assert !@doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type").blank?
-		    assert_equal 2, @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type").count
+		    assert_equal 2, @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type").size
 		    assert @doc.mimosa_xpath("/CCOMData/Entity[@*='Asset']/Type/Name").first.content == "Undetermined"
 		  end
 		end
